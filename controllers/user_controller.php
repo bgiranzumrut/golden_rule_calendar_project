@@ -17,6 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $injury_loss_risk_consent = isset($_POST['injury_loss_risk_consent']) ? 1 : 0;
     $signature_date = $_POST['signature_date'] ?? null;
 
+    // Determine role (default to "user" if not provided)
+    $role = htmlspecialchars($_POST['role'] ?? 'user');
+    $password = isset($_POST['password']) ? password_hash($_POST['password'], PASSWORD_BCRYPT) : null;
+
     // Handle image upload
     $image = null;
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
@@ -43,35 +47,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Insert data into the database
     try {
-        $stmt = $conn->prepare("INSERT INTO Users 
-            (name, phone_number, email, address, emergency_contact_1_name, emergency_contact_1_phone, emergency_contact_1_relationship,
-             emergency_contact_2_name, emergency_contact_2_phone, emergency_contact_2_relationship, image, recording_consent, 
-             injury_loss_risk_consent, signature_date) 
-            VALUES 
-            (:name, :phone_number, :email, :address, :emergency_contact_1_name, :emergency_contact_1_phone, :emergency_contact_1_relationship,
-             :emergency_contact_2_name, :emergency_contact_2_phone, :emergency_contact_2_relationship, :image, :recording_consent, 
-             :injury_loss_risk_consent, :signature_date)");
+        if ($role === 'admin') {
+            // Insert admin data into the `admin_users` table
+            $stmt = $conn->prepare("INSERT INTO admin_users 
+                (name, phone_number, email, address, password, image, recording_consent, injury_loss_risk_consent, signature_date) 
+                VALUES 
+                (:name, :phone_number, :email, :address, :password, :image, :recording_consent, :injury_loss_risk_consent, :signature_date)");
 
-        $stmt->execute([
-            ':name' => $name,
-            ':phone_number' => $phone_number,
-            ':email' => $email,
-            ':address' => $address,
-            ':emergency_contact_1_name' => $emergency_contact_1_name,
-            ':emergency_contact_1_phone' => $emergency_contact_1_phone,
-            ':emergency_contact_1_relationship' => $emergency_contact_1_relationship,
-            ':emergency_contact_2_name' => $emergency_contact_2_name,
-            ':emergency_contact_2_phone' => $emergency_contact_2_phone,
-            ':emergency_contact_2_relationship' => $emergency_contact_2_relationship,
-            ':image' => $image,
-            ':recording_consent' => $recording_consent,
-            ':injury_loss_risk_consent' => $injury_loss_risk_consent,
-            ':signature_date' => $signature_date
-        ]);
+            $stmt->execute([
+                ':name' => $name,
+                ':phone_number' => $phone_number,
+                ':email' => $email,
+                ':address' => $address,
+                ':password' => $password,
+                ':image' => $image,
+                ':recording_consent' => $recording_consent,
+                ':injury_loss_risk_consent' => $injury_loss_risk_consent,
+                ':signature_date' => $signature_date
+            ]);
 
-        echo "User registered successfully!";
+            echo "Admin registered successfully!";
+        } else {
+            // Insert user data into the `Users` table
+            $stmt = $conn->prepare("INSERT INTO Users 
+                (name, phone_number, email, address, emergency_contact_1_name, emergency_contact_1_phone, emergency_contact_1_relationship,
+                 emergency_contact_2_name, emergency_contact_2_phone, emergency_contact_2_relationship, image, recording_consent, 
+                 injury_loss_risk_consent, signature_date) 
+                VALUES 
+                (:name, :phone_number, :email, :address, :emergency_contact_1_name, :emergency_contact_1_phone, :emergency_contact_1_relationship,
+                 :emergency_contact_2_name, :emergency_contact_2_phone, :emergency_contact_2_relationship, :image, :recording_consent, 
+                 :injury_loss_risk_consent, :signature_date)");
+
+            $stmt->execute([
+                ':name' => $name,
+                ':phone_number' => $phone_number,
+                ':email' => $email,
+                ':address' => $address,
+                ':emergency_contact_1_name' => $emergency_contact_1_name,
+                ':emergency_contact_1_phone' => $emergency_contact_1_phone,
+                ':emergency_contact_1_relationship' => $emergency_contact_1_relationship,
+                ':emergency_contact_2_name' => $emergency_contact_2_name,
+                ':emergency_contact_2_phone' => $emergency_contact_2_phone,
+                ':emergency_contact_2_relationship' => $emergency_contact_2_relationship,
+                ':image' => $image,
+                ':recording_consent' => $recording_consent,
+                ':injury_loss_risk_consent' => $injury_loss_risk_consent,
+                ':signature_date' => $signature_date
+            ]);
+
+            echo "User registered successfully!";
+        }
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }

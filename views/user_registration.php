@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Registration</title>
+  <title>User and Admin Registration</title>
 </head>
 <body>
 <form method="POST" action="../controllers/user_controller.php" enctype="multipart/form-data">
@@ -11,7 +11,7 @@
     <input type="text" id="name" name="name" required>
     
     <label for="phone_number">Phone Number:</label>
-    <input type="text" id="phone_number" name="phone_number" >
+    <input type="text" id="phone_number" name="phone_number">
 
     <label for="email">Email:</label>
     <input type="email" id="email" name="email">
@@ -52,6 +52,16 @@
 
     <label for="signature_date">Signature Date:</label>
     <input type="date" id="signature_date" name="signature_date">
+
+    <!-- Differentiation between User and Admin -->
+    <label for="role">Register As:</label>
+    <select id="role" name="role" required>
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+    </select>
+
+    <label for="password">Password (for Admins only):</label>
+    <input type="password" id="password" name="password">
 
     <button type="submit">Register</button>
 </form>
