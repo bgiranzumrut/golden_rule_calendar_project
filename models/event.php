@@ -22,6 +22,26 @@ class Event {
         ]);
     }
 
+    public function updateEvent($id, $title, $description, $start_time, $end_time, $image = null) {
+        $stmt = $this->conn->prepare("UPDATE Events 
+                                      SET title = :title, description = :description, start_time = :start_time, 
+                                          end_time = :end_time, image = :image 
+                                      WHERE id = :id");
+        return $stmt->execute([
+            ':id' => $id,
+            ':title' => $title,
+            ':description' => $description,
+            ':start_time' => $start_time,
+            ':end_time' => $end_time,
+            ':image' => $image
+        ]);
+    }
+
+    public function deleteEvent($id) {
+        $stmt = $this->conn->prepare("DELETE FROM Events WHERE id = :id");
+        return $stmt->execute([':id' => $id]);
+    }
+
     // Fetch all events
     public function fetchAllEvents() {
         $stmt = $this->conn->prepare("SELECT * FROM Events ORDER BY start_time ASC");
