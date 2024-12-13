@@ -1,105 +1,93 @@
 <?php
-include_once '../config/db_connection.php';
+require_once '../config/db_connection.php';
+require_once '../models/user.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Sanitize user inputs
-    $name = htmlspecialchars($_POST['name']);
-    $phone_number = htmlspecialchars($_POST['phone_number']);
-    $email = htmlspecialchars($_POST['email']);
-    $address = htmlspecialchars($_POST['address'] ?? null);
-    $emergency_contact_1_name = htmlspecialchars($_POST['emergency_contact_1_name'] ?? null);
-    $emergency_contact_1_phone = htmlspecialchars($_POST['emergency_contact_1_phone'] ?? null);
-    $emergency_contact_1_relationship = htmlspecialchars($_POST['emergency_contact_1_relationship'] ?? null);
-    $emergency_contact_2_name = htmlspecialchars($_POST['emergency_contact_2_name'] ?? null);
-    $emergency_contact_2_phone = htmlspecialchars($_POST['emergency_contact_2_phone'] ?? null);
-    $emergency_contact_2_relationship = htmlspecialchars($_POST['emergency_contact_2_relationship'] ?? null);
-    $recording_consent = isset($_POST['recording_consent']) ? 1 : 0;
-    $injury_loss_risk_consent = isset($_POST['injury_loss_risk_consent']) ? 1 : 0;
-    $signature_date = $_POST['signature_date'] ?? null;
+use Models\User;
 
-    // Determine role (default to "user" if not provided)
-    $role = htmlspecialchars($_POST['role'] ?? 'user');
-    $password = isset($_POST['password']) ? password_hash($_POST['password'], PASSWORD_BCRYPT) : null;
+$userModel = new User($conn);
 
-    // Handle image upload
-    $image = null;
-    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $image_dir = '../uploads/profile_images/';
-        if (!is_dir($image_dir)) {
-            mkdir($image_dir, 0777, true); // Create directory if it doesn't exist
-        }
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = $_POST['action'] ?? null;
 
-        // Validate file type and size
-        $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-        if (!in_array($_FILES['image']['type'], $allowed_types)) {
-            echo "Invalid image type. Only JPG, PNG, and GIF are allowed.";
-            exit;
-        }
-        if ($_FILES['image']['size'] > 2 * 1024 * 1024) { // 2MB limit
-            echo "Image size exceeds the 2MB limit.";
-            exit;
-        }
-
-        $image = $image_dir . basename($_FILES['image']['name']);
-        if (!move_uploaded_file($_FILES['image']['tmp_name'], $image)) {
-            echo "Error uploading image.";
-            exit;
-        }
+    if (!$action) {
+        echo "Error: No action specified.";
+        exit;
     }
 
     try {
-        if ($role === 'admin') {
-            // Insert admin data into the `admin_users` table
-            $stmt = $conn->prepare("INSERT INTO admin_users 
-                (name, phone_number, email, address, password, image, recording_consent, injury_loss_risk_consent, signature_date) 
-                VALUES 
-                (:name, :phone_number, :email, :address, :password, :image, :recording_consent, :injury_loss_risk_consent, :signature_date)");
-
-            $stmt->execute([
-                ':name' => $name,
-                ':phone_number' => $phone_number,
-                ':email' => $email,
-                ':address' => $address,
-                ':password' => $password,
-                ':image' => $image,
-                ':recording_consent' => $recording_consent,
-                ':injury_loss_risk_consent' => $injury_loss_risk_consent,
-                ':signature_date' => $signature_date
-            ]);
-
-            echo "Admin registered successfully!";
-        } else {
-            // Insert user data into the `Users` table
-            $stmt = $conn->prepare("INSERT INTO Users 
-                (name, phone_number, email, address, emergency_contact_1_name, emergency_contact_1_phone, emergency_contact_1_relationship,
-                 emergency_contact_2_name, emergency_contact_2_phone, emergency_contact_2_relationship, image, recording_consent, 
-                 injury_loss_risk_consent, signature_date) 
-                VALUES 
-                (:name, :phone_number, :email, :address, :emergency_contact_1_name, :emergency_contact_1_phone, :emergency_contact_1_relationship,
-                 :emergency_contact_2_name, :emergency_contact_2_phone, :emergency_contact_2_relationship, :image, :recording_consent, 
-                 :injury_loss_risk_consent, :signature_date)");
-
-            $stmt->execute([
-                ':name' => $name,
-                ':phone_number' => $phone_number,
-                ':email' => $email,
-                ':address' => $address,
-                ':emergency_contact_1_name' => $emergency_contact_1_name,
-                ':emergency_contact_1_phone' => $emergency_contact_1_phone,
-                ':emergency_contact_1_relationship' => $emergency_contact_1_relationship,
-                ':emergency_contact_2_name' => $emergency_contact_2_name,
-                ':emergency_contact_2_phone' => $emergency_contact_2_phone,
-                ':emergency_contact_2_relationship' => $emergency_contact_2_relationship,
-                ':image' => $image,
-                ':recording_consent' => $recording_consent,
-                ':injury_loss_risk_consent' => $injury_loss_risk_consent,
-                ':signature_date' => $signature_date
-            ]);
-
-            echo "User registered successfully!";
+        // Create User
+        if ($action === 'create') {
+            $data = [
+                'name' => $_POST['name'],
+                'phone_number' => $_POST['phone_number'] ?? null,
+                'email' => $_POST['email'],
+                'address' => $_POST['address'] ?? null,
+                'emergency_contact_1_name' => $_POST['emergency_contact_1_name'] ?? null,
+                'emergency_contact_1_phone' => $_POST['emergency_contact_1_phone'] ?? null,
+                'emergency_contact_1_relationship' => $_POST['emergency_contact_1_relationship'] ?? null,
+                'emergency_contact_2_name' => $_POST['emergency_contact_2_name'] ?? null,
+                'emergency_contact_2_phone' => $_POST['emergency_contact_2_phone'] ?? null,
+                'emergency_contact_2_relationship' => $_POST['emergency_contact_2_relationship'] ?? null,
+                'image' => $_FILES['image']['name'] ?? null,
+                'recording_consent' => isset($_POST['recording_consent']) ? 1 : 0,
+                'injury_loss_risk_consent' => isset($_POST['injury_loss_risk_consent']) ? 1 : 0,
+                'signature_date' => $_POST['signature_date'] ?? null,
+                'role' => $_POST['role'], // Ensure role is included
+                'password' => $_POST['password'] ?? null // For admin users only
+            ];
+        
+            // Image upload logic
+            if (!empty($_FILES['image']['name'])) {
+                $targetDir = "../uploads/";
+                $targetFile = $targetDir . basename($_FILES['image']['name']);
+                move_uploaded_file($_FILES['image']['tmp_name'], $targetFile);
+            }
+        
+            if ($userModel->createUser($data)) {
+                header("Location: ../public/admin_dashboard.php");
+                exit;
+            } else {
+                echo "Error: Failed to create user.";
+            }
         }
-    } catch (PDOException $e) {
+        
+
+        // Edit User
+        elseif ($action === 'edit') {
+            $id = $_POST['id'];
+            $role = $_POST['role']; // Ensure role is captured from the form
+            $data = [
+                'name' => $_POST['name'],
+                'phone_number' => $_POST['phone_number'] ?? null,
+                'email' => $_POST['email'],
+                'address' => $_POST['address'] ?? null,
+                // Add other fields as necessary
+            ];
+        
+            if ($userModel->updateUser($data, $id, $role)) {
+                header("Location: ../public/admin_dashboard.php");
+                exit;
+            } else {
+                echo "Error: Failed to update user.";
+            }
+        }
+        
+        
+
+        // Delete User
+        elseif ($action === 'delete') {
+            $id = $_POST['id'];
+            $role = $_POST['role']; // Ensure role is explicitly provided
+
+            if ($userModel->deleteUser($id, $role)) {
+                header("Location: ../public/admin_dashboard.php"); // Redirect to admin_dashboard
+                exit;
+            } else {
+                echo "Error: Failed to delete user.";
+            }
+        }
+
+    } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     }
 }
-?>
