@@ -132,6 +132,7 @@ function filterSection() {
     <nav>
         <span>Welcome, Admin <?php echo htmlspecialchars($admin_name); ?></span>
         <a href="logout.php">Logout</a>
+        <a href="admin_gallery.php">Gallery</a>
     </nav>
 
     <main>
