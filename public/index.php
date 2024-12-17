@@ -91,6 +91,7 @@ include_once '../config/db_connection.php';
             <a href="../views/user_registration.php">Register</a>
             <a href="login.php">Login</a>
             <a href="about.php">About</a>
+            <a href="gallery.php">Gallery</a>
         </div>
         <div class="search-bar">
             <form method="GET" action="search.php">
