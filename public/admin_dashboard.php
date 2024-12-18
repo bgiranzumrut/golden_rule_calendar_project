@@ -27,17 +27,30 @@ $recordsPerPage = isset($_GET['records_per_page']) && is_numeric($_GET['records_
 // Function for pagination
 function getPaginationData($conn, $table, $currentPage, $recordsPerPage, $search = '', $orderBy = 'id', $orderDir = 'ASC') {
     $offset = ($currentPage - 1) * $recordsPerPage;
-    $whereClause = $search ? "WHERE $orderBy LIKE :search" : "";
+
+    // Adjust WHERE clause for the search field
+    $whereClause = '';
+    if ($search) {
+        if ($table === 'events') {
+            $whereClause = "WHERE title LIKE :search OR description LIKE :search";
+        } elseif ($table === 'users' || $table === 'admin_users') {
+            $whereClause = "WHERE name LIKE :search";
+        }
+    }
 
     try {
         $query = "SELECT * FROM $table $whereClause ORDER BY $orderBy $orderDir LIMIT :limit OFFSET :offset";
+      
         $stmt = $conn->prepare($query);
+
         if ($search) $stmt->bindValue(':search', "%$search%");
         $stmt->bindValue(':limit', $recordsPerPage, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        // Count query
         $countQuery = "SELECT COUNT(*) FROM $table $whereClause";
         $countStmt = $conn->prepare($countQuery);
         if ($search) $countStmt->bindValue(':search', "%$search%");
@@ -48,15 +61,16 @@ function getPaginationData($conn, $table, $currentPage, $recordsPerPage, $search
     } catch (Exception $e) {
         die("Error fetching data from $table: " . $e->getMessage());
     }
-    
 }
+
+
 try {
     // Events Section Data
     $eventsPage = $_GET['events_page'] ?? 1;
     $eventsSearch = $_GET['events_search'] ?? '';
     $eventsSort = $_GET['events_sort'] ?? 'start_time';
     $eventsOrder = $_GET['events_order'] ?? 'ASC';
-    $eventsData = getPaginationData($conn, 'Events', $eventsPage, $recordsPerPage, $eventsSearch, $eventsSort, $eventsOrder);
+    $eventsData = getPaginationData($conn, 'events', $eventsPage, $recordsPerPage, $eventsSearch, $eventsSort, $eventsOrder);
 
     // Users Section Data
     $usersPage = $_GET['users_page'] ?? 1;
@@ -133,6 +147,7 @@ function filterSection() {
         <span>Welcome, Admin <?php echo htmlspecialchars($admin_name); ?></span>
         <a href="logout.php">Logout</a>
         <a href="admin_gallery.php">Gallery</a>
+        <a href="users_list.php">View Users</a>
     </nav>
 
     <main>
