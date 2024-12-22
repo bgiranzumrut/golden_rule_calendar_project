@@ -103,7 +103,6 @@ include_once '../config/db_connection.php';
 
     <!-- Main Content -->
     <main>
-        <h1>Welcome to the Golden Rule Calendar</h1>
         
 
         <!-- Calendar Integration -->

@@ -81,6 +81,21 @@ class User {
       return $stmt->execute();
   }
   
+  // Add this method to fetch a user by name and phone
+  public function findUserByNameAndPhone($name, $phone) {
+    $stmt = $this->conn->prepare("SELECT * FROM users WHERE name = :name AND phone_number = :phone");
+    $stmt->execute([
+        ':name' => $name,
+        ':phone' => $phone,
+    ]);
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+
+
+// Add this method to fetch the last inserted ID
+public function getLastInsertId() {
+    return $this->conn->lastInsertId();
+}
 
     // Delete user/admin
     public function deleteUser($id, $role) {
