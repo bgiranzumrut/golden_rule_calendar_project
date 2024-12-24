@@ -10,7 +10,7 @@ if (isset($_GET['id']) && isset($_GET['role'])) {
   $stmt = $conn->prepare("SELECT * FROM $table WHERE id = :id");
   $stmt->bindParam(':id', $id);
   $stmt->execute();
-  $user = $stmt->fetch(PDO::FETCH_ASSOC);
+  $user = $stmt->fetch();
 
   if (!$user) {
       echo "No user found.";

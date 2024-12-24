@@ -31,8 +31,9 @@ $result = $conn->query("SELECT * FROM gallery");
     <h1>Gallery</h1>
     <div style="display: flex; flex-wrap: wrap;">
         <?php while ($row = $result->fetch_assoc()): ?>
-            <div style="margin: 10px; border: 1px solid #ccc; padding: 10px;">
+            <div style="margin: 10px; border: 1px solid #ccc; padding: 10px; width: 250px;">
                 <h3><?= htmlspecialchars($row['title']) ?></h3>
+                <p><strong>Category:</strong> <?= htmlspecialchars($row['category']) ?></p> <!-- Display Category -->
                 <p><?= htmlspecialchars($row['description']) ?></p>
                 <img src="<?= $row['image_path'] ?>" alt="Image" width="200" height="200">
                 <p><small>Uploaded: <?= $row['upload_time'] ?></small></p>
