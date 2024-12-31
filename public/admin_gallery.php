@@ -41,6 +41,9 @@ if (isset($_GET['delete'])) {
 
 // Fetch all images for display
 $result = $conn->query("SELECT * FROM gallery");
+
+// Fetch categories for the dropdown
+$categories = $conn->query("SELECT * FROM categories");
 ?>
 
 <!DOCTYPE html>
@@ -54,6 +57,7 @@ $result = $conn->query("SELECT * FROM gallery");
     <nav>
         <a href="logout.php">Logout</a>
         <a href="admin_dashboard.php">Home</a>
+        <a href="manage_categories.php">Add Category</a>
     </nav>
     </nav>
     <h1>Admin Gallery</h1>
@@ -65,19 +69,9 @@ $result = $conn->query("SELECT * FROM gallery");
     <label>Date: </label><input type="date" name="date" required><br>
     <label>Category: </label>
     <select name="category" required>
-        <option value="Game Club">Game Club</option>
-        <option value="Pickleball">Pickleball</option>
-        <option value="Functional Fitness">Functional Fitness</option>
-        <option value="Conversation cafe">Conversation cafe</option>
-        <option value="Paint buddies">Paint buddies</option>
-        <option value="Floor Curling">Floor Curling</option>
-        <option value="Carpet Bowling & Shuffle Board">Carpet Bowling & Shuffle Board</option>
-        <option value="Qigong">Qigong</option>
-        <option value="Presentation">Presentation</option>
-        <option value="Book Club">Book Club</option>
-        <option value="Tech Talk">Tech Talk</option>
-        <option value="Bingo">Bingo</option>
-   
+        <?php while ($row = $categories->fetch_assoc()): ?>
+            <option value="<?= htmlspecialchars($row['name']) ?>"><?= htmlspecialchars($row['name']) ?></option>
+        <?php endwhile; ?>
     </select><br>
     <label>Image: </label><input type="file" name="image" accept="image/*" required><br>
     <button type="submit" name="submit">Upload</button>
