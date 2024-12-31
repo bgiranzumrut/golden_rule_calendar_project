@@ -2,17 +2,59 @@
 session_start();
 include_once '../config/db_connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $reset_token = $_POST['token'];
-    $new_password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['token'])) {
+    $token = $_GET['token'];
 
-    // Update password in the database
-    $stmt = $conn->prepare("UPDATE admin_users SET password = ?, reset_token = NULL WHERE reset_token = ?");
-    $stmt->bind_param('ss', $new_password, $reset_token);
-    if ($stmt->execute()) {
-        $success = "Password reset successfully!";
-    } else {
-        $error = "Invalid token or error occurred.";
+    try {
+        // Hash the token
+        $hashedToken = hash('sha256', $token);
+
+        // Validate token and check expiry
+        $stmt = $conn->prepare("SELECT id, reset_token_expiry FROM admin_users WHERE reset_token = :token");
+        $stmt->execute([':token' => $hashedToken]);
+        $user = $stmt->fetch();
+
+        if ($user && strtotime($user['reset_token_expiry']) > time()) {
+            $_SESSION['reset_user_id'] = $user['id'];
+        } else {
+            echo "Invalid or expired token. <a href='password_recovery.php'>Request a new reset link</a>";
+            exit;
+        }
+    } catch (PDOException $e) {
+        die("Database error: " . $e->getMessage());
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['reset_user_id'])) {
+    $newPassword = htmlspecialchars($_POST['password']);
+    $csrfToken = $_POST['csrf_token'];
+
+    // Check CSRF token
+    if ($csrfToken !== $_SESSION['csrf_token']) {
+        die("Invalid CSRF token.");
+    }
+    unset($_SESSION['csrf_token']); // Invalidate CSRF token
+
+    // Password validation
+    if (!preg_match('/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}$/', $newPassword)) {
+        die("Password must be at least 8 characters long, include an uppercase letter, a number, and a special character.");
+    }
+
+    $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+    try {
+        // Update the password in the database
+        $stmt = $conn->prepare("UPDATE admin_users SET password = :password, reset_token = NULL, reset_token_expiry = NULL WHERE id = :id");
+        $stmt->execute([
+            ':password' => $hashedPassword,
+            ':id' => $_SESSION['reset_user_id']
+        ]);
+
+        unset($_SESSION['reset_user_id']);
+        echo "Password updated successfully. <a href='login.php'>Click here to login</a>.";
+        exit();
+    } catch (PDOException $e) {
+        die("Database error: " . $e->getMessage());
     }
 }
 ?>
@@ -20,20 +62,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password</title>
-    <style>
-        /* Add similar styling as above */
-    </style>
 </head>
 <body>
+    <h2>Reset Password</h2>
     <form method="POST" action="">
-        <h2>Reset Password</h2>
-        <input type="hidden" name="token" value="<?php echo htmlspecialchars($_GET['token']); ?>">
-        <input type="password" name="password" placeholder="New Password" required>
+        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); ?>">
+        <label for="password">New Password:</label>
+        <input type="password" id="password" name="password" required>
         <button type="submit">Reset Password</button>
-        <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
-        <?php if (isset($success)) { echo "<p class='success'>$success</p>"; } ?>
     </form>
 </body>
 </html>

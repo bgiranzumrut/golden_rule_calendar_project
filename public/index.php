@@ -1,6 +1,7 @@
 <?php
 // Include configuration
 include_once '../config/db_connection.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // Calendar includes its own dependencies
 // Adjust path as needed

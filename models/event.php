@@ -105,22 +105,21 @@ class Event {
         ]);
     }
     
-    
-    
-
-
-    // Fetch all participants registered for an event
     public function fetchRegistrationsByEvent($eventId) {
-        $stmt = $this->conn->prepare("SELECT r.*, u.name, u.phone 
-                                      FROM registrations r 
-                                      JOIN users u ON r.user_id = u.id 
-                                      WHERE r.event_id = :event_id 
-                                      ORDER BY r.registered_at ASC");
+        $stmt = $this->conn->prepare("SELECT 
+                                            r.name AS participant_name, 
+                                            r.phone_number AS participant_phone, 
+                                            u.name AS registered_user_name, 
+                                            u.phone_number AS registered_user_phone 
+                                       FROM registrations r 
+                                       LEFT JOIN users u ON r.user_id = u.id 
+                                       WHERE r.event_id = :event_id 
+                                       ORDER BY r.registered_at ASC");
         $stmt->execute([':event_id' => $eventId]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-
-    // Check if a user is already registered for an event
+    
+    
     public function fetchRegistrationByUserAndEvent($eventId, $userId) {
         $stmt = $this->conn->prepare("SELECT * FROM registrations 
                                       WHERE event_id = :event_id AND user_id = :user_id");
@@ -130,5 +129,6 @@ class Event {
         ]);
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
+    
 }
 ?>

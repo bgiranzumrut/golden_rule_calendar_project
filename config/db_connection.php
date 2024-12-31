@@ -1,4 +1,9 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
+
+
+// Database connection or other setup...
+
 // Database configuration
 $host = 'localhost';
 $db_name = 'golden_rules_calendar'; // Replace with your database name

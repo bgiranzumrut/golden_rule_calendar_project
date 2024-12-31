@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([':email' => $email]);
 
         // Fetch the user data
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
             // Password is correct, start the session
@@ -73,12 +73,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body>
-    <form method="POST" action="">
-        <h2>Admin Login</h2>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-        <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
-    </form>
+<form method="POST" action="">
+    <h2>Admin Login</h2>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+    <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
+    <!-- Forgot Password Button -->
+    <div style="text-align: center; margin-top: 10px;">
+        <a href="../views/password_recovery.php" style="text-decoration: none; color: #4CAF50; font-size: 0.9rem;">Forgot Password?</a>
+    </div>
+</form>
+
 </body>
 </html>

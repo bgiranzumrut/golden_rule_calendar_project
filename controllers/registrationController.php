@@ -16,22 +16,6 @@ class RegistrationController {
         $this->userModel = $userModel;
     }
 
-    public function showRegistrationForm($eventId) {
-        try {
-            $event = $this->eventModel->fetchEventById($eventId);
-
-            if (!$event) {
-                throw new \Exception("Event with ID {$eventId} not found.");
-            }
-
-            // Render the registration form
-            $this->renderView('../views/registrationForm.php', ['event' => $event]);
-        } catch (\Exception $e) {
-            error_log($e->getMessage());
-            echo "<h1>Error: " . htmlspecialchars($e->getMessage()) . "</h1>";
-        }
-    }
-
     public function registerParticipant() {
         try {
             $eventId = $_POST['event_id'] ?? null;
@@ -70,6 +54,31 @@ class RegistrationController {
             echo "<h1>Error: " . htmlspecialchars($e->getMessage()) . "</h1>";
         }
     }
+    
+    public function showRegistrationForm($eventId) {
+        try {
+            $event = $this->eventModel->fetchEventById($eventId);
+    
+            if (!$event) {
+                throw new \Exception("Event with ID {$eventId} not found.");
+            }
+    
+            // Fetch participants and count
+            $participants = $this->eventModel->fetchRegistrationsByEvent($eventId);
+            $participantCount = count($participants);
+    
+            // Pass the data to the view
+            $this->renderView('../views/registrationForm.php', [
+                'event' => $event,
+                'participants' => $participants,
+                'participantCount' => $participantCount
+            ]);
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+            echo "<h1>Error: " . htmlspecialchars($e->getMessage()) . "</h1>";
+        }
+    }
+    
     
     
     

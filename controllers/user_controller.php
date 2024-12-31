@@ -77,8 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Delete User
         elseif ($action === 'delete') {
             $id = $_POST['id'];
-            $role = $data['role'] ?? 'user'; // Default role is 'user'
-
+            $role = $_POST['role']; // Ensure role is explicitly provided
 
             if ($userModel->deleteUser($id, $role)) {
                 header("Location: ../public/admin_dashboard.php"); // Redirect to admin_dashboard

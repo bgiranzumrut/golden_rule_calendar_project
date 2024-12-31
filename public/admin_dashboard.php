@@ -313,11 +313,14 @@ function filterSection() {
             <td>
                 <a href="../views/edit_user.php?id=<?php echo htmlspecialchars($admin['id']); ?>&role=admin"><button>Edit</button></a>
                 <form method="POST" action="../controllers/user_controller.php" style="display:inline;">
-                    <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($admin['id']); ?>">
-                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                    <button type="submit" onclick="return confirm('Are you sure you want to delete this admin user?');">Delete</button>
-                </form>
+    <input type="hidden" name="action" value="delete">
+    <input type="hidden" name="id" value="<?php echo htmlspecialchars($admin['id']); ?>">
+    <input type="hidden" name="role" value="admin"> <!-- Explicitly pass the role -->
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+    <button type="submit" onclick="return confirm('Are you sure you want to delete this admin user?');">Delete</button>
+</form>
+
+
             </td>
         </tr>
         <?php endforeach; ?>
