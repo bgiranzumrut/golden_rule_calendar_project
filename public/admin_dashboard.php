@@ -207,6 +207,7 @@ function filterSection() {
                     <button type="submit" onclick="return confirm('Are you sure you want to delete this event?');">Delete</button>
                 </form>
             </td>
+            <td><a href="../views/event_details.php?id=<?= htmlspecialchars($event['id']); ?>"><button>See Details</button></a></td>
         </tr>
         <?php endforeach; ?>
     </table>

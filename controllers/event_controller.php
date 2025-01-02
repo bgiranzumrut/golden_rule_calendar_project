@@ -1,6 +1,7 @@
 <?php
 require_once '../config/db_connection.php';
 require_once '../models/event.php';
+session_start();
 
 use Models\Event;
 
@@ -20,8 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $description = $_POST['description'];
             $start_time = $_POST['start_time'];
             $end_time = $_POST['end_time'];
-            $created_by = 1; // Replace with the logged-in admin ID
+            $created_by = $_SESSION['admin_id'] ?? null; 
+            
+            if (!$created_by) {
+                throw new Exception("Error: Admin not logged in.");
+            }
             $image = null;
+
 
             if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
                 $image_dir = '../uploads/event_images/';
@@ -50,27 +56,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $start_time = $_POST['start_time'];
             $end_time = $_POST['end_time'];
             $image = $_POST['current_image'] ?? null;
+            $edited_by = $_SESSION['admin_id']; // The admin editing the event
+         
 
+ // Current timestamp for the edit date
+        
             if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
                 $image_dir = '../uploads/event_images/';
                 if (!is_dir($image_dir)) {
                     mkdir($image_dir, 0777, true);
                 }
-
+        
                 $image_path = $image_dir . basename($_FILES['image']['name']);
                 if (!move_uploaded_file($_FILES['image']['tmp_name'], $image_path)) {
                     throw new Exception('Error uploading image.');
                 }
                 $image = $image_path;
             }
-
-            if ($eventModel->updateEvent($id, $title, $description, $start_time, $end_time, $image)) {
+        
+            // Call the model's updateEvent method
+            if ($eventModel->updateEvent($id, $title, $description, $start_time, $end_time, $image, $edited_by, $edit_date)) {
                 header("Location: ../public/admin_dashboard.php?message=Event+updated+successfully");
                 exit;
             } else {
                 throw new Exception('Failed to update the event.');
             }
-        } elseif ($action === 'delete') {
+        }
+         elseif ($action === 'delete') {
             $id = $_POST['id'];
 
             // Call the model to delete the event

@@ -23,20 +23,31 @@ class Event {
     }
 
     // Update an existing event
-    public function updateEvent($id, $title, $description, $start_time, $end_time, $image = null) {
-        $stmt = $this->conn->prepare("UPDATE Events 
-                                      SET title = :title, description = :description, start_time = :start_time, 
-                                          end_time = :end_time, image = :image 
-                                      WHERE id = :id");
+    // Update an existing event with editor details
+    public function updateEvent($id, $title, $description, $start_time, $end_time, $image = null, $edited_by = null) {
+        $stmt = $this->conn->prepare("
+            UPDATE Events 
+            SET title = :title, 
+                description = :description, 
+                start_time = :start_time, 
+                end_time = :end_time, 
+                image = :image, 
+                edited_by = :edited_by
+            WHERE id = :id
+        ");
         return $stmt->execute([
             ':id' => $id,
             ':title' => $title,
             ':description' => $description,
             ':start_time' => $start_time,
             ':end_time' => $end_time,
-            ':image' => $image
+            ':image' => $image,
+            ':edited_by' => $edited_by
         ]);
     }
+    
+    
+
 
     // Delete an event
     public function deleteEvent($id) {
