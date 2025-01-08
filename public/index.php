@@ -1,120 +1,75 @@
 <?php
-// Include configuration
-include_once '../config/db_connection.php';
+require_once '../config/db_connection.php';
 require_once __DIR__ . '/../vendor/autoload.php';
-
-// Calendar includes its own dependencies
-// Adjust path as needed
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Golden Rule Calendar</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        nav {
-            background-color: #333;
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 1rem;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        nav .search-bar {
-            display: flex;
-            align-items: center;
-        }
-        nav input[type="text"] {
-            padding: 0.5rem;
-            border: none;
-            border-radius: 5px;
-        }
-        nav button {
-            padding: 0.5rem 1rem;
-            margin-left: 0.5rem;
-            background-color: #555;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        nav button:hover {
-            background-color: #777;
-        }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        main {
-            padding: 2rem;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../styles/styles.css" rel="stylesheet">
+   
 </head>
 <body>
+    <!-- Header / Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="index.php">
+            <img src="../uploads/logo.png" alt="Golden Rule Calendar Logo" class="navbar-logo me-3">
+            <span class="brand-title">Golden Rule Calendar</span>
+        </a>
+        <!-- Navbar toggler for mobile view -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="index.php">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.php">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="gallery.php">Gallery</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="login.php">Admin Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-    <!-- Navigation Bar -->
-    <nav>
-        <div>
-            <a href="index.php">Home</a>
-            <a href="../views/user_registration.php">Register</a>
-            <a href="login.php">Login</a>
-            <a href="about.php">About</a>
-            <a href="gallery.php">Gallery</a>
-        </div>
-        <div class="search-bar">
-            <form method="GET" action="search.php">
-                <input type="text" name="query" placeholder="Search events..." required>
-                <button type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
+
 
     <!-- Main Content -->
-    <main>
-        
-
-        <!-- Calendar Integration -->
-        <?php include_once '../views/calendar.php';  ?>
-
+    <main class="container py-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <?php include_once '../views/calendar.php'; ?>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
-    <footer>
-        <p>Contact Information: 204 306 1114 | goldenrule@swsrc | 625 Osborne Street</p>
-    </footer>
+    <footer class="bg-light py-3 mt-4 border-top">
+    <div class="container-f text-center">
+        <p class="mb-0-contact contact-info">
+            Contact Information: 
+            <a href="tel:2043061114" class="footer-link">204 306 1114</a> | 
+            <a href="mailto:goldenrule@swsrc" class="footer-link">goldenrule@swsrc</a> | 
+            625 Osborne Street
+        </p>
+    </div>
+</footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -179,4 +179,4 @@ $result = $conn->query("SELECT * FROM gallery LIMIT $images_per_page OFFSET $off
     </script>
 </body>
 </html>
-<?php $conn->close(); ?>
+<?php $conn->close();?>

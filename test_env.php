@@ -1,20 +1,19 @@
 <?php
-require 'vendor/autoload.php';
-
-use Dotenv\Dotenv;
-
-$dotenv = Dotenv::createImmutable(__DIR__);
-$variables = $dotenv->load(); // Load the variables into $variables array
-
-echo "<pre>";
-print_r($variables); // This shows that Dotenv is working
-echo "</pre>";
-
-echo "SMTP_HOST (via \$variables): " . $variables['SMTP_HOST'] . "<br>";
-echo "SMTP_USER (via \$variables): " . $variables['SMTP_USER'] . "<br>";
-echo "SMTP_PASS (via \$variables): " . $variables['SMTP_PASS'] . "<br>";
-echo "SMTP_PORT (via \$variables): " . $variables['SMTP_PORT'] . "<br>";
-echo "SMTP_SECURE (via \$variables): " . $variables['SMTP_SECURE'] . "<br>";
-
-
-
+echo '
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center text-primary">Bootstrap is Working!</h1>
+        <button class="btn btn-success">Test Button</button>
+    </div>
+</body>
+</html>
+';
+?>

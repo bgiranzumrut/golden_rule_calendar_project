@@ -81,6 +81,9 @@ if (isset($_GET['id']) && isset($_GET['role'])) {
 
     <label for="signature_date">Signature Date:</label>
     <input type="date" id="signature_date" name="signature_date" value="<?php echo htmlspecialchars($user['signature_date']); ?>">
+    <label for="extra_notes">Extra Notes:</label>
+<textarea name="extra_notes" id="extra_notes"><?= htmlspecialchars($user['extra_notes'] ?? '') ?></textarea>
+
 
     <button type="submit">Update User</button>
     <button type="button" onclick="window.history.back();">Cancel</button>

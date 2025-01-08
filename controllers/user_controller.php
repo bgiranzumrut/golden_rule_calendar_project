@@ -1,6 +1,7 @@
 <?php
 require_once '../config/db_connection.php';
 require_once '../models/user.php';
+session_start();
 
 use Models\User;
 
@@ -55,22 +56,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Edit User
         elseif ($action === 'edit') {
             $id = $_POST['id'];
-            $role = $_POST['role']; // Ensure role is captured from the form
+            $role = $_POST['role'];
+            $editedBy = $_SESSION['admin_id']; // Get the logged-in admin's ID
+        
             $data = [
                 'name' => $_POST['name'],
                 'phone_number' => $_POST['phone_number'] ?? null,
                 'email' => $_POST['email'],
                 'address' => $_POST['address'] ?? null,
-                // Add other fields as necessary
+                'emergency_contact_1_name' => $_POST['emergency_contact_1_name'] ?? null,
+                'emergency_contact_1_phone' => $_POST['emergency_contact_1_phone'] ?? null,
+                'emergency_contact_1_relationship' => $_POST['emergency_contact_1_relationship'] ?? null,
+                'emergency_contact_2_name' => $_POST['emergency_contact_2_name'] ?? null,
+                'emergency_contact_2_phone' => $_POST['emergency_contact_2_phone'] ?? null,
+                'emergency_contact_2_relationship' => $_POST['emergency_contact_2_relationship'] ?? null,
+                'image' => $_FILES['image']['name'] ?? null,
+                'recording_consent' => isset($_POST['recording_consent']) ? 1 : 0,
+                'injury_loss_risk_consent' => isset($_POST['injury_loss_risk_consent']) ? 1 : 0,
+                'signature_date' => $_POST['signature_date'] ?? null,
+                'extra_notes' => $_POST['extra_notes'] ?? null, // Include extra_notes
             ];
+            
         
-            if ($userModel->updateUser($data, $id, $role)) {
+            if ($userModel->updateUser($data, $id, $role, $editedBy)) {
                 header("Location: ../public/admin_dashboard.php");
                 exit;
             } else {
                 echo "Error: Failed to update user.";
             }
         }
+        
+        
         
         
 

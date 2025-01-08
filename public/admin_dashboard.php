@@ -264,6 +264,10 @@ function filterSection() {
                     <button type="submit" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
                 </form>
             </td>
+            <td>
+    <a href="../views/user_details.php?id=<?= htmlspecialchars($user['id']); ?>&role=user"><button>See Details</button></a>
+</td>
+
         </tr>
         <?php endforeach; ?>
     </table>
@@ -323,6 +327,10 @@ function filterSection() {
 
 
             </td>
+            <td>
+    <a href="../views/user_details.php?id=<?= htmlspecialchars($admin['id']); ?>&role=admin"><button>See Details</button></a>
+</td>
+
         </tr>
         <?php endforeach; ?>
     </table>

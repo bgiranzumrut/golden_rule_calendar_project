@@ -93,104 +93,73 @@ $filteredCalendar = array_filter($calendar, function ($week) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Golden Rule Calendar</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            vertical-align: top;
-            height: 100px;
-        }
-        th {
-            background-color: #4CAF50;
-            color: white;
-            font-size: 1.2rem;
-        }
-        .day-header {
-            text-align: right;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .event {
-            margin: 5px 0;
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-        .event-title {
-            font-weight: bold;
-        }
-        .event-time {
-            font-weight: bold;
-            color: #4CAF50;
-        }
-    </style>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Your custom stylesheet -->
+    <link href="../styles/styles.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation Links -->
-    <h3>
-        <!-- Previous Button -->
-        <a href="?month=<?php echo $prevMonth; ?>&year=<?php echo $prevYear; ?>">&laquo; Previous</a>
+    <!-- Main Content -->
+    <main class="container py-4">
+        <div class="calendar-container">
+            <!-- Calendar Navigation -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <a href="?month=<?php echo $prevMonth; ?>&year=<?php echo $prevYear; ?>" 
+                   class="btn btn-outline-primary">&laquo; Previous</a>
+                <h3 class="mb-0"><?php echo date('F Y', strtotime("$year-$month-01")); ?></h3>
+                <a href="?month=<?php echo $nextMonth; ?>&year=<?php echo $nextYear; ?>" 
+                   class="btn btn-outline-primary">Next &raquo;</a>
+            </div>
 
-        <!-- Current Month Display -->
-        <?php echo date('F Y', strtotime("$year-$month-01")); ?>
+            <!-- Calendar Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <?php foreach ($daysOfWeek as $day): ?>
+                                <th class="text-center"><?php echo $day; ?></th>
+                            <?php endforeach; ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($filteredCalendar as $week): ?>
+                            <tr>
+                                <?php for ($i = 0; $i < 5; $i++): ?>
+                                    <td class="calendar-cell">
+                                        <?php if ($week[$i]): ?>
+                                            <div class="day-header text-end">
+                                                <?php echo date('M j', strtotime($week[$i])); ?>
+                                            </div>
+                                            <?php if (isset($eventsByDate[$week[$i]])): ?>
+                                                <?php foreach ($eventsByDate[$week[$i]] as $event): ?>
+                                                    <div class="event rounded">
+                                                        <div class="event-time">
+                                                            <?php echo date('g:i A', strtotime($event['start_time'])); ?>
+                                                        </div>
+                                                        <div class="event-title">
+                                                            <a href="../controllers/registrationController.php?action=showRegistrationForm&event_id=<?php echo $event['id']; ?>" 
+                                                               class="text-decoration-none">
+                                                                <?php echo htmlspecialchars($event['title']); ?>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <div class="text-muted small">No Events</div>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </td>
+                                <?php endfor; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
 
-        <!-- Next Button -->
-        <a href="?month=<?php echo $nextMonth; ?>&year=<?php echo $nextYear; ?>">Next &raquo;</a>
-    </h3>
-
-    <!-- Calendar Table -->
-    <table>
-        <thead>
-            <tr>
-                <?php foreach ($daysOfWeek as $day): ?>
-                    <th><?php echo $day; ?></th>
-                <?php endforeach; ?>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($filteredCalendar as $week): ?>
-                <tr>
-                    <?php for ($i = 0; $i < 5; $i++): // Display only weekdays ?>
-                        <td>
-                            <?php if ($week[$i]): ?>
-                                <!-- Display Day Number -->
-                                <div class="day-header">
-                                    <?php echo date('M j', strtotime($week[$i])); ?>
-                                </div>
-
-                                <!-- Display Events -->
-                                <?php if (isset($eventsByDate[$week[$i]])): ?>
-                                    <?php foreach ($eventsByDate[$week[$i]] as $event): ?>
-                                        <div class="event">
-                                            <div class="event-time"><?php echo date('g:i A', strtotime($event['start_time'])); ?></div>
-                                            <div class="event-title">
-    <a href="../controllers/registrationController.php?action=showRegistrationForm&event_id=<?php echo $event['id']; ?>" target="_blank">
-        <?php echo htmlspecialchars($event['title']); ?>
-    </a>
-</div>
-
-                                        </div>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <div class="event">No Events</div>
-                                <?php endif; ?>
-                            <?php else: ?>
-                                <!-- Empty Day Slot -->
-                                &nbsp;
-                            <?php endif; ?>
-                        </td>
-                    <?php endfor; ?>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+   
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
