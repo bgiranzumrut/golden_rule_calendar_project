@@ -1,17 +1,13 @@
 :root {
-  /* Main brand colors with proper RGB values */
-  --primary-red: rgb(203, 68, 47); /* From color picker */
-  --primary-blue: rgb(64, 114, 151); /* From color picker */
-  --primary-black: rgb(0, 0, 0); /* From color picker */
-  --primary-cream: rgb(245, 240, 230); /* From color picker */
-
-  /* Enhanced contrast colors for accessibility */
-  --text-dark: rgb(33, 37, 41); /* Dark enough for contrast */
-  --text-muted: rgb(87, 87, 87); /* Darkened for better contrast */
-  --border-color: rgb(200, 200, 200); /* Visible but not harsh */
-  --hover-blue: rgb(49, 88, 116); /* Darker shade for hover states */
-
-  /* Background colors */
+  /* Brand colors */
+  --primary-red: rgb(203, 68, 47);
+  --primary-blue: rgb(64, 114, 151);
+  --primary-black: rgb(0, 0, 0);
+  --primary-cream: rgb(245, 240, 230);
+  --text-dark: rgb(33, 37, 41);
+  --text-muted: rgb(87, 87, 87);
+  --border-color: rgb(200, 200, 200);
+  --hover-blue: rgb(49, 88, 116);
   --bg-light: rgb(248, 249, 250);
   --white: rgb(255, 255, 255);
 }
@@ -19,27 +15,24 @@
 /* Base styles */
 body {
   font-family: Arial, sans-serif;
-  color: var(--primary-black);
+  color: var(--text-dark);
   background-color: var(--primary-cream);
-  line-height: 1.6;
-  font-size: 16px;
+  line-height: 1.5;
+  font-size: 18px;
 }
 
-/* Navigation styles */
-/* Custom Navbar */
-/* Custom Navbar */
+/* Navbar styles */
 .custom-navbar {
   background-color: var(--primary-cream);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 0.5rem 0;
-  border-bottom: none; /* Adjusted padding for better spacing */
 }
 
 .navbar-brand {
   display: flex;
   align-items: center;
-  padding: 0; /* Remove default padding */
+  padding: 0;
 }
 
 .brand-title {
@@ -49,22 +42,18 @@ body {
   font-size: 2rem;
 }
 
-/* Enhanced Logo Styling */
 .navbar-logo {
   width: 130px;
   height: 130px;
   border-radius: 50%;
-  /* Ensures image fills the circle properly */
-  background-color: white; /* Add white background */
-  /* Add padding inside the circle */
-  border: 2px solid var(--primary-blue); /* Optional: adds a border */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background-color: var(--white);
+  border: 2px solid var(--primary-blue);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Improved Nav Link Styling */
 .nav-link {
   color: var(--primary-red);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 500;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
@@ -76,13 +65,19 @@ body {
   border-radius: 5px;
 }
 
-/* Focus styles for accessibility */
-.nav-link:focus {
-  outline: 3px solid var(--primary-red);
-  outline-offset: 2px;
+/* Calendar Events Container */
+.events-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers events horizontally */
+  justify-content: center; /* Centers events vertically */
+  gap: 2px; /* Minimal space between events */
+  height: calc(100% - 24px); /* Subtract date header height */
+  padding: 2px;
+  overflow-y: auto;
 }
 
-/* Calendar navigation */
+/* Calendar Navigation */
 .calendar-nav {
   text-align: center;
   margin: 20px 0;
@@ -91,91 +86,12 @@ body {
   align-items: center;
 }
 
-.calendar-nav a {
-  background-color: var(--primary-blue);
-  color: var(--primary-cream);
-  padding: 8px 16px;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-/* Calendar table styles */
-.table {
-  background-color: var(--white);
-  border: 1px solid var(--border-color);
-}
-
-.table th {
-  background-color: var(--primary-blue);
-  color: var(--white);
-  font-size: 1.2rem;
-  padding: 15px;
-  text-align: center;
-  font-weight: 600;
-}
-
-.table td {
-  height: 120px;
-  border: 1px solid var(--border-color);
-  padding: 10px;
-  vertical-align: top;
-}
-
-/* Day header styles */
-.day-header {
-  text-align: right;
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-  color: var(--text-dark);
-}
-
-/* Event styles - now using primary red properly */
-.event {
-  background-color: var(--bg-light);
-  border-left: 4px solid var(--primary-red);
-  margin: 5px 0;
-  padding: 8px;
-  border-radius: 4px;
-}
-
-.event-time {
-  color: var(--primary-red); /* Changed to primary red for brand consistency */
-  font-weight: bold;
-  font-size: 1.1rem;
-}
-
-.event-title {
-  color: var(--text-dark);
-  font-size: 1.1rem;
-  margin-top: 4px;
-}
-
-.event-title a {
-  color: var(--primary-blue);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.event-title a:hover {
-  color: var(--hover-blue);
-  text-decoration: underline;
-}
-
-/* No events message */
-.no-events {
-  color: var(--text-muted);
-  font-size: 1rem;
-  text-align: center;
-  padding: 10px;
-}
-
-/* Month navigation buttons */
 .btn-outline-primary {
   color: var(--primary-blue);
   border-color: var(--primary-blue);
+  padding: 0.75rem 1.25rem;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .btn-outline-primary:hover {
@@ -183,45 +99,311 @@ body {
   color: var(--white);
 }
 
-.bg-light {
-  background-color: var(--primary-cream);
+/* Calendar Table */
+.table {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  table-layout: fixed;
+  width: 100%;
 }
 
+.table th {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  font-size: 1.3rem;
+  padding: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+  border: 1px solid var(--border-color);
+}
+
+.table td {
+  height: 200px; /* Fixed height for all cells */
+  border: 1px solid var(--border-color);
+  padding: 0.5rem !important;
+  vertical-align: top; /* Align content to the top */
+  position: relative; /* To handle positioned child elements */
+  overflow: hidden; /* Hide overflow by default */
+}
+
+/* Calendar Events */
+.day-header {
+  font-size: 1.2rem;
+  padding: 0.25rem 0.5rem;
+  text-align: left;
+  color: var(--text-dark);
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+/* Event Container Styles */
+.events-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  height: calc(100% - 24px);
+  padding: 4px;
+  overflow-y: auto;
+}
+
+/* Event Styles */
+.event {
+  width: 100%;
+  min-height: 24px;
+  display: flex;
+  align-items: flex-start;
+  background: #f8f9fa;
+  border-left: 3px solid var(--primary-red);
+  padding: 4px 6px;
+  margin: 0;
+  border-radius: 3px;
+}
+
+/* When container has 3 or more events - compact style */
+.events-container:has(.event:nth-child(3)) .event {
+  height: 32px;
+  overflow: hidden;
+  padding: 4px 8px;
+  margin-bottom: 0.5px;
+}
+
+.events-container:has(.event:nth-child(3)) .event-time {
+  font-size: 0.95rem;
+  min-width: 70px;
+  font-weight: 700; /* Made bolder */
+}
+
+.events-container:has(.event:nth-child(3)) .event-title {
+  font-size: 0.95rem;
+  font-weight: 600; /* Made bolder */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* When container has only 1 or 2 events - larger style */
+.events-container:not(:has(.event:nth-child(3))) .event {
+  min-height: 32px;
+  height: auto;
+  padding: 8px 10px;
+}
+
+.events-container:not(:has(.event:nth-child(3))) .event-time {
+  font-size: 1.1rem;
+  min-width: 80px;
+  margin-right: 10px;
+}
+
+.events-container:not(:has(.event:nth-child(3))) .event-title {
+  font-size: 1.1rem;
+  white-space: normal;
+  overflow: visible;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+/* Common event styles */
+.event-time {
+  color: var(--primary-red);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.event-title {
+  color: var(--primary-blue);
+  font-weight: 600;
+  flex-grow: 1;
+}
+
+/* For days with no events */
+.text-muted {
+  text-align: center;
+  font-size: 1rem;
+  padding: 8px;
+  color: var(--text-muted);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .events-container:not(:has(.event:nth-child(3))) .event-time,
+  .events-container:not(:has(.event:nth-child(3))) .event-title {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .events-container:not(:has(.event:nth-child(3))) .event {
+    padding: 6px 8px;
+  }
+
+  .events-container:not(:has(.event:nth-child(3))) .event-time {
+    min-width: 70px;
+    margin-right: 8px;
+  }
+}
+
+.event-time {
+  color: var(--primary-red);
+  font-weight: 600;
+  font-size: 0.85rem;
+  min-width: 60px; /* Reduced min-width */
+  margin-right: 4px;
+}
+
+.event-title {
+  color: var(--primary-blue);
+  font-weight: 500;
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Date Header */
+.date-header {
+  font-size: 0.9rem;
+  padding: 2px 4px;
+  margin-bottom: 2px;
+}
+
+/* No Events Message */
+.text-muted {
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 4px;
+}
+
+/* List View Styles */
+.list-view {
+  padding: 1rem;
+}
+
+.list-view h3 {
+  color: var(--primary-blue);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.list-view .event {
+  padding: 8px 12px;
+  margin-bottom: 0.8rem;
+  min-height: 40px;
+}
+
+.list-view .event-time {
+  font-size: 1.1rem;
+  font-weight: 700;
+  min-width: 85px;
+  margin-right: 12px;
+  color: var(--primary-red);
+}
+
+.list-view .event-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--primary-blue);
+  white-space: normal;
+  line-height: 1.4;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .list-view h3 {
+    font-size: 1.2rem;
+  }
+
+  .list-view .event-time,
+  .list-view .event-title {
+    font-size: 1rem;
+  }
+}
+/* Footer Styles */
 .container-f {
   background-color: var(--primary-blue);
-
   padding: 20px;
   margin-top: 30px;
 }
 
 .mb-0-contact {
-  color: var(
-    --primary-cream
-  ); /* Changed from primary-cream for better contrast */
-  text-decoration: underline; /* Added for better visibility */
-  font-weight: 500; /* Added for better visibility */
+  color: var(--primary-cream);
+  text-decoration: underline;
+  font-weight: 500;
 }
+
 .footer-link {
   color: var(--primary-cream);
+  font-size: 1.1rem;
 }
-/* Accessibility improvements */
-@media (max-width: 768px) {
-  body {
-    font-size: 18px;
+
+/* Responsive Design */
+@media (min-width: 1200px) {
+  .table td {
+    height: 220px;
   }
 
+  .nav-link {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 992px) {
   .table td {
-    height: auto;
-    min-height: 100px;
+    height: 180px;
+  }
+
+  .navbar-logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .brand-title {
+    font-size: 1.75rem;
   }
 
   .event-time,
   .event-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 }
 
-/* High contrast mode */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+
+  .table td {
+    height: 160px;
+    padding: 0.4rem !important;
+  }
+
+  .navbar-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .brand-title {
+    font-size: 1.5rem;
+  }
+
+  .nav-link {
+    font-size: 1.1rem;
+  }
+
+  .event-time,
+  .event-title {
+    font-size: 1rem;
+  }
+}
+
+/* Accessibility Features */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
 @media (prefers-contrast: high) {
   :root {
     --primary-blue: rgb(0, 75, 150);
@@ -229,27 +411,59 @@ body {
     --text-dark: rgb(0, 0, 0);
     --text-muted: rgb(60, 60, 60);
   }
+
+  .event {
+    border-left-width: 5px;
+    border: 2px solid var(--text-dark);
+  }
+
+  .event-time {
+    color: var(--primary-black);
+    font-weight: 700;
+  }
 }
 
-/* Focus styles for accessibility */
-a:focus,
-button:focus {
+/* Focus Styles */
+.nav-link:focus,
+.btn-outline-primary:focus,
+.event:focus-within {
   outline: 3px solid var(--primary-red);
   outline-offset: 2px;
+  box-shadow: none;
 }
 
-/* Print styles */
+/* Print Styles */
 @media print {
+  body {
+    font-size: 14pt;
+    background-color: white !important;
+  }
+
   .navbar,
   .calendar-nav,
-  footer {
-    background-color: white !important;
-    color: black !important;
+  .container-f {
+    display: none;
+  }
+
+  .table td {
+    height: auto !important;
+    min-height: 120px !important;
   }
 
   .table th {
     background-color: white !important;
     color: black !important;
     border: 1px solid black !important;
+  }
+
+  .event {
+    break-inside: avoid;
+    border: 1.5px solid black;
+  }
+
+  .event-time,
+  .event-title {
+    font-size: 12pt;
+    color: black !important;
   }
 }
