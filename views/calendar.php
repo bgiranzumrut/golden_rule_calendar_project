@@ -120,7 +120,7 @@ $filteredCalendar = array_filter($calendar, function ($week) {
 
         /* Calendar Container */
         .calendar-wrapper {
-            max-width: 1200px;
+            max-width: ;
             margin: 2rem auto;
             background: white;
             border-radius: 8px;
@@ -309,9 +309,11 @@ $filteredCalendar = array_filter($calendar, function ($week) {
                                                             <div class="event-time">
                                                                 <?php echo date('g:i A', strtotime($event['start_time'])); ?>
                                                             </div>
-                                                            <div class="event-title">
-                                                                <?php echo htmlspecialchars($event['title']); ?>
-                                                            </div>
+                                                            <a href="../controllers/registrationController.php?action=showRegistrationForm&event_id=<?php echo $event['id']; ?>">
+    <div class="event-title">
+        <?php echo htmlspecialchars($event['title']); ?>
+    </div>
+</a>
                                                         </div>
                                                     <?php endforeach; ?>
                                                 <?php else: ?>
@@ -345,9 +347,11 @@ $filteredCalendar = array_filter($calendar, function ($week) {
                     <div class="event-time">
                         <?php echo date('g:i A', strtotime($event['start_time'])); ?>
                     </div>
-                    <div class="event-title">
-                        <?php echo htmlspecialchars($event['title']); ?>
-                    </div>
+                    <a href="../controllers/registrationController.php?action=showRegistrationForm&event_id=<?php echo $event['id']; ?>">
+        <div class="event-title">
+            <?php echo htmlspecialchars($event['title']); ?>
+        </div>
+    </a>
                 </div>
             <?php endforeach; ?>
         </div>

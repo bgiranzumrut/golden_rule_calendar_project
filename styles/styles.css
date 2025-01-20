@@ -72,7 +72,7 @@ body {
   align-items: center; /* Centers events horizontally */
   justify-content: center; /* Centers events vertically */
   gap: 2px; /* Minimal space between events */
-  height: calc(100% - 24px); /* Subtract date header height */
+  height: calc(100% - 20px); /* Subtract date header height */
   padding: 2px;
   overflow-y: auto;
 }

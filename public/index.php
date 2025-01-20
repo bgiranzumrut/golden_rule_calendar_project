@@ -8,10 +8,10 @@ require_once __DIR__ . '/../vendor/autoload.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Golden Rule Calendar</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="../styles/styles.css" rel="stylesheet">
-   
+
 </head>
 <body>
     <!-- Header / Navigation Bar -->
@@ -62,9 +62,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
     <footer class="bg-light py-3 mt-4 border-top">
     <div class="container-f text-center">
         <p class="mb-0-contact contact-info">
-            Contact Information: 
-            <a href="tel:2043061114" class="footer-link">204 306 1114</a> | 
-            <a href="mailto:goldenrule@swsrc" class="footer-link">goldenrule@swsrc</a> | 
+            Contact Information:
+            <a href="tel:2043061114" class="footer-link">204 306 1114</a> |
+            <a href="mailto:goldenrule@swsrc" class="footer-link">goldenrule@swsrc</a> |
             625 Osborne Street
         </p>
     </div>
