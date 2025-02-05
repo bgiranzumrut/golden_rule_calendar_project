@@ -21,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $description = $_POST['description'];
             $start_time = $_POST['start_time'];
             $end_time = $_POST['end_time'];
-            $created_by = $_SESSION['admin_id'] ?? null; 
-            
+            $created_by = $_SESSION['admin_id'] ?? null;
+
             if (!$created_by) {
                 throw new Exception("Error: Admin not logged in.");
             }
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($eventModel->createEvent($title, $description, $start_time, $end_time, $created_by, $image)) {
                 // Redirect to the admin dashboard
-                header("Location:../public/admin_dashboard.php?message=Event+created+successfully");
+                header("Location: ../public/manage_events.php?message=Event+created+successfully");
                 exit;
             } else {
                 throw new Exception('Failed to create the event.');
@@ -57,26 +57,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $end_time = $_POST['end_time'];
             $image = $_POST['current_image'] ?? null;
             $edited_by = $_SESSION['admin_id']; // The admin editing the event
-         
+
 
  // Current timestamp for the edit date
-        
+
             if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
                 $image_dir = '../uploads/event_images/';
                 if (!is_dir($image_dir)) {
                     mkdir($image_dir, 0777, true);
                 }
-        
+
                 $image_path = $image_dir . basename($_FILES['image']['name']);
                 if (!move_uploaded_file($_FILES['image']['tmp_name'], $image_path)) {
                     throw new Exception('Error uploading image.');
                 }
                 $image = $image_path;
             }
-        
+
             // Call the model's updateEvent method
             if ($eventModel->updateEvent($id, $title, $description, $start_time, $end_time, $image, $edited_by, $edit_date)) {
-                header("Location: ../public/admin_dashboard.php?message=Event+updated+successfully");
+                header("Location: ../public/manage_events.php?message=Event+updated+successfully");
                 exit;
             } else {
                 throw new Exception('Failed to update the event.');
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Call the model to delete the event
             if ($eventModel->deleteEvent($id)) {
                 // Redirect to the admin dashboard with a success message
-                header("Location: ../public/admin_dashboard.php?message=Event+deleted+successfully");
+                header("Location: ../public/manage_events.php?message=Event+deleted+successfully");
                 exit;
             } else {
                 throw new Exception('Failed to delete the event.');
