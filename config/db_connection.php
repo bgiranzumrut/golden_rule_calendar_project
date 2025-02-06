@@ -1,9 +1,16 @@
 <?php
 // 数据库配置
-$host = 'localhost'; // Database host
-$dbname = 'golden_rules_calendar'; // Database name
-$username = 'root'; // Database username
-$password = ''; // Database password
+
+$host = 'sql301.byethost12.com';
+$username = 'b12_38253973'; // Database username
+$password = '3612Golden!'; // Database password
+$dbname = 'b12_38253973_golden_rules_calendar'; // Database name
+
+
+// $host = 'localhost'; // Database host
+// $dbname = 'golden_rules_calendar'; // Database name
+// $username = 'root'; // Database username
+// $password = ''; // Database password
 
 try {
     // Create a new PDO instance
