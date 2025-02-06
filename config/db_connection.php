@@ -17,7 +17,7 @@ try {
 }
 
 // Example of updating a reference
-require_once '../public/index.php'; // Updated path to index.php in the root directory
+// require 'index.php'; // Change this line to point to the correct location
 
 return [
     'host' => $host,
