@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL); // Report all PHP errors
+ini_set('display_errors', 1); // Display errors on the page
 require_once 'config/db_connection.php';
 require_once 'models/event.php';
 
@@ -277,15 +279,15 @@ $filteredCalendar = array_filter($calendar, function ($week) {
                     <a class="nav-link active" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.php">About</a>
+                    <a class="nav-link" href="public/about.php">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="gallery.php">Gallery</a>
+                    <a class="nav-link" href="public/gallery.php">Gallery</a>
                 </li>
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="login.php">Admin Login</a>
+                    <a class="nav-link" href="public/login.php">Admin Login</a>
                 </li>
             </ul>
         </div>

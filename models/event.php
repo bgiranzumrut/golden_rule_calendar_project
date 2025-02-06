@@ -10,7 +10,7 @@ class Event {
 
     // Create a new event
     public function createEvent($title, $description, $start_time, $end_time, $created_by, $image = null) {
-        $stmt = $this->conn->prepare("INSERT INTO Events (title, description, start_time, end_time, created_by, image) 
+        $stmt = $this->conn->prepare("INSERT INTO events (title, description, start_time, end_time, created_by, image) 
                                       VALUES (:title, :description, :start_time, :end_time, :created_by, :image)");
         return $stmt->execute([
             ':title' => $title,
@@ -26,7 +26,7 @@ class Event {
     // Update an existing event with editor details
     public function updateEvent($id, $title, $description, $start_time, $end_time, $image = null, $edited_by = null) {
         $stmt = $this->conn->prepare("
-            UPDATE Events 
+            UPDATE events 
             SET title = :title, 
                 description = :description, 
                 start_time = :start_time, 
@@ -51,27 +51,27 @@ class Event {
 
     // Delete an event
     public function deleteEvent($id) {
-        $stmt = $this->conn->prepare("DELETE FROM Events WHERE id = :id");
+        $stmt = $this->conn->prepare("DELETE FROM events WHERE id = :id");
         return $stmt->execute([':id' => $id]);
     }
 
     // Fetch all events
     public function fetchAllEvents() {
-        $stmt = $this->conn->prepare("SELECT * FROM Events ORDER BY start_time ASC");
+        $stmt = $this->conn->prepare("SELECT * FROM events ORDER BY start_time ASC");
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     // Fetch event by ID
     public function fetchEventById($id) {
-        $stmt = $this->conn->prepare("SELECT * FROM Events WHERE id = :id");
+        $stmt = $this->conn->prepare("SELECT * FROM events WHERE id = :id");
         $stmt->execute([':id' => $id]);
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
     // Fetch events within a date range
     public function fetchEventsByDateRange($startDate, $endDate) {
-        $stmt = $this->conn->prepare("SELECT * FROM Events 
+        $stmt = $this->conn->prepare("SELECT * FROM events 
                                       WHERE DATE(start_time) BETWEEN :start_date AND :end_date 
                                       ORDER BY start_time ASC");
         $stmt->execute([
@@ -86,7 +86,7 @@ class Event {
         $startDate = sprintf("%04d-%02d-01", $year, $month);
         $endDate = date("Y-m-t", strtotime($startDate));
 
-        $stmt = $this->conn->prepare("DELETE FROM Events 
+        $stmt = $this->conn->prepare("DELETE FROM events 
                                       WHERE DATE(start_time) BETWEEN :start_date AND :end_date");
         return $stmt->execute([
             ':start_date' => $startDate,
