@@ -5,6 +5,12 @@ $user = "root";
 $pass = "";
 $db   = "golden_rules_calendar";
 
+
+// $host = 'sql301.byethost12.com';
+// $db = "b12_38253973_golden_rules_calendar"; // Database name
+// $user = 'b12_38253973'; // Database username
+// $pass = '3612Golden!'; // Database password
+
 $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -123,7 +129,7 @@ $result = $conn->query("SELECT * FROM gallery LIMIT $images_per_page OFFSET $off
 </head>
 <body>
     <nav>
-        <a href="index.php">Home</a>
+        <a href="../index.php">Home</a>
         <a href="../views/user_registration.php">Register</a>
         <a href="about.php">About</a>
     </nav>
