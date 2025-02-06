@@ -104,7 +104,7 @@ class Event {
         ]);
     }
     
-    public function registerParticipantWithOptionalUserId($eventId, $userId = null, $name, $phone, $notes = null) {
+    public function registerParticipantWithOptionalUserId($eventId, $name, $phone, $userId = null, $notes = null) {
         $stmt = $this->conn->prepare("INSERT INTO registrations (event_id, user_id, name, phone_number, notes, registered_at) 
                                       VALUES (:event_id, :user_id, :name, :phone, :notes, NOW())");
         return $stmt->execute([
