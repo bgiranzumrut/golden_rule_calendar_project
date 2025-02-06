@@ -1,6 +1,6 @@
 <?php
-require_once '../config/db_connection.php';
-require_once '../models/event.php';
+require_once 'config/db_connection.php';
+require_once 'models/event.php';
 
 use Models\Event;
 
@@ -104,7 +104,7 @@ $filteredCalendar = array_filter($calendar, function ($week) {
     <title>Golden Rule Calendar</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../styles/styles.css" rel="stylesheet">
+    <link href="styles/styles.css" rel="stylesheet">
     <style>
         /* Custom Properties */
         :root {
@@ -264,7 +264,7 @@ $filteredCalendar = array_filter($calendar, function ($week) {
     <div class="container">
         <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="index.php">
-            <img src="../uploads/logo.png" alt="Golden Rule Calendar Logo" class="navbar-logo me-3">
+            <img src="uploads/logo.png" alt="Golden Rule Calendar Logo" class="navbar-logo me-3">
             <span class="brand-title">Golden Rule Calendar</span>
         </a>
         <!-- Navbar toggler for mobile view -->
