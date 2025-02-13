@@ -1,8 +1,9 @@
+/* ========== 1. GLOBAL VARIABLES ========== */
 :root {
   --primary-red: rgb(203, 68, 47);
   --primary-blue: rgb(64, 114, 151);
-  --primary-black: rgb(0, 0, 0);
   --primary-cream: rgb(245, 240, 230);
+  --primary-black: rgb(0, 0, 0);
   --text-dark: rgb(33, 37, 41);
   --text-muted: rgb(87, 87, 87);
   --border-color: rgb(200, 200, 200);
@@ -11,6 +12,7 @@
   --white: rgb(255, 255, 255);
 }
 
+/* ========== 2. BASE STYLES ========== */
 body {
   font-family: Arial, sans-serif;
   color: var(--text-dark);
@@ -19,68 +21,469 @@ body {
   font-size: 18px;
 }
 
+/* ========== 3. HEADER & NAVIGATION ========== */
 .custom-navbar {
   background-color: var(--primary-cream);
-  border-bottom: 1px solid var(--border-color);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 0.5rem 0;
+  border-bottom: 3px solid var(--primary-red);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  padding: 12px 0;
 }
 
 .navbar-brand {
   display: flex;
   align-items: center;
-  padding: 0;
+  gap: 16px;
+  flex-wrap: wrap; /* Ensures text doesn't overlap */
+}
+#current-month {
+  font-size: 2rem; /* Increase size */
+  font-weight: 700; /* Extra bold */
+  color: var(--primary-red);
+  text-transform: uppercase; /* Make it stand out */
 }
 
 .brand-title {
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+  white-space: nowrap; /* Prevents text from wrapping unexpectedly */
+}
+
+.highlight {
   color: var(--primary-red);
-  margin-left: 15px;
-  font-size: 2rem;
+  font-weight: 00; /* Make it even bolder */
 }
 
 .navbar-logo {
-  width: 130px;
-  height: 130px;
+  width: 100px; /* Adjust for smaller screens */
+  height: 100px;
   border-radius: 50%;
-  background-color: var(--white);
-  border: 2px solid var(--primary-blue);
+}
+
+.navbar-nav .nav-item {
+  margin-right: 10px;
+  margin-bottom: 5px; /* Reduce excessive spacing */
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  background-color: var(--hover-blue);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Admin Login Link Styling */
+
+.navbar-nav .nav-link {
+  background-color: var(--primary-red);
+  color: var(--white);
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background 0.3s ease, box-shadow 0.2s ease;
+}
+.navbar-nav .nav-link.active {
+  background-color: var(--primary-blue);
+}
+.navbar-nav .nav-link:hover {
+  background-color: var(--hover-blue);
+  transform: scale(1.05);
+}
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap; /* Ensures items wrap properly on small screens */
+}
+
+.navbar-toggler:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.navbar-toggler {
+  border: none;
+  font-size: 1.5rem;
+}
+/*  Fix "Admin Login" Alignment */
+.navbar-nav .nav-item:last-child {
+  margin-left: auto; /* Push to the right */
+}
+
+/* Responsive Navbar for Small Screens */
+@media (max-width: 768px) {
+  .custom-navbar {
+    flex-direction: column; /* Stack items on top of each other */
+    align-items: center; /* Center content */
+    text-align: center;
+  }
+
+  /* Center logo & title */
+  .navbar-brand {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Allow the title to wrap into two lines */
+  .brand-title {
+    font-size: 1.4rem;
+    white-space: normal; /* Allows wrapping */
+    line-height: 1.3;
+  }
+
+  /* Center the toggle button */
+  .navbar-toggler {
+    margin-top: 5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ========== 4. CALENDAR CONTAINER ========== */
+.calendar-wrapper {
+  width: 100%;
+  margin: 2rem auto;
+  background: white;
+  border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.nav-link {
-  color: var(--primary-red);
-  font-size: 1.3rem;
-  font-weight: 500;
+.calendar-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 1rem;
+  text-align: center;
+}
+.calendar-nav a {
   padding: 0.5rem 1rem;
-  transition: all 0.3s ease;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+@media (max-width: 768px) {
+  .calendar-nav {
+    flex-direction: column;
+  }
+
+  .calendar-nav a {
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  #current-month {
+    font-size: 1.3rem;
+    margin: 10px 0;
+  }
 }
 
-.nav-link:hover {
+@media (max-width: 992px) {
+  .calendar-nav {
+    flex-direction: column; /* Stack elements */
+    text-align: center;
+    gap: 10px;
+  }
+  .calendar-nav a {
+    width: 100%; /* Make buttons full width */
+    max-width: 200px; /* Prevent buttons from being too wide */
+  }
+}
+
+@media (max-width: 768px) {
+  #current-month {
+    font-size: 1.5rem; /* Reduce month text size */
+  }
+}
+
+@media (max-width: 992px) {
+  /* Applies to tablets and smaller */
+  .navbar-brand {
+    flex-direction: column; /* Stack logo and title */
+    text-align: center; /* Center align */
+    width: 100%;
+    justify-content: center;
+  }
+  .navbar-logo {
+    width: 80px; /* Reduce logo size for mobile */
+    height: 80px;
+    margin-bottom: 5px;
+  }
+  .brand-title {
+    font-size: 1.2rem; /* Reduce title size */
+    line-height: 1.3;
+  }
+  .navbar-toggler {
+    margin: auto; /* Center toggle button */
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile View */
+  .brand-title {
+    font-size: 1rem; /* Make title smaller */
+    text-align: center;
+    width: 100%;
+  }
+}
+
+/* ========== 5. CALENDAR TABLE STYLES ========== */
+.table {
+  background-color: var(--white);
+  border: 3px solid var(--text-dark);
+
+  table-layout: fixed;
+  width: 90%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.table th {
   background-color: var(--primary-blue);
   color: var(--white);
-  border-radius: 5px;
-}
-
-.events-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 4px;
-  height: calc(100% - 24px);
-  padding: 4px;
-  overflow-y: auto;
-}
-
-.calendar-nav {
+  font-size: 1.3rem;
+  padding: 0.75rem;
   text-align: center;
-  margin: 20px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  font-weight: 600;
+  border: 2px solid var(--text-dark);
 }
 
+.table td {
+  height: auto;
+  min-height: 120px;
+  padding: 0.5rem !important;
+  vertical-align: top;
+  border: 2px solid var(--text-dark);
+}
+
+.calendar-cell {
+  padding: 1rem;
+  min-height: 140px;
+  background-color: var(--bg-light);
+  transition: background 0.2s ease-in-out;
+}
+.calendar-cell:hover {
+  background-color: var(--primary-cream);
+  cursor: pointer;
+}
+
+/* ========== 6. EVENT STYLES ========== */
+.event {
+  background: #fff; /* White background for better contrast */
+  border-left: 6px solid var(--primary-red); /* Keep event color */
+  padding: 10px; /* Increase padding */
+  margin-bottom: 8px; /* More space between events */
+  border-radius: 6px; /* Slightly rounded corners */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.event:hover {
+  background: var(--bg-light);
+  transform: scale(1.02);
+  transition: all 0.2s ease-in-out;
+}
+
+.event-time {
+  font-size: 0.95rem; /* Slightly larger */
+  font-weight: bold;
+  color: var(--primary-red); /* Red for urgency */
+  display: block; /* Ensure it's always on its own line */
+  margin-bottom: 5px;
+}
+
+.event-title {
+  font-size: 1.2rem; /* Increase font size */
+  font-weight: bold;
+  color: var(--primary-blue); /* Keep blue for emphasis */
+  white-space: normal; /* Ensure long titles wrap */
+}
+
+/* Colorful event lines for small screens */
+/* Colorful event lines for small screens */
+.event-line {
+  height: 8px;
+  border-radius: 5px;
+  margin: 4px 0;
+  cursor: pointer;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.event-line:hover {
+  opacity: 0.7;
+}
+
+/* Hide text-based event display on small screens */
+@media (max-width: 768px) {
+  .event {
+    display: none !important; /* Hide text-based events */
+  }
+
+  .event-line {
+    display: block;
+    height: 12px;
+    width: 80%;
+    margin: 6px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .event-line:hover {
+    transform: scale(1.1);
+  }
+  .calendar-table th {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 12px;
+    min-width: 100px; /* Ensures enough space for text */
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds "..." when text overflows */
+  }
+  .calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Keeps column widths consistent */
+  }
+
+  .calendar-table td {
+    height: 60px;
+    min-height: 60px;
+    max-height: 80px;
+  }
+
+  .date-header {
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+  }
+}
+
+/* Improve modal display on small devices */
+@media (max-width: 768px) {
+  .calendar-table th {
+    font-size: 0.85rem; /* Reduce day name font size */
+    white-space: nowrap; /* Prevent wrapping */
+  }
+  .table-responsive {
+    overflow-x: auto; /* Enable horizontal scrolling */
+  }
+}
+
+@media (max-width: 576px) {
+  .calendar-table th {
+    font-size: 0.8rem; /* Further reduce font size */
+    padding: 6px;
+    white-space: normal; /* Allow text to wrap */
+  }
+}
+@media (max-width: 480px) {
+  .modal-dialog {
+    max-width: 90%;
+    margin: 1rem auto;
+  }
+
+  .modal-content {
+    font-size: 1.2rem;
+  }
+
+  .event-line {
+    display: block !important; /* Ensure it's visible */
+    width: 90%;
+    height: 10px;
+    min-height: 10px; /* Prevent disappearing */
+    margin: 5px auto;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out, transform 0.2s;
+  }
+  .event-line:hover {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+
+  /* Force display on small screens */
+  @media (max-width: 768px) {
+    .event-line {
+      display: block !important;
+      height: 12px;
+      width: 80%;
+      margin: 6px auto;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .event-line:hover {
+      transform: scale(1.1);
+    }
+
+    /* Hide text on small screens */
+    .event {
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  /* iPad & tablets */
+  .event {
+    padding: 12px; /* More spacing for touch usability */
+  }
+  .event-title {
+    font-size: 1.1rem; /* Bigger text */
+  }
+  .event-time {
+    font-size: 1rem; /* Easier to scan */
+  }
+}
+
+/* General styles for better responsiveness */
+@media (max-width: 992px) {
+  .calendar-table {
+    font-size: 0.85rem;
+  }
+
+  .event-title {
+    font-size: 0.75rem;
+  }
+
+  .event-time {
+    font-size: 0.7rem;
+  }
+}
+
+/* Adjust calendar container on smaller devices */
+.calendar-wrapper {
+  padding: 1rem;
+}
+
+.calendar-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.calendar-cell {
+  position: relative;
+  min-height: 60px;
+  vertical-align: top;
+}
+
+.date-header {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Accessibility improvements */
+.event-line:focus {
+  outline: 3px solid #000;
+}
+
+/* ========== 7. BUTTON STYLES ========== */
 .btn-outline-primary {
   color: var(--primary-blue);
   border-color: var(--primary-blue);
@@ -94,183 +497,130 @@ body {
   color: var(--white);
 }
 
-.table {
-  background-color: var(--white);
-  border: 1px solid var(--border-color);
-  table-layout: fixed;
-  width: 90%; /* Adjust this value for your desired width */
-  max-width: 100%; /* Prevents overflow */
-  margin: 0 auto; /* Centers the table */
+.btn-outline-primary {
+  color: var(--primary-blue);
+  border: 2px solid var(--primary-blue);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
 }
-
-.table th {
+.btn-outline-primary:hover {
   background-color: var(--primary-blue);
   color: var(--white);
-  font-size: 1.3rem;
-  padding: 0.75rem;
+}
+
+/* ========== FOOTER STYLES ========== */
+.footer {
+  background: var(--primary-cream); /* Matches header background */
+  color: var(--text-dark); /* Dark text for contrast */
+  padding: 30px 0;
   text-align: center;
-  font-weight: 600;
-  border: 1px solid var(--border-color);
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  border-top: 3px solid var(--primary-red); /* Adds a red top border for consistency */
 }
 
-.table td {
-  height: 200px;
-  border: 1px solid var(--border-color);
-  padding: 0.5rem !important;
-  vertical-align: top;
-  position: relative;
-  overflow: hidden;
-}
-
-.day-header {
-  font-size: 1.2rem;
-  padding: 0.25rem 0.5rem;
-  text-align: left;
+/* Footer Contact */
+.footer-contact {
+  font-size: 1.1rem;
+  font-weight: 500;
   color: var(--text-dark);
-  margin-bottom: 0.25rem;
-  font-weight: 500;
 }
 
-.event {
-  width: 100%;
-  min-height: 24px;
-  border-left: 3px solid var(--primary-red);
-  background: #f8f9fa;
-  border-radius: 3px;
-  padding: 4px 6px;
-  line-height: 1;
+/* Email Icon Fix */
+.footer-icon {
+  color: var(--primary-red); /* Visible now */
+  margin-right: 5px;
 }
 
-.event-inner {
-  display: flex;
-  gap: 8px;
-  width: 100%;
-  align-items: flex-start;
-}
-
-.event-time {
-  color: var(--primary-red);
-  font-weight: 700;
-  min-width: 70px;
-  flex-shrink: 0;
-}
-
-.event-title {
-  color: var(--primary-blue);
-  font-weight: 600;
-  flex-grow: 1;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  align-items: flex-start;
-  margin-bottom: 2px;
-  line-height: 1.5;
-}
-
-/* Compact style (3+ events) */
-.events-container:has(.event:nth-child(2)) .event {
-  min-height: 24px;
-}
-
-.events-container:has(.event:nth-child(2)) .event-time {
-  font-size: 0.95rem;
-}
-
-.events-container:has(.event:nth-child(2)) .event-title {
-  font-size: 0.95rem;
-  line-height: 1;
-  display: -webkit-box;
-  overflow: hidden;
-  padding-bottom: 5px;
-}
-
-/* Regular style (1-2 events) */
-.events-container:not(:has(.event:nth-child(2))) .event {
-  min-height: 32px;
-  padding: 8px 10px;
-  font-size: 1.2rem;
-}
-
-.events-container:not(:has(.event:nth-child(2))) .event-time {
-  font-size: 1.1rem;
-  min-width: 80px;
-}
-
-.events-container:not(:has(.event:nth-child(2))) .event-title {
-  font-size: 1rem;
-  white-space: normal;
-}
-
-.text-muted {
-  text-align: center;
-  font-size: 1rem;
-  padding: 8px;
-  color: var(--text-muted);
-}
-
-.list-view {
-  padding: 1rem;
-}
-
-.list-view h3 {
-  color: var(--primary-blue);
-  font-size: 1.3rem;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.list-view .event {
-  padding: 8px 12px;
-  margin-bottom: 0.8rem;
-  min-height: 40px;
-}
-
-.list-view .event-time {
-  font-size: 1.1rem;
-  font-weight: 700;
-  min-width: 85px;
-  margin-right: 12px;
-  color: var(--primary-red);
-}
-
-.list-view .event-title {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--primary-blue);
-  white-space: normal;
-  line-height: 1.4;
-}
-
-.card-body {
-  width: 100%; /* Ensure it takes full width */
-  max-width: none; /* Prevents any width restrictions */
-  padding: 1rem; /* Optional: Adjust padding */
-}
-.container {
-  max-width: 1200px; /* Increase this if needed */
-  padding: 0 15px; /* Keep some padding for spacing */
-}
-
-.mb-0-contact {
-  color: var(--primary-cream);
-  text-decoration: underline;
-  font-weight: 500;
-}
-
+/* Accessible Links */
 .footer-link {
-  color: var(--primary-cream);
-  font-size: 1.1rem;
+  color: var(--primary-red);
+  font-weight: bold;
+  text-decoration: none;
 }
 
-@media (min-width: 1200px) {
-  .table td {
-    height: 220px;
-  }
-  .nav-link {
-    font-size: 1.4rem;
-  }
+.footer-link:hover {
+  text-decoration: underline;
+  color: var(--primary-blue);
 }
 
+/* DEVELOPED BY VOLUNTEERS - Bigger and Icon */
+.developed-by {
+  font-size: 1.4rem; /* Bigger text */
+  font-weight: bold;
+  color: var(--primary-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.developed-by i {
+  font-size: 1.6rem; /* Bigger icon */
+  color: var(--primary-blue);
+}
+/* Change Volunteers text color */
+.footer-developers {
+  color: var(--primary-red); /* Change to desired color */
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.footer-developers:hover {
+  color: var(--primary-blue); /* Change on hover */
+  text-decoration: underline;
+}
+
+/* Social Media Link */
+.social-icon {
+  color: var(--primary-red);
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.3s ease-in-out;
+}
+
+.social-icon i {
+  font-size: 1.5rem;
+  color: var(--primary-blue);
+}
+
+.social-icon:hover {
+  color: var(--primary-blue);
+}
+
+/* Back to Top Button - Accessible */
+.back-to-top {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary-red);
+  text-decoration: none;
+  padding: 10px 15px;
+  border: 2px solid var(--primary-red);
+  border-radius: 8px;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.back-to-top:hover,
+.back-to-top:focus {
+  background: var(--primary-blue);
+  color: var(--white);
+  text-decoration: none;
+}
+
+/* Keyboard Focus for Better Accessibility */
+.back-to-top:focus {
+  outline: 3px solid var(--primary-blue);
+  outline-offset: 3px;
+}
+
+/* ========== 8. RESPONSIVE DESIGN ========== */
 @media (max-width: 992px) {
   .table td {
     height: 180px;
@@ -299,47 +649,6 @@ body {
   .brand-title {
     font-size: 1.5rem;
   }
-  .nav-link {
-    font-size: 1.1rem;
-  }
-  .list-view h3 {
-    font-size: 1.2rem;
-  }
-  .list-view .event-time,
-  .list-view .event-title {
-    font-size: 1rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-  }
-}
-
-@media (prefers-contrast: high) {
-  :root {
-    --primary-blue: rgb(0, 75, 150);
-    --primary-red: rgb(180, 0, 0);
-    --text-dark: rgb(0, 0, 0);
-    --text-muted: rgb(60, 60, 60);
-  }
-  .event {
-    border-left-width: 5px;
-    border: 2px solid var(--text-dark);
-  }
-  .event-time {
-    color: var(--primary-black);
-    font-weight: 700;
-  }
-}
-
-.nav-link:focus,
-.btn-outline-primary:focus,
-.event:focus-within {
-  outline: 3px solid var(--primary-red);
-  outline-offset: 2px;
-  box-shadow: none;
 }
 
 @media print {
@@ -348,8 +657,7 @@ body {
     background-color: white !important;
   }
   .navbar,
-  .calendar-nav,
-  .container-f {
+  .calendar-nav {
     display: none;
   }
   .table td {
@@ -364,10 +672,5 @@ body {
   .event {
     break-inside: avoid;
     border: 1.5px solid black;
-  }
-  .event-time,
-  .event-title {
-    font-size: 12pt;
-    color: black !important;
   }
 }
