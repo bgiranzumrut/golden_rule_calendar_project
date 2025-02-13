@@ -164,6 +164,11 @@ body {
   font-size: 1.5rem;
   font-weight: 600;
 }
+
+.calendar-nav .btn {
+  min-width: 170px; /* Adjust as needed */
+  text-align: center;
+}
 @media (max-width: 768px) {
   .calendar-nav {
     flex-direction: column;
