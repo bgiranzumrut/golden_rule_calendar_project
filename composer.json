@@ -1,22 +1,26 @@
 {
-    "name": "busragiran/golden_rule_calendar_project",
-    "description": "A dynamic calendar application for the Golden Rule Seniors Resource Centre.",
-    "type": "project",
-    "require": {
-        "phpmailer/phpmailer": "^6.6",
-        "vlucas/phpdotenv": "^5.6"
-    },
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Busragiran\\GoldenRuleCalendarProject\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "bgiranzumrut",
-            "email": "bgiranzumrut@academic.rrc.ca"
-        }
-    ],
-    "minimum-stability": "stable"
+  "name": "busragiran/golden_rule_calendar_project",
+  "description": "A dynamic PHP calendar application for the Golden Rule Seniors Resource Centre.",
+  "type": "php-project",
+  "require": {
+    "phpmailer/phpmailer": "^6.6",
+    "vlucas/phpdotenv": "^5.6"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Busragiran\\GoldenRuleCalendarProject\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "bgiranzumrut",
+      "email": "bgiranzumrut@academic.rrc.ca"
+    }
+  ],
+  "minimum-stability": "stable",
+  "scripts": {
+    "start": "php -S localhost:8000 -t public",
+    "test": "phpunit"
+  }
 }
