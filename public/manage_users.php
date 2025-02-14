@@ -143,7 +143,7 @@ $usersData = getUsersData($conn);
       <h1>Manage Users</h1>
 
       <div class="search-bar no-print">
-          <a href="views/create_user.php" class="btn btn-primary">Add New User</a>
+          <a href="../views/create_user.php" class="btn btn-primary">Add New User</a>
 
           <form method="GET" style="display: flex; gap: 10px; align-items: center;">
               <input type="text" name="users_search"
