@@ -5,7 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // $host = 'sql301.byethost12.com';
 // $dbname = "b12_38253973_golden_rules_calendar"; // Database name
 // $username = 'b12_38253973'; // Database username
-// $password = '3612Golden!'; // Database password
+// $password = ''; // Database password
 
 
 
