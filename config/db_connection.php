@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../vendor/autoload.php';
 // 数据库配置
 
 // $host = 'sql301.byethost12.com';

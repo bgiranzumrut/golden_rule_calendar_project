@@ -103,69 +103,7 @@ $filteredCalendar = array_filter($calendar, function ($week) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Golden Rule Calendar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --event-colors:
-                rgb(203, 68, 47),    /* Red */
-                rgb(64, 114, 151),   /* Blue */
-                rgb(40, 167, 69),    /* Green */
-                rgb(255, 193, 7),    /* Yellow */
-                rgb(23, 162, 184),   /* Teal */
-                rgb(220, 53, 69),    /* Crimson */
-                rgb(128, 0, 128)     /* Purple */
-        }
-
-        /* Existing styles from original file */
-        /* ... (keep all previous CSS from the original file) */
-
-        /* Responsive Event Line Styles */
-        @media (max-width: 768px) {
-            .calendar-table td {
-                position: relative;
-            }
-
-            .events-container {
-                display: flex;
-                flex-direction: column;
-                gap: 4px;
-                height: 100%;
-                overflow: hidden;
-            }
-
-            .event {
-                display: none; /* Hide original events */
-            }
-
-            .event-line-container {
-                display: flex;
-                flex-direction: column;
-                gap: 4px;
-                height: 100%;
-                width: 100%;
-            }
-
-            .event-line {
-                width: 100%;
-                height: 8px;
-                cursor: pointer;
-                transition: opacity 0.3s;
-            }
-
-            .event-line:hover {
-                opacity: 0.7;
-            }
-        }
-
-        /* Event Modal Styles */
-        #eventModal .modal-dialog {
-            max-width: 600px;
-            margin: 1.75rem auto;
-        }
-
-        #eventModal .modal-content {
-            border-left: 8px solid;
-        }
-    </style>
+    <link href="../styles/styles.css" rel="stylesheet">
 </head>
 <body>
     <!-- Keep existing HTML structure -->
@@ -183,39 +121,35 @@ $filteredCalendar = array_filter($calendar, function ($week) {
                                             <?php echo date('M j', strtotime($week[$i])); ?>
                                         </div>
                                         <div class="events-container">
-                                            <?php if (isset($eventsByDate[$week[$i]])): ?>
-                                                <?php foreach ($eventsByDate[$week[$i]] as $index => $event): ?>
-                                                    <!-- Original Event Display -->
-                                                    <div class="event" tabindex="0">
-                                                        <div class="event-time">
-                                                            <?php echo date('g:i A', strtotime($event['start_time'])); ?>
-                                                        </div>
-                                                        <a href="../controllers/registrationController.php?action=showRegistrationForm&event_id=<?php echo $event['id']; ?>">
-                                                            <div class="event-title">
-                                                                <?php echo htmlspecialchars($event['title']); ?>
-                                                            </div>
-                                                        </a>
-                                                    </div>
-                                                <?php endforeach; ?>
+    <?php if (isset($eventsByDate[$week[$i]])): ?>
+        <?php foreach ($eventsByDate[$week[$i]] as $index => $event): ?>
+            <!-- Event Display -->
+            <div class="event" tabindex="0">
+                <div class="event-time">
+                    <?php echo date('g:i A', strtotime($event['start_time'])); ?>
+                </div>
+                <a href="../controllers/registrationController.php?action=showRegistrationForm&event_id=<?php echo $event['id']; ?>">
+                    <div class="event-title">
+                        <?php echo htmlspecialchars($event['title']); ?>
+                    </div>
+                </a>
+            </div>
 
-                                                <!-- Responsive Event Lines -->
-                                                <div class="event-line-container d-none d-md-flex">
-                                                    <?php foreach ($eventsByDate[$week[$i]] as $index => $event): ?>
-                                                        <div
-                                                            class="event-line"
-                                                            style="background-color: var(--event-colors, <?php echo $index % 7; ?>)"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#eventModal"
-                                                            data-event-title="<?php echo htmlspecialchars($event['title']); ?>"
-                                                            data-event-time="<?php echo date('g:i A', strtotime($event['start_time'])); ?>"
-                                                            data-event-id="<?php echo $event['id']; ?>"
-                                                        ></div>
-                                                    <?php endforeach; ?>
-                                                </div>
-                                            <?php else: ?>
-                                                <div class="text-muted">No Events</div>
-                                            <?php endif; ?>
-                                        </div>
+            <!-- Responsive Event Line (Corrected Placement) -->
+            <div class="event-line"
+                style="background-color: hsl(<?php echo ($index * 45) % 360; ?>, 70%, 60%);"
+                data-bs-toggle="modal"
+                data-bs-target="#eventModal"
+                data-event-title="<?php echo htmlspecialchars($event['title']); ?>"
+                data-event-time="<?php echo date('g:i A', strtotime($event['start_time'])); ?>">
+            </div>
+
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class="text-muted">No Events</div>
+    <?php endif; ?>
+</div>
+/div>
                                     <?php endif; ?>
                                 </td>
                             <?php endfor; ?>
@@ -248,26 +182,18 @@ $filteredCalendar = array_filter($calendar, function ($week) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const eventModal = document.getElementById('eventModal');
-            const modalTitle = document.getElementById('eventModalTitle');
-            const modalTime = document.getElementById('eventModalTime');
-            const registrationLink = document.getElementById('eventRegistrationLink');
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('.event-line').forEach(line => {
+        line.addEventListener('click', function () {
+            const title = this.getAttribute('data-event-title');
+            const time = this.getAttribute('data-event-time');
 
-            eventModal.addEventListener('show.bs.modal', function (event) {
-                const eventTrigger = event.relatedTarget;
-                const title = eventTrigger.getAttribute('data-event-title');
-                const time = eventTrigger.getAttribute('data-event-time');
-                const eventId = eventTrigger.getAttribute('data-event-id');
-
-                modalTitle.textContent = title;
-                modalTime.textContent = time;
-
-                // Set registration link dynamically
-                registrationLink.href = `../controllers/registrationController.php?action=showRegistrationForm&event_id=${eventId}`;
-            });
+            document.getElementById('eventModalTitle').innerText = title;
+            document.getElementById('eventModalTime').innerText = time;
         });
-    </script>
+    });
+});
+</script>
 </body>
 </html>
 
