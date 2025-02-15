@@ -136,7 +136,7 @@ $filteredCalendar = array_filter($calendar, function ($week) {
                                                                 <div class="event-time">
                                                                     <?php echo date('g:i A', strtotime($event['start_time'])); ?></div>
                                                                 <a
-                                                                    href="../controllers/registrationController.php?action=showRegistrationForm&event_id=<?php echo $event['id']; ?>">
+                                                                    href="./controllers/registrationController.php?action=showRegistrationForm&event_id=<?php echo $event['id']; ?>">
                                                                     <div class="event-title">
                                                                         <?php echo htmlspecialchars($event['title']); ?></div>
                                                                 </a>
@@ -209,7 +209,7 @@ $filteredCalendar = array_filter($calendar, function ($week) {
 
                     // Set dynamic registration link
                     if (eventId) {
-                        registrationLink.href = `../controllers/registrationController.php?action=showRegistrationForm&event_id=${eventId}`;
+                        registrationLink.href = `./controllers/registrationController.php?action=showRegistrationForm&event_id=${eventId}`;
                     } else {
                         registrationLink.href = "#";
                     }

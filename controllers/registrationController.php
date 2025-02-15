@@ -41,7 +41,7 @@ class RegistrationController {
             }
     
             // Register the participant with either user_id (if exists) or name/phone
-            $registered = $this->eventModel->registerParticipantWithOptionalUserId($eventId, $userId, $name, $phone, $notes);
+            $registered = $this->eventModel->registerParticipantWithOptionalUserId($eventId, $name, $phone, $userId, $notes);
     
             if ($registered) {
                 echo "<h1>Registration successful!</h1>";

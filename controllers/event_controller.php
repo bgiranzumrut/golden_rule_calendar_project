@@ -81,17 +81,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 throw new Exception('Failed to update the event.');
             }
-        }
-         elseif ($action === 'delete') {
+        } elseif ($action === 'delete') {
             $id = $_POST['id'];
 
-            // Call the model to delete the event
-            if ($eventModel->deleteEvent($id)) {
-                // Redirect to the admin dashboard with a success message
-                header("Location: ../public/manage_events.php?message=Event+deleted+successfully");
-                exit;
+            // First, delete all registrations associated with the event
+            if ($eventModel->deleteRegistrationsByEvent($id)) {
+                // Now delete the event
+                if ($eventModel->deleteEvent($id)) {
+                    // Redirect to the admin dashboard with a success message
+                    header("Location: ../public/manage_events.php?message=Event+deleted+successfully");
+                    exit;
+                } else {
+                    throw new Exception('Failed to delete the event.');
+                }
             } else {
-                throw new Exception('Failed to delete the event.');
+                throw new Exception('Failed to delete registrations associated with the event.');
             }
         } else {
             echo "Error: Invalid action.";
