@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
     <div class="container">
-        <a class="navbar-brand d-flex" href="index.php">
+        <a class="navbar-brand d-flex" href="./index.php">
             <img src="./uploads/logo.png" alt="Golden Rule Calendar Logo" class="navbar-logo me-2">
             <span class="brand-title">
                 <span class="highlight">Golden Rule Seniors</span> Resource Centre
@@ -11,7 +11,7 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="./index.php">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="./public/about.php">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="./public/gallery.php">Gallery</a></li>
                 <li class="nav-item"><a class="nav-link btn btn-danger text-white px-3" href="./public/login.php">Admin Login</a></li>

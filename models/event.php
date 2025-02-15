@@ -141,5 +141,10 @@ class Event {
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
     
+    // Delete all registrations for a specific event
+    public function deleteRegistrationsByEvent($eventId) {
+        $stmt = $this->conn->prepare("DELETE FROM registrations WHERE event_id = :event_id");
+        return $stmt->execute([':event_id' => $eventId]);
+    }
 }
 ?>
