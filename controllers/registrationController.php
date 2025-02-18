@@ -19,6 +19,35 @@ class RegistrationController {
         $this->eventModel = $eventModel;
         $this->userModel = $userModel;
     }
+    
+    // get event details
+    public function getEventDetails() {
+        header('Content-Type: application/json');
+        try {
+            $eventId = $_GET['event_id'] ?? null;
+            
+            if (empty($eventId)) {
+                throw new \Exception("Event ID is required.");
+            }
+            
+            $event = $this->eventModel->fetchEventById($eventId);
+            
+            if ($event) {
+                echo json_encode([
+                    'success' => true,
+                    'event' => $event
+                ]);
+            } else {
+                throw new \Exception("Event not found.");
+            }
+        } catch (\Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+        exit;
+    }
 
     // In registrationController.php, update the registerParticipant method
 public function registerParticipant() {
@@ -98,17 +127,8 @@ public function registerParticipant() {
 
 
 // Initialize the controller and route actions
-// $eventModel = new Event($conn);
-// $userModel = new User($conn);
-// $controller = new RegistrationController($eventModel, $userModel);
 
-// $action = $_REQUEST['action'] ?? null;
 
-// if ($action === 'register') {
-//     $controller->registerParticipant();
-// } else {
-//     echo json_encode(['success' => false, 'message' => 'Invalid action.']);
-// }
 $eventModel = new Event($conn);
 $userModel = new User($conn);
 $controller = new RegistrationController($eventModel, $userModel);
@@ -119,6 +139,8 @@ if ($action === 'register') {
     $controller->registerParticipant();
 } elseif ($action === 'getParticipants') {
     $controller->getParticipants();
+} elseif ($action === 'getEventDetails') {
+    $controller->getEventDetails();
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid action.']);
 }

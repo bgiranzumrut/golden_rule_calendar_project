@@ -145,3 +145,20 @@
 #totalCount {
     color: var(--primary-blue);
 }
+
+.event-title-section {
+    border-bottom: 2px solid var(--primary-blue);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.event-title-section h2 {
+    color: #333;
+    margin: 0 0 5px 0;
+}
+
+.event-time {
+    color: #666;
+    font-size: 0.9em;
+}

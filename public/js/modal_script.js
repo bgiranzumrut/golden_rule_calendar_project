@@ -33,10 +33,42 @@ document.addEventListener('DOMContentLoaded', function() {
                     '<p>Error loading participants. Please try again later.</p>';
             });
     }
+
+    function loadEventDetails(eventId) {
+        fetch(`/golden_rule_calendar_project/controllers/registrationController.php?action=getEventDetails&event_id=${eventId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.event) {
+                    document.getElementById('eventTitle').textContent = data.event.title;
+                    // Format and display event time if available
+                    if (data.event.start_time) {
+                        const eventTime = new Date(data.event.start_time);
+                        document.getElementById('eventTime').textContent = 
+                            eventTime.toLocaleString('en-US', { 
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            });
+                    }
+                } else {
+                    document.getElementById('eventTitle').textContent = 'Event Details Not Available';
+                    document.getElementById('eventTime').textContent = '';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading event details:', error);
+                document.getElementById('eventTitle').textContent = 'Error Loading Event Details';
+                document.getElementById('eventTime').textContent = '';
+            });
+    }
     
     window.openRegistrationModal = function(eventId) {
         modal.style.display = 'block';
         document.getElementById('eventId').value = eventId;
+        loadEventDetails(eventId); // Load event details
         loadParticipants(eventId); // Load participants when opening modal
     };
     // Close button functionality

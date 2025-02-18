@@ -2,6 +2,12 @@
 <div id="registrationModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
+        <!-- Add event title section -->
+        <div id="eventTitleSection" class="event-title-section">
+            <h2 id="eventTitle">Loading event...</h2>
+            <div id="eventTime" class="event-time"></div>
+        </div>
+
         <div class="modal-grid">
             <!-- Left side - Registration Form -->
             <div class="form-section">
