@@ -70,9 +70,45 @@ public function registerParticipant() {
         ]);
         exit;
     }
+
+    public function getParticipants() {
+        header('Content-Type: application/json');
+        try {
+            $eventId = $_GET['event_id'] ?? null;
+            
+            if (empty($eventId)) {
+                throw new \Exception("Event ID is required.");
+            }
+            
+            $participants = $this->eventModel->fetchRegistrationsByEvent($eventId);
+            
+            echo json_encode([
+                'success' => true,
+                'participants' => $participants
+            ]);
+        } catch (\Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+        exit;
+    }
 }
 
+
 // Initialize the controller and route actions
+// $eventModel = new Event($conn);
+// $userModel = new User($conn);
+// $controller = new RegistrationController($eventModel, $userModel);
+
+// $action = $_REQUEST['action'] ?? null;
+
+// if ($action === 'register') {
+//     $controller->registerParticipant();
+// } else {
+//     echo json_encode(['success' => false, 'message' => 'Invalid action.']);
+// }
 $eventModel = new Event($conn);
 $userModel = new User($conn);
 $controller = new RegistrationController($eventModel, $userModel);
@@ -81,6 +117,8 @@ $action = $_REQUEST['action'] ?? null;
 
 if ($action === 'register') {
     $controller->registerParticipant();
+} elseif ($action === 'getParticipants') {
+    $controller->getParticipants();
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid action.']);
 }
