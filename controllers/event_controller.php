@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $start_time = $_POST['start_time'];
             $end_time = $_POST['end_time'];
             $created_by = $_SESSION['admin_id'] ?? null;
+            $short_name = $_POST['short_name'] ?? null;
 
             if (!$created_by) {
                 throw new Exception("Error: Admin not logged in.");
@@ -42,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $image = $image_path;
             }
 
-            if ($eventModel->createEvent($title, $description, $start_time, $end_time, $created_by, $image)) {
+            if ($eventModel->createEvent($title, $description, $short_name,$start_time, $end_time, $created_by, $image)) {
                 // Redirect to the admin dashboard
                 header("Location: ../public/manage_events.php?message=Event+created+successfully");
                 exit;
@@ -57,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $end_time = $_POST['end_time'];
             $image = $_POST['current_image'] ?? null;
             $edited_by = $_SESSION['admin_id']; // The admin editing the event
-
+            $short_name = $_POST['short_name'] ?? null;
 
  // Current timestamp for the edit date
 
@@ -75,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             // Call the model's updateEvent method
-            if ($eventModel->updateEvent($id, $title, $description, $start_time, $end_time, $image, $edited_by, $edit_date)) {
+            if ($eventModel->updateEvent($id, $title, $description, $short_name,$start_time, $end_time, $image, $edited_by, $edit_date)) {
                 header("Location: ../public/manage_events.php?message=Event+updated+successfully");
                 exit;
             } else {

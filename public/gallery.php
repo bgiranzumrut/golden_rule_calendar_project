@@ -1,15 +1,15 @@
 <?php
 // Database connection
-// $host = "localhost";
-// $user = "root";
-// $pass = "";
-// $db   = "golden_rules_calendar";
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db   = "golden_rules_calendar";
 
 
-$host = 'sql301.byethost12.com';
-$db = "b12_38253973_golden_rules_calendar"; // Database name
-$user = 'b12_38253973'; // Database username
-$pass = ''; // Database password
+// $host = 'sql301.byethost12.com';
+// $db = "b12_38253973_golden_rules_calendar"; // Database name
+// $user = 'b12_38253973'; // Database username
+// $pass = ''; // Database password
 
 $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {

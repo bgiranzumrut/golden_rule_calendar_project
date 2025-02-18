@@ -21,6 +21,10 @@
     <label for="end_time">End Time:</label>
     <input type="datetime-local" id="end_time" name="end_time"><br><br>
 
+    <label for="short_name">One Word Description (for small screens):</label>
+<input type="text" name="short_name" id="short_name" maxlength="50">
+
+
     <label for="image">Event Image:</label>
     <input type="file" id="image" name="image" accept="image/*"><br><br>
 

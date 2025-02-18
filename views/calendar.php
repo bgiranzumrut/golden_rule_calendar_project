@@ -136,13 +136,12 @@ $filteredCalendar = array_filter($calendar, function ($week) {
             </div>
 
             <!-- Responsive Event Line (Corrected Placement) -->
-            <div class="event-line"
-                style="background-color: hsl(<?php echo ($index * 45) % 360; ?>, 70%, 60%);"
-                data-bs-toggle="modal"
-                data-bs-target="#eventModal"
-                data-event-title="<?php echo htmlspecialchars($event['title']); ?>"
-                data-event-time="<?php echo date('g:i A', strtotime($event['start_time'])); ?>">
-            </div>
+            <?php error_log("Event ID: " . $event['id'] . " Short Name: " . ($event['short_name'] ?? 'NULL')); ?>
+
+
+
+
+
 
         <?php endforeach; ?>
     <?php else: ?>

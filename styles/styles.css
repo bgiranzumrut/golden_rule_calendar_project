@@ -330,11 +330,22 @@ body {
 /* Colorful event lines for small screens */
 /* Colorful event lines for small screens */
 .event-line {
-  height: 8px;
+  display: none !important;
+  /* Adjust height */
+  font-size: 1rem; /* Ensure text is readable */
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 5px;
-  margin: 4px 0;
   cursor: pointer;
-  transition: opacity 0.3s ease-in-out;
+  transition: transform 0.2s, opacity 0.3s ease-in-out;
+  padding: 5px;
+  white-space: nowrap; /* Prevents text from breaking */
+  overflow: hidden;
+  /* Adds '...' if text is too long */
 }
 
 .event-line:hover {
@@ -347,14 +358,44 @@ body {
     display: none !important; /* Hide text-based events */
   }
 
+  .event-short-name {
+    display: inline-block; /* Make visible */
+    font-size: 14px; /* Adjust font size */
+    font-weight: bold;
+    color: white; /* Match text color */
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: normal; /* Prevent wrapping */
+  }
+
   .event-line {
-    display: block;
-    height: 12px;
-    width: 80%;
-    margin: 6px 0;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: transform 0.2s;
+    display: block !important;
+    width: 100% !important; /* Ensure full width */
+    min-height: auto; /* Allow dynamic height */
+    padding: 8px; /* Add padding for better spacing */
+    font-size: 1.2rem !important; /* Increase text size */
+    font-weight: bold;
+    text-align: center;
+    border-radius: 6px;
+    background-color: var(--primary-red); /* Keep strong contrast */
+    color: var(--white); /* High contrast text */
+
+    white-space: normal !important; /* Allow text wrapping */
+    word-break: break-word !important; /* Ensure full words are visible */
+    overflow: visible !important; /* Prevent ellipses */
+  }
+
+  /* Ensure spacing between events */
+  .calendar-cell {
+    padding: 10px;
+    min-height: auto; /* Allow height to adjust to content */
+  }
+
+  /* Optional: Adjust overall event box size */
+  .event {
+    min-width: 100%;
+    height: auto;
   }
 
   .event-line:hover {
@@ -378,9 +419,8 @@ body {
   }
 
   .calendar-table td {
-    height: 60px;
-    min-height: 60px;
-    max-height: 80px;
+    height: auto; /* Allow flexibility */
+    padding: 10px;
   }
 
   .date-header {
@@ -407,6 +447,30 @@ body {
     padding: 6px;
     white-space: normal; /* Allow text to wrap */
   }
+
+  .event-short-name {
+    display: inline-block; /* Make visible */
+    font-size: 14px; /* Adjust font size */
+    font-weight: bold;
+    color: white; /* Match text color */
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+
+    white-space: nowrap; /* Prevent wrapping */
+  }
+
+  .event-line {
+    display: flex;
+    height: 50px;
+    font-size: 1.1rem;
+    width: 80%;
+    margin: 6px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex !important;
+  }
 }
 @media (max-width: 480px) {
   .modal-dialog {
@@ -418,15 +482,27 @@ body {
     font-size: 1.2rem;
   }
 
+  .event-short-name {
+    display: inline-block; /* Make visible */
+    font-size: 14px; /* Adjust font size */
+    font-weight: bold;
+    color: white; /* Match text color */
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap; /* Prevent wrapping */
+  }
+
   .event-line {
-    display: block !important; /* Ensure it's visible */
-    width: 90%;
-    height: 10px;
-    min-height: 10px; /* Prevent disappearing */
-    margin: 5px auto;
-    border-radius: 5px;
+    display: flex;
+    height: 50px;
+    font-size: 1.1rem;
+    width: 80%;
+    margin: 6px 0;
+    border-radius: 4px;
     cursor: pointer;
-    transition: opacity 0.3s ease-in-out, transform 0.2s;
+    transition: transform 0.2s;
+    display: flex !important;
   }
   .event-line:hover {
     opacity: 0.8;
@@ -447,11 +523,29 @@ body {
     .event-line:hover {
       transform: scale(1.1);
     }
+  }
 
-    /* Hide text on small screens */
-    .event {
-      display: none !important;
-    }
+  .event-short-name {
+    display: inline-block; /* Make visible */
+    font-size: 14px; /* Adjust font size */
+    font-weight: bold;
+    color: white; /* Match text color */
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap; /* Prevent wrapping */
+  }
+
+  .event-line {
+    display: flex;
+    height: 50px;
+    font-size: 1.1rem;
+    width: 80%;
+    margin: 6px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex !important;
   }
 }
 
