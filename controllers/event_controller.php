@@ -19,16 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($action === 'create') {
             $title = $_POST['title'];
             $description = $_POST['description'];
-            $start_time = $_POST['start_time'];
-            $end_time = $_POST['end_time'];
+            $start_times = $_POST['start_time'];
+            $end_times = $_POST['end_time'];
             $created_by = $_SESSION['admin_id'] ?? null;
 
             if (!$created_by) {
                 throw new Exception("Error: Admin not logged in.");
             }
+            
             $image = null;
-
-
             if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
                 $image_dir = '../uploads/event_images/';
                 if (!is_dir($image_dir)) {
@@ -42,13 +41,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $image = $image_path;
             }
 
-            if ($eventModel->createEvent($title, $description, $start_time, $end_time, $created_by, $image)) {
-                // Redirect to the admin dashboard
-                header("Location: ../public/manage_events.php?message=Event+created+successfully");
+            // Create events for each date pair
+            $success = true;
+            $created_events = [];
+
+            for ($i = 0; $i < count($start_times); $i++) {
+                $event_id = $eventModel->createEvent(
+                    $title, 
+                    $description, 
+                    $start_times[$i], 
+                    $end_times[$i], 
+                    $created_by, 
+                    $image
+                );
+                
+                if ($event_id) {
+                    $created_events[] = $event_id;
+                } else {
+                    $success = false;
+                    break;
+                }
+            }
+
+            if ($success) {
+                header("Location: ../public/manage_events.php?message=Event(s)+created+successfully");
                 exit;
             } else {
-                throw new Exception('Failed to create the event.');
+                // If any event creation failed, delete the successfully created ones
+                foreach ($created_events as $event_id) {
+                    $eventModel->deleteEvent($event_id);
+                }
+                throw new Exception('Failed to create one or more events.');
             }
+
         } elseif ($action === 'edit') {
             $id = $_POST['id'];
             $title = $_POST['title'];
@@ -56,10 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $start_time = $_POST['start_time'];
             $end_time = $_POST['end_time'];
             $image = $_POST['current_image'] ?? null;
-            $edited_by = $_SESSION['admin_id']; // The admin editing the event
-
-
- // Current timestamp for the edit date
+            $edited_by = $_SESSION['admin_id'];
+            $edit_date = date('Y-m-d H:i:s'); // Current timestamp for the edit date
 
             if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
                 $image_dir = '../uploads/event_images/';
@@ -71,6 +94,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (!move_uploaded_file($_FILES['image']['tmp_name'], $image_path)) {
                     throw new Exception('Error uploading image.');
                 }
+                
+                // Delete old image if exists
+                if ($image && file_exists($image)) {
+                    unlink($image);
+                }
+                
                 $image = $image_path;
             }
 
@@ -81,14 +110,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 throw new Exception('Failed to update the event.');
             }
+
         } elseif ($action === 'delete') {
             $id = $_POST['id'];
 
             // First, delete all registrations associated with the event
             if ($eventModel->deleteRegistrationsByEvent($id)) {
-                // Now delete the event
+                // Get the event details to delete the image
+                $event = $eventModel->fetchEventById($id);
+                
+                // Delete the event
                 if ($eventModel->deleteEvent($id)) {
-                    // Redirect to the admin dashboard with a success message
+                    // Delete the image file if it exists
+                    if ($event && $event['image'] && file_exists($event['image'])) {
+                        unlink($event['image']);
+                    }
+                    
                     header("Location: ../public/manage_events.php?message=Event+deleted+successfully");
                     exit;
                 } else {
@@ -97,12 +134,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 throw new Exception('Failed to delete registrations associated with the event.');
             }
+
         } else {
             echo "Error: Invalid action.";
             exit;
         }
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
+        // Optionally log the error
+        error_log("Event Controller Error: " . $e->getMessage());
+    }
+}
+
+// Handle GET requests for fetching event details
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $action = $_GET['action'] ?? null;
+    
+    if ($action === 'getEvent') {
+        $id = $_GET['id'] ?? null;
+        if ($id) {
+            $event = $eventModel->fetchEventById($id);
+            if ($event) {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => true,
+                    'event' => $event
+                ]);
+            } else {
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Event not found'
+                ]);
+            }
+        }
+        exit;
     }
 }
 ?>
