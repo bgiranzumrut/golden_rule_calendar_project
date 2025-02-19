@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 }
 
 // Pagination setup
-$images_per_page = 2; // Adjust number of images per page
+$images_per_page = 12; // Adjust number of images per page
 $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($current_page - 1) * $images_per_page;
 
@@ -126,6 +126,9 @@ $result = $conn->query("SELECT * FROM gallery LIMIT $images_per_page OFFSET $off
             background-color: rgba(0, 128, 0, 0.2); /* Light green hover effect */
         }
     </style>
+    <link rel="stylesheet" href="../styles/gallery_styles.css">
+    <script src="../styles/gallery_script.js" defer></script>
+
 </head>
 <body>
     <nav>
@@ -141,13 +144,14 @@ $result = $conn->query("SELECT * FROM gallery LIMIT $images_per_page OFFSET $off
         <?php endif; ?>
 
         <?php while ($row = $result->fetch_assoc()): ?>
-            <div class="gallery-item">
+            <div class="gallery-item"
+                data-title="<?= htmlspecialchars($row['title']) ?>"
+                data-category="<?= htmlspecialchars($row['category']) ?>"
+                data-description="<?= htmlspecialchars($row['description']) ?>"
+                data-date="<?= htmlspecialchars($row['upload_time']) ?>">
                 <img src="<?= htmlspecialchars($row['image_path']) ?>" alt="<?= htmlspecialchars($row['title']) ?>">
                 <div class="content">
                     <h3><?= htmlspecialchars($row['title']) ?></h3>
-                    <p><strong>Category:</strong> <?= htmlspecialchars($row['category']) ?></p>
-                    <p><?= htmlspecialchars($row['description']) ?></p>
-                    <p><small>Uploaded: <?= htmlspecialchars($row['upload_time']) ?></small></p>
                 </div>
             </div>
         <?php endwhile; ?>

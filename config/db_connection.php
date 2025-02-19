@@ -35,3 +35,4 @@ return [
     'password' => $password,
     'charset' => 'utf8mb4'
 ];
+?>
