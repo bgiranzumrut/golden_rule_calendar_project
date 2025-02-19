@@ -1,0 +1,124 @@
+/* gallery_styles.css - Styling for Gallery Page */
+
+/* Import global styles to match index page */
+@import url('styles.css');
+
+/* Gallery Page Styling */
+.gallery-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 20px;
+    transition: all 0.3s ease-in-out;
+    flex-wrap: wrap;
+    width: 65%; /* Allocating left side for small images */
+}
+
+.gallery-item {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    width: calc(25% - 20px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.gallery-item:hover {
+    transform: scale(1.03);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-bottom: 2px solid #f4f4f4;
+}
+
+.gallery-item .content {
+    padding: 10px;
+    text-align: center;
+}
+
+.gallery-item .content h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #d9534f;
+}
+
+.gallery-item .content p {
+    display: none;
+}
+
+/* Expanded View Styling - Right side */
+.expanded-view {
+    width: 35%; /* Right side fixed for selected image */
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    overflow: auto;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+    position: fixed;
+    top: 6%;
+    right: 16px;
+    height: auto;
+    max-height: 80vh;
+}
+
+.expanded-view img {
+    width: 100%;
+    height: auto;
+}
+
+.expanded-view .content {
+    display: block;
+    padding: 10px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.expanded-view .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    font-size: 1.5rem;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* Ensure only one small image is selected */
+.gallery-item.selected {
+    transform: scale(1.1);
+    border: 2px solid #d9534f;
+}
+
+/* Shrink other images and move to the left when expanded */
+.gallery-container.expanded-mode {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.gallery-container.expanded-mode .gallery-item:not(.selected) {
+    width: calc(20% - 10px);
+    opacity: 0.5;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Footer remains at the bottom */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}

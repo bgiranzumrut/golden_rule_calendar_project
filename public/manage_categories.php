@@ -10,36 +10,38 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Handle Add Category
-if (isset($_POST['add'])) {
-    $name = $_POST['name'];
-    $stmt = $conn->prepare("INSERT INTO categories (name) VALUES (?)");
-    $stmt->bind_param("s", $name);
-    $stmt->execute();
-    $stmt->close();
+// Handle Category Addition
+if (isset($_POST['add_category'])) {
+    $category_name = trim($_POST['category_name']);
+
+    if (!empty($category_name)) {
+        $stmt = $conn->prepare("INSERT INTO categories (name) VALUES (?)");
+        $stmt->bind_param("s", $category_name);
+        $stmt->execute();
+        $stmt->close();
+    }
+
+    header("Location: manage_categories.php");
+    exit();
 }
 
-// Handle Delete Category
+// Handle Category Deletion
 if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $stmt = $conn->prepare("DELETE FROM categories WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $stmt->close();
-}
+    $id = intval($_GET['delete']);
+    
+    $conn->query("DELETE FROM categories WHERE id = $id");
 
-// Handle Edit Category
-if (isset($_POST['edit'])) {
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $stmt = $conn->prepare("UPDATE categories SET name = ? WHERE id = ?");
-    $stmt->bind_param("si", $name, $id);
-    $stmt->execute();
-    $stmt->close();
+    // **Reorder IDs after deletion**
+    $conn->query("SET @count = 0;");
+    $conn->query("UPDATE categories SET id = @count:= @count + 1;");
+    $conn->query("ALTER TABLE categories AUTO_INCREMENT = 1;");
+
+    header("Location: manage_categories.php");
+    exit();
 }
 
 // Fetch all categories
-$result = $conn->query("SELECT * FROM categories");
+$categories = $conn->query("SELECT * FROM categories ORDER BY id ASC");
 ?>
 
 <!DOCTYPE html>
@@ -47,46 +49,79 @@ $result = $conn->query("SELECT * FROM categories");
 <head>
     <meta charset="UTF-8">
     <title>Manage Categories</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 60%; border-collapse: collapse; margin: 20px auto; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .delete-btn { color: red; text-decoration: none; margin-left: 10px; }
+        .edit-btn { color: blue; text-decoration: none; margin-left: 10px; }
+
+        /* 🔹 Centered form */
+        .form-container {
+            width: 50%;
+            margin: 0 auto;
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        input {
+            width: 70%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            padding: 8px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
+
 <nav>
-    <nav>
-        <a href="logout.php">Logout</a>
-        <a href="admin_dashboard.php">Home</a>
-        <a href="admin_gallery.php">Gallery</a>
-    </nav>
-    </nav>
-    <h1>Manage Categories</h1>
+    <a href="logout.php">Logout</a>
+    <a href="home.php">Home</a>
+    <a href="gallery.php">Gallery</a>
+</nav>
 
-    <!-- Add Category -->
+<h1 style="text-align: center;">Manage Categories</h1>
+
+<!-- 🔹 Centered Add Category Form -->
+<div class="form-container">
     <form method="POST">
-        <label>Category Name: </label>
-        <input type="text" name="name" required>
-        <button type="submit" name="add">Add Category</button>
+        <label>Category Name:</label>
+        <input type="text" name="category_name" required>
+        <button type="submit" name="add_category">Add Category</button>
     </form>
+</div>
 
-    <h2>Existing Categories</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Category Name</th>
-            <th>Actions</th>
-        </tr>
-        <?php while ($row = $result->fetch_assoc()): ?>
-        <tr>
-            <td><?= $row['id'] ?></td>
-            <td><?= htmlspecialchars($row['name']) ?></td>
-            <td>
-                <form method="POST" style="display: inline;">
-                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                    <input type="text" name="name" value="<?= htmlspecialchars($row['name']) ?>" required>
-                    <button type="submit" name="edit">Edit</button>
-                </form>
-                <a href="?delete=<?= $row['id'] ?>" onclick="return confirm('Are you sure?')">Delete</a>
-            </td>
-        </tr>
-        <?php endwhile; ?>
-    </table>
+<h2 style="text-align: center;">Existing Categories</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Category Name</th>
+        <th>Actions</th>
+    </tr>
+    <?php while ($row = $categories->fetch_assoc()): ?>
+    <tr>
+        <td><?= $row['id'] ?></td>
+        <td><input type="text" value="<?= htmlspecialchars($row['name']) ?>" readonly></td>
+        <td>
+            <a href="edit_category.php?id=<?= $row['id'] ?>" class="edit-btn">Edit</a>
+            <a href="?delete=<?= $row['id'] ?>" class="delete-btn">Delete</a>
+        </td>
+    </tr>
+    <?php endwhile; ?>
+</table>
+
 </body>
 </html>
+
 <?php $conn->close(); ?>
