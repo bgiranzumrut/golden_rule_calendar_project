@@ -88,6 +88,8 @@ $filteredCalendar = array_filter($calendar, function ($week) {
     <title>Golden Rule Calendar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="./styles/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/modal_styles.css">
+
 </head>
 
 <body>
@@ -132,7 +134,7 @@ $filteredCalendar = array_filter($calendar, function ($week) {
                                                     <?php foreach ($eventsByDate[$week[$i]] as $index => $event): ?>
                                                         <div class="event-group">
                                                             <!-- Event Display -->
-                                                            <div class="event" tabindex="0">
+                                                            <!-- <div class="event" tabindex="0">
                                                                 <div class="event-time">
                                                                     <?php echo date('g:i A', strtotime($event['start_time'])); ?></div>
                                                                 <a
@@ -140,11 +142,19 @@ $filteredCalendar = array_filter($calendar, function ($week) {
                                                                     <div class="event-title">
                                                                         <?php echo htmlspecialchars($event['title']); ?></div>
                                                                 </a>
+                                                            </div> -->
+                                                            <div class="event" tabindex="0">
+                                                                <div class="event-time">
+                                                                    <?php echo date('g:i A', strtotime($event['start_time'])); ?>
+                                                                </div>
+                                                                <div class="event-title" onclick="openRegistrationModal(<?php echo $event['id']; ?>)">
+                                                                    <?php echo htmlspecialchars($event['title']); ?>
+                                                                </div>
                                                             </div>
 
                                                             <!-- Responsive Event Line -->
                                                             <div class="event-line"
-    style="background-color: hsl(<?php echo ($index * 45) % 360; ?>, 70%, 60%);"
+    style="background-color: white;"
     data-bs-toggle="modal"
     data-bs-target="#eventModal"
     data-event-title="<?php echo htmlspecialchars($event['title']); ?>"
@@ -194,7 +204,10 @@ $filteredCalendar = array_filter($calendar, function ($week) {
 
 
     <!-- Bootstrap JS -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <?php include './views/modal_form.php'; ?>
+    <script src="./public/js/modal_script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const modal = document.getElementById('eventModal');
@@ -223,7 +236,6 @@ $filteredCalendar = array_filter($calendar, function ($week) {
             });
         });
     </script>
-
 
 </body>
 

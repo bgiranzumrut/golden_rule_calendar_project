@@ -330,26 +330,24 @@ body {
 /* Colorful event lines for small screens */
 /* Colorful event lines for small screens */
 .event-line {
-  display: none !important;
-  /* Adjust height */
-  font-size: 1rem; /* Ensure text is readable */
+  background-color: var(--primary-cream);
+  color: var(--primary-blue); /* ✅ White text */
+  border-bottom: 2px solid var(--primary-red) !important;
+  padding: 10px 12px; /* ✅ Maintain same spacing */
   text-align: center;
-  font-weight: bold;
-  color: white;
+  font-size: 1.1rem;
+  font-weight: bolder;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: transform 0.2s, opacity 0.3s ease-in-out;
-  padding: 5px;
-  white-space: nowrap; /* Prevents text from breaking */
-  overflow: hidden;
-  /* Adds '...' if text is too long */
+  border-radius: 6px; /* ✅ Keep rounded corners */
 }
 
 .event-line:hover {
   opacity: 0.7;
+}
+.event-short-name {
+  display: none !important; /* Hide short name */
 }
 
 /* Hide text-based event display on small screens */
@@ -358,44 +356,27 @@ body {
     display: none !important; /* Hide text-based events */
   }
 
-  .event-short-name {
-    display: inline-block; /* Make visible */
-    font-size: 14px; /* Adjust font size */
-    font-weight: bold;
-    color: white; /* Match text color */
-    text-align: center;
-    max-width: 100%;
-    overflow: hidden;
-    white-space: normal; /* Prevent wrapping */
-  }
-
   .event-line {
     display: block !important;
-    width: 100% !important; /* Ensure full width */
-    min-height: auto; /* Allow dynamic height */
-    padding: 8px; /* Add padding for better spacing */
-    font-size: 1.2rem !important; /* Increase text size */
+    height: 40px !important; /* ✅ Increase line height */
+    width: 100% !important;
+    border-radius: 5px;
+    text-align: left;
+    padding: 4px 0;
+    font-size: 1rem !important; /* ✅ Ensure text fits */
+    white-space: nowrap; /* Prevent wrapping */
+    overflow: auto;
+    text-overflow: normal; /* Add "..." when text overflows */
+  }
+
+  .event-short-name {
+    display: block !important; /* Show short title on small screens */
+    font-size: 0.8rem; /* Adjust size to fit */
     font-weight: bold;
     text-align: center;
-    border-radius: 6px;
-    background-color: var(--primary-red); /* Keep strong contrast */
-    color: var(--white); /* High contrast text */
-
-    white-space: normal !important; /* Allow text wrapping */
-    word-break: break-word !important; /* Ensure full words are visible */
-    overflow: visible !important; /* Prevent ellipses */
-  }
-
-  /* Ensure spacing between events */
-  .calendar-cell {
-    padding: 10px;
-    min-height: auto; /* Allow height to adjust to content */
-  }
-
-  /* Optional: Adjust overall event box size */
-  .event {
-    min-width: 100%;
-    height: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: normal;
   }
 
   .event-line:hover {
@@ -419,8 +400,9 @@ body {
   }
 
   .calendar-table td {
-    height: auto; /* Allow flexibility */
-    padding: 10px;
+    height: 60px;
+    min-height: 60px;
+    max-height: 80px;
   }
 
   .date-header {
@@ -447,30 +429,6 @@ body {
     padding: 6px;
     white-space: normal; /* Allow text to wrap */
   }
-
-  .event-short-name {
-    display: inline-block; /* Make visible */
-    font-size: 14px; /* Adjust font size */
-    font-weight: bold;
-    color: white; /* Match text color */
-    text-align: center;
-    max-width: 100%;
-    overflow: hidden;
-
-    white-space: nowrap; /* Prevent wrapping */
-  }
-
-  .event-line {
-    display: flex;
-    height: 50px;
-    font-size: 1.1rem;
-    width: 80%;
-    margin: 6px 0;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: transform 0.2s;
-    display: flex !important;
-  }
 }
 @media (max-width: 480px) {
   .modal-dialog {
@@ -482,27 +440,15 @@ body {
     font-size: 1.2rem;
   }
 
-  .event-short-name {
-    display: inline-block; /* Make visible */
-    font-size: 14px; /* Adjust font size */
-    font-weight: bold;
-    color: white; /* Match text color */
-    text-align: center;
-    max-width: 100%;
-    overflow: hidden;
-    white-space: nowrap; /* Prevent wrapping */
-  }
-
   .event-line {
-    display: flex;
-    height: 50px;
-    font-size: 1.1rem;
-    width: 80%;
-    margin: 6px 0;
-    border-radius: 4px;
+    display: block !important; /* Ensure it's visible */
+    width: 90%;
+    height: 10px;
+    min-height: 10px; /* Prevent disappearing */
+    margin: 5px auto;
+    border-radius: 5px;
     cursor: pointer;
-    transition: transform 0.2s;
-    display: flex !important;
+    transition: opacity 0.3s ease-in-out, transform 0.2s;
   }
   .event-line:hover {
     opacity: 0.8;
@@ -523,29 +469,11 @@ body {
     .event-line:hover {
       transform: scale(1.1);
     }
-  }
 
-  .event-short-name {
-    display: inline-block; /* Make visible */
-    font-size: 14px; /* Adjust font size */
-    font-weight: bold;
-    color: white; /* Match text color */
-    text-align: center;
-    max-width: 100%;
-    overflow: hidden;
-    white-space: nowrap; /* Prevent wrapping */
-  }
-
-  .event-line {
-    display: flex;
-    height: 50px;
-    font-size: 1.1rem;
-    width: 80%;
-    margin: 6px 0;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: transform 0.2s;
-    display: flex !important;
+    /* Hide text on small screens */
+    .event {
+      display: none !important;
+    }
   }
 }
 
