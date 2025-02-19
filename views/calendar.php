@@ -125,15 +125,27 @@ $filteredCalendar = array_filter($calendar, function ($week) {
         <?php foreach ($eventsByDate[$week[$i]] as $index => $event): ?>
             <!-- Event Display -->
             <div class="event" tabindex="0">
-                <div class="event-time">
-                    <?php echo date('g:i A', strtotime($event['start_time'])); ?>
-                </div>
-                <a href="../controllers/registrationController.php?action=showRegistrationForm&event_id=<?php echo $event['id']; ?>">
-                    <div class="event-title">
-                        <?php echo htmlspecialchars($event['title']); ?>
-                    </div>
-                </a>
-            </div>
+    <div class="event-time">
+        <?php echo date('g:i A', strtotime($event['start_time'])); // Display correct start time ?>
+    </div>
+    <div class="event-title" onclick="openRegistrationModal(<?php echo $event['id']; ?>)">
+        <?php echo htmlspecialchars($event['title']); ?>
+    </div>
+</div>
+
+<!-- Mobile-friendly short name display -->
+<div class="event-line d-block d-md-none"
+    data-bs-toggle="modal"
+    data-bs-target="#eventModal"
+    data-event-id="<?php echo $event['id']; ?>"
+    data-event-title="<?php echo htmlspecialchars($event['title']); ?>"
+    data-event-time="<?php echo date('g:i A', strtotime($event['start_time'])); ?>">
+
+    <span class="event-short-name">
+        <?php echo htmlspecialchars($event['short_name'] ?? $event['title']); ?>
+    </span>
+</div>
+
 
             <!-- Responsive Event Line (Corrected Placement) -->
             <?php error_log("Event ID: " . $event['id'] . " Short Name: " . ($event['short_name'] ?? 'NULL')); ?>
@@ -181,17 +193,31 @@ $filteredCalendar = array_filter($calendar, function ($week) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('eventModal');
+    const modalTitle = document.getElementById('eventModalTitle');
+    const modalTime = document.getElementById('eventModalTime');
+    const registrationLink = document.getElementById('eventRegistrationLink');
+
+    // Ensure event-line elements open the modal with correct data
     document.querySelectorAll('.event-line').forEach(line => {
         line.addEventListener('click', function () {
-            const title = this.getAttribute('data-event-title');
-            const time = this.getAttribute('data-event-time');
+            const title = this.getAttribute('data-event-title') || "Event";
+            const time = this.getAttribute('data-event-time') || "Time not set";
+            const eventId = this.getAttribute('data-event-id');
 
-            document.getElementById('eventModalTitle').innerText = title;
-            document.getElementById('eventModalTime').innerText = time;
+            modalTitle.textContent = title;
+            modalTime.textContent = `Time: ${time}`;
+
+            if (eventId) {
+                registrationLink.href = `./controllers/registrationController.php?action=showRegistrationForm&event_id=${eventId}`;
+            } else {
+                registrationLink.href = "#";
+            }
         });
     });
 });
+
 </script>
 </body>
 </html>

@@ -69,6 +69,8 @@ body {
 .navbar-nav .nav-link:focus {
   background-color: var(--hover-blue);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
+  color: var(--white);
 }
 
 /* Admin Login Link Styling */
@@ -83,18 +85,27 @@ body {
   transition: background 0.3s ease, box-shadow 0.2s ease;
 }
 
+.nav-link {
+  width: 150px;
+}
+
 .navbar-nav .nav-link.active {
   background-color: var(--primary-blue);
 }
 .navbar-nav .nav-link:hover {
   background-color: var(--hover-blue);
   transform: scale(1.05);
+  background-color: var(--hover-blue);
 }
 .navbar-nav {
   display: flex;
   align-items: center;
   gap: 10px;
   flex-wrap: wrap; /* Ensures items wrap properly on small screens */
+}
+
+.navbar-nav a {
+  text-align: center;
 }
 
 .navbar-toggler:focus {
@@ -105,10 +116,6 @@ body {
 .navbar-toggler {
   border: none;
   font-size: 1.5rem;
-}
-/*  Fix "Admin Login" Alignment */
-.navbar-nav .nav-item:last-child {
-  margin-left: auto; /* Push to the right */
 }
 
 /* Responsive Navbar for Small Screens */
@@ -135,10 +142,7 @@ body {
 
   /* Center the toggle button */
   .navbar-toggler {
-    margin-top: 5px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
   }
 }
 
@@ -157,7 +161,8 @@ body {
 .nav-menu a {
   width: 150px;
   text-align: center;
-  margin-top: 15px; /* Add space above all buttons */
+  margin: auto;
+  /* Add space above all buttons */
 }
 
 /* ========== 4. CALENDAR CONTAINER ========== */
@@ -189,6 +194,14 @@ body {
   text-align: center;
   background-color: var(--primary-blue);
   color: var(--white);
+}
+
+.calendar-nav .btn:hover,
+.calendar-nav .btn:focus {
+  background-color: var(--primary-red); /* Change color on hover */
+  color: var(--white);
+  transform: scale(1.05); /* Slight increase */
+  border-color: var(--primary-red);
 }
 @media (max-width: 768px) {
   .calendar-nav {
@@ -243,7 +256,7 @@ body {
     line-height: 1.3;
   }
   .navbar-toggler {
-    margin: 2rem; /* Center toggle button */
+    margin: 20px auto; /* Center toggle button */
   }
 }
 
@@ -333,7 +346,7 @@ body {
   background-color: var(--primary-cream);
   color: var(--primary-blue); /* ✅ White text */
   border-bottom: 2px solid var(--primary-red) !important;
-  padding: 10px 12px; /* ✅ Maintain same spacing */
+  padding: 1px 12px; /* ✅ Maintain same spacing */
   text-align: center;
   font-size: 1.1rem;
   font-weight: bolder;
@@ -552,10 +565,6 @@ body {
   font-weight: 600;
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
-}
-.btn-outline-primary:hover {
-  background-color: var(--primary-blue);
-  color: var(--white);
 }
 
 /* ========== FOOTER STYLES ========== */

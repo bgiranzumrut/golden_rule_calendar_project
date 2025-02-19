@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2025 at 04:59 PM
+-- Generation Time: Feb 19, 2025 at 05:18 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -55,8 +55,8 @@ CREATE TABLE `admin_users` (
 --
 
 INSERT INTO `admin_users` (`id`, `password_hash`, `reset_token`, `name`, `phone_number`, `email`, `address`, `password`, `image`, `recording_consent`, `injury_loss_risk_consent`, `signature_date`, `emergency_contact_1_name`, `emergency_contact_1_phone`, `emergency_contact_1_relationship`, `emergency_contact_2_name`, `emergency_contact_2_phone`, `emergency_contact_2_relationship`, `reset_token_expiry`, `edited_by`) VALUES
-(1, '', NULL, 'Admin', '2045556644', 'r@gmail.com', '', '$2y$10$mBhVWATYhem/umVFzbsuR.hGmqmHa7Ghdpsew6VWrjwrBULmE9906', NULL, '0', '0', '2024-12-11', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(18, '', '8560b09b94cfbc5d35b833ac044275f2eb83749580eb027dbcf4d858a063744b', 'Busra', '2048074140', 'busragiran@gmail.com', '', '$2y$10$UVYXqxTRcA2odYN00WFGvuKs2b6KtTyX4sS.KkJq2hedIhCbFhg12', '', '0', '0', '', '', '', '', '', '', '', '2025-01-06 02:40:04', NULL);
+(1, '', '773e563a62b8fcb75049bac17de7417bc2bea889b071473fb05896e985d976a4', 'Admin', '2045556644', 'r@gmail.com', '', '$2y$10$mBhVWATYhem/umVFzbsuR.hGmqmHa7Ghdpsew6VWrjwrBULmE9906', NULL, '0', '0', '2024-12-11', NULL, NULL, NULL, NULL, NULL, NULL, '2025-02-12 21:56:34', NULL),
+(18, '', 'fe2bb93d8652f3c7d16252083bcb888622041fc1d5919a08809ccc806c68ea33', 'Busra', '2048074140', 'busragiran@gmail.com', '', '$2y$10$UVYXqxTRcA2odYN00WFGvuKs2b6KtTyX4sS.KkJq2hedIhCbFhg12', '', '0', '0', '', '', '', '', '', '', '', '2025-02-12 21:57:18', NULL);
 
 -- --------------------------------------------------------
 
@@ -85,8 +85,8 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 (9, 'Presentation'),
 (10, 'Book Club'),
 (11, 'Tech Talk'),
-(13, 'Bingo'),
-(14, 'Bingo');
+(12, 'Bingo'),
+(13, 'Bingo');
 
 -- --------------------------------------------------------
 
@@ -104,51 +104,57 @@ CREATE TABLE `events` (
   `edited_by` int(11) DEFAULT NULL,
   `edit_date` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `image` text DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
+  `created_at` datetime DEFAULT current_timestamp(),
+  `short_name` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `events`
 --
 
-INSERT INTO `events` (`id`, `title`, `description`, `start_time`, `end_time`, `created_by`, `edited_by`, `edit_date`, `image`, `created_at`) VALUES
-(7, 'Paint Buddies', 'Painting session for all ages', '2024-12-03 10:00:00', '2024-12-03 11:30:00', 1, NULL, NULL, NULL, '2024-12-10 12:12:25'),
-(9, 'Holiday Party', 'Celebrate the holiday season', '2024-12-18 10:00:00', '2024-12-18 14:00:00', 1, NULL, NULL, NULL, '2024-12-10 12:12:25'),
-(10, 'Board Meeting', 'dnklnds', '2024-12-12 12:00:00', '2024-12-12 13:00:00', 1, NULL, NULL, NULL, '2024-12-10 13:24:34'),
-(11, 'cnlkdn', 'cndkcndlk', '2024-12-13 12:00:00', '2024-12-13 13:00:00', 1, NULL, NULL, NULL, '2024-12-10 13:26:27'),
-(13, 'Test', 'test', '2024-12-12 12:00:00', '2024-12-12 13:01:00', 1, NULL, NULL, NULL, '2024-12-11 22:27:47'),
-(14, 'New Event', 'New', '2024-12-05 12:12:00', '2024-12-05 14:00:00', 1, NULL, NULL, NULL, '2024-12-11 22:37:24'),
-(15, 'cdcdscsddscsdc', 'csdcsdcdssdcsdc', '2024-12-06 12:12:00', '2024-12-06 14:00:00', 1, NULL, NULL, NULL, '2024-12-11 22:38:13'),
-(18, 'dccdd', 'dcdcdc', '2024-12-02 11:11:00', '2024-12-02 11:11:00', 1, NULL, NULL, NULL, '2024-12-22 14:48:50'),
-(19, 'ss', 'ss', '2025-01-01 11:11:00', '2025-01-01 11:11:00', 1, NULL, NULL, NULL, '2024-12-22 14:49:40'),
-(20, 'Presentation: \"Emergency Preparedness\"', 'Follow the updates', '2025-01-08 12:12:00', '2025-01-08 13:13:00', 1, 1, '2025-01-23 15:00:28', NULL, '2024-12-22 15:30:39'),
-(21, 'xs', 'dccd', '2024-12-23 11:11:00', '2024-12-23 11:11:00', 1, NULL, NULL, NULL, '2024-12-22 19:46:40'),
-(23, 'Paint Buddies', 'Edited by Admin', '2025-01-14 10:00:00', '2025-01-14 12:15:00', 18, 1, '2025-01-23 15:19:11', NULL, '2025-01-02 13:41:07'),
-(25, 'Test Edit Time ', 'Time is 14:13', '2025-01-16 12:00:00', '2025-01-16 13:00:00', 1, 1, '2025-01-02 14:13:56', NULL, '2025-01-02 14:02:08'),
-(26, 'Pickleball (lesson)', 'Test with Rakshita', '2025-01-09 13:00:00', '2025-01-09 14:00:00', 1, 1, '2025-01-23 15:15:11', NULL, '2025-01-08 10:54:27'),
-(27, 'Games Club', 'Games', '2025-01-02 13:00:00', '2025-01-02 14:00:00', 1, NULL, '2025-01-23 13:35:03', NULL, '2025-01-23 13:35:03'),
-(28, 'Pickleball(free play)', 'PicklePlay', '2025-01-02 13:00:00', '2025-01-02 14:00:00', 1, NULL, '2025-01-23 13:35:55', NULL, '2025-01-23 13:35:55'),
-(29, 'Steppin\' Up ', 'Fitness', '2025-01-03 10:00:00', '2025-01-03 11:00:00', 1, 1, '2025-01-23 13:53:04', NULL, '2025-01-23 13:37:58'),
-(30, 'Conversation Cafe', 'Conversation', '2025-01-03 13:00:00', '2025-01-03 20:00:00', 1, NULL, '2025-01-23 13:52:36', NULL, '2025-01-23 13:52:36'),
-(31, 'Steppin\' Up', 'Fitness', '2025-01-06 22:00:00', '2025-01-06 22:00:00', 1, NULL, '2025-01-23 13:54:13', NULL, '2025-01-23 13:54:13'),
-(32, 'Paint Buddies', 'Paint ', '2025-01-07 22:00:00', '2025-01-07 23:00:00', 1, NULL, '2025-01-23 13:55:50', NULL, '2025-01-23 13:55:50'),
-(33, 'Floor Curling', 'Curling ', '2025-01-07 12:30:00', '2025-01-07 14:00:00', 1, NULL, '2025-01-23 13:57:13', NULL, '2025-01-23 13:57:13'),
-(34, 'Carpet Bowling&Shuffle Board', 'Bowling', '2025-01-07 14:00:00', '2025-01-07 15:30:00', 1, 1, '2025-01-23 14:11:30', NULL, '2025-01-23 13:58:12'),
-(35, 'Qiong (Body-Mind Exercise)', 'Exercise', '2025-01-08 10:00:00', '2025-01-08 11:00:00', 1, NULL, '2025-01-23 14:54:14', NULL, '2025-01-23 14:54:14'),
-(36, 'Games Club (Cribbage)', 'Games', '2025-01-09 13:00:00', '2025-01-09 14:00:00', 1, 1, '2025-01-23 15:12:31', NULL, '2025-01-23 15:04:46'),
-(37, 'Steppin\' Up with Confidence Functional Fitness', 'Fitness', '2025-01-13 10:00:00', '2025-01-13 11:00:00', 1, 1, '2025-01-23 15:31:50', NULL, '2025-01-23 15:16:30'),
-(38, 'Tech Talk', 'Tesch', '2025-01-13 13:00:00', '2025-01-13 14:00:00', 1, NULL, '2025-01-23 15:17:04', NULL, '2025-01-23 15:17:04'),
-(39, 'Floor Curling', 'Curling', '2025-01-14 12:30:00', '2025-01-14 13:30:00', 1, NULL, '2025-01-23 15:20:33', NULL, '2025-01-23 15:20:33'),
-(40, 'Carpet Bowling&Shuffle Board', 'Bowling', '2025-01-14 14:00:00', '2025-01-14 15:30:00', 1, NULL, '2025-01-23 15:21:23', NULL, '2025-01-23 15:21:23'),
-(41, 'Qiong (Body-Mind Exercise)', 'Exercise', '2025-01-15 10:00:00', '2025-01-15 11:15:00', 1, 1, '2025-01-23 15:29:29', NULL, '2025-01-23 15:22:29'),
-(42, 'Lungtivity', 'Seminar', '2025-01-15 11:15:00', '2025-01-15 12:00:00', 1, NULL, '2025-01-23 15:23:04', NULL, '2025-01-23 15:23:04'),
-(43, 'Games Club', 'Games', '2025-01-16 13:00:00', '2025-01-16 14:00:00', 1, NULL, '2025-01-23 15:23:33', NULL, '2025-01-23 15:23:33'),
-(44, 'Pickleball (free play)', 'Pickleball', '2025-01-16 13:00:00', '2025-01-16 14:00:00', 1, NULL, '2025-01-23 15:24:27', NULL, '2025-01-23 15:24:27'),
-(45, 'Instructional Painting Class with Karen Wokes', 'Painting', '2025-01-17 13:00:00', '2025-01-17 13:00:00', 1, NULL, '2025-01-23 15:25:28', NULL, '2025-01-23 15:25:28'),
-(46, 'Steppin\' Up with Confidence Functional Fitness', 'Fitness', '2025-01-20 10:00:00', '2025-01-20 11:00:00', 1, 1, '2025-01-23 15:31:01', NULL, '2025-01-23 15:30:27'),
-(47, 'Qiong (Body-Mind Exercise)', 'Exercise', '2025-01-22 10:00:00', '2025-01-22 11:00:00', 1, NULL, '2025-01-23 15:35:02', NULL, '2025-01-23 15:35:02'),
-(48, 'Lungtivity', 'Lungtivity', '2025-01-22 11:15:00', '2025-01-22 12:15:00', 1, NULL, '2025-01-23 15:35:25', NULL, '2025-01-23 15:35:25'),
-(49, 'Presentation:\"Falls Prevention\"', 'Presentation', '2025-01-22 13:00:00', '2025-01-22 14:00:00', 1, NULL, '2025-01-23 15:36:24', NULL, '2025-01-23 15:36:24');
+INSERT INTO `events` (`id`, `title`, `description`, `start_time`, `end_time`, `created_by`, `edited_by`, `edit_date`, `image`, `created_at`, `short_name`) VALUES
+(10, '🤝🤝Board Meeting', 'dnklnds', '2024-12-12 12:00:00', '2024-12-12 13:00:00', 1, 1, '2025-02-18 15:16:30', NULL, '2024-12-10 13:24:34', 'Sample'),
+(11, 'cnlkdn', 'cndkcndlk', '2024-12-13 12:00:00', '2024-12-13 13:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2024-12-10 13:26:27', 'Sample'),
+(13, 'Test', 'test', '2024-12-12 12:00:00', '2024-12-12 13:01:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2024-12-11 22:27:47', 'Sample'),
+(15, 'cdcdscsddscsdc', 'new', '2025-02-18 12:00:00', '2025-02-18 13:00:00', 1, 1, '2025-02-18 15:16:30', NULL, '2024-12-11 22:38:13', 'Sample'),
+(19, 'Information Session', 'ss', '2025-01-01 11:11:00', '2025-01-01 11:11:00', 1, 1, '2025-02-18 15:16:30', NULL, '2024-12-22 14:49:40', 'Sample'),
+(20, 'Presentation: \"Emergency Preparedness\"', 'Follow the updates', '2025-01-08 12:12:00', '2025-01-08 13:13:00', 1, 1, '2025-02-18 15:16:30', NULL, '2024-12-22 15:30:39', 'Sample'),
+(21, 'xs', 'dccd', '2024-12-23 11:11:00', '2024-12-23 11:11:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2024-12-22 19:46:40', 'Sample'),
+(23, 'Paint Buddies', 'Edited by Admin', '2025-01-14 10:00:00', '2025-01-14 12:15:00', 18, 1, '2025-02-18 15:16:30', NULL, '2025-01-02 13:41:07', 'Sample'),
+(25, 'Test Edit Time ', 'Time is 14:13', '2025-01-16 12:00:00', '2025-01-16 13:00:00', 1, 1, '2025-02-18 15:16:30', NULL, '2025-01-02 14:02:08', 'Sample'),
+(26, 'Pickleball (lesson)', 'Test with Rakshita', '2025-01-09 13:00:00', '2025-01-09 14:00:00', 1, 1, '2025-02-18 15:16:30', NULL, '2025-01-08 10:54:27', 'Sample'),
+(27, 'Games Club', 'Games', '2025-01-02 13:00:00', '2025-01-02 14:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 13:35:03', 'Sample'),
+(28, 'Pickleball(free play)', 'PicklePlay', '2025-01-02 13:00:00', '2025-01-02 14:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 13:35:55', 'Sample'),
+(29, 'Steppin\' Up ', 'Fitness', '2025-01-03 10:00:00', '2025-01-03 11:00:00', 1, 1, '2025-02-18 15:16:30', NULL, '2025-01-23 13:37:58', 'Sample'),
+(30, 'Conversation Cafe', 'Conversation', '2025-01-03 13:00:00', '2025-01-03 20:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 13:52:36', 'Sample'),
+(31, 'Steppin\' Up', 'Fitness', '2025-01-06 22:00:00', '2025-01-06 22:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 13:54:13', 'Sample'),
+(32, 'Paint Buddies', 'Paint ', '2025-01-07 22:00:00', '2025-01-07 23:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 13:55:50', 'Sample'),
+(33, 'Floor Curling', 'Curling ', '2025-01-07 12:30:00', '2025-01-07 14:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 13:57:13', 'Sample'),
+(34, 'Carpet Bowling&Shuffle Board', 'Bowling', '2025-01-07 14:00:00', '2025-01-07 15:30:00', 1, 1, '2025-02-18 15:16:30', NULL, '2025-01-23 13:58:12', 'Sample'),
+(35, 'Qiong (Body-Mind Exercise)', 'Exercise', '2025-01-08 10:00:00', '2025-01-08 11:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 14:54:14', 'Sample'),
+(36, 'Games Club (Cribbage)', 'Games', '2025-01-09 13:00:00', '2025-01-09 14:00:00', 1, 1, '2025-02-18 15:16:30', NULL, '2025-01-23 15:04:46', 'Sample'),
+(37, 'Steppin\' Up with Confidence Functional Fitness', 'Fitness', '2025-01-13 10:00:00', '2025-01-13 11:00:00', 1, 1, '2025-02-18 15:16:30', NULL, '2025-01-23 15:16:30', 'Sample'),
+(38, 'Tech Talk', 'Tesch', '2025-01-13 13:00:00', '2025-01-13 14:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 15:17:04', 'Sample'),
+(39, 'Floor Curling', 'Curling', '2025-01-14 12:30:00', '2025-01-14 13:30:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 15:20:33', 'Sample'),
+(40, 'Carpet Bowling&Shuffle Board', 'Bowling', '2025-01-14 14:00:00', '2025-01-14 15:30:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 15:21:23', 'Sample'),
+(41, 'Qiong (Body-Mind Exercise)', 'Exercise', '2025-01-15 10:00:00', '2025-01-15 11:15:00', 1, 1, '2025-02-18 15:16:30', NULL, '2025-01-23 15:22:29', 'Sample'),
+(42, 'Lungtivity', 'Seminar', '2025-01-15 11:15:00', '2025-01-15 12:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 15:23:04', 'Sample'),
+(43, 'Games Club', 'Games', '2025-01-16 13:00:00', '2025-01-16 14:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 15:23:33', 'Sample'),
+(44, 'Pickleball (free play)', 'Pickleball', '2025-01-16 13:00:00', '2025-01-16 14:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 15:24:27', 'Sample'),
+(45, 'Instructional Painting Class with Karen Wokes', 'Painting', '2025-01-17 13:00:00', '2025-01-17 13:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 15:25:28', 'Sample'),
+(46, 'Steppin\' Up with Confidence Functional Fitness', 'Fitness', '2025-01-20 10:00:00', '2025-01-20 11:00:00', 1, 1, '2025-02-18 15:16:30', NULL, '2025-01-23 15:30:27', 'Sample'),
+(47, 'Qiong (Body-Mind Exercise)', 'Exercise', '2025-01-22 10:00:00', '2025-01-22 11:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 15:35:02', 'Sample'),
+(48, 'Lungtivity', 'Lungtivity', '2025-01-22 11:15:00', '2025-01-22 12:15:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 15:35:25', 'Sample'),
+(49, 'Presentation:\"Falls Prevention\"', 'Presentation', '2025-01-22 13:00:00', '2025-01-22 14:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-01-23 15:36:24', 'Sample'),
+(50, 'cfcjfkjc', 'xd', '2025-02-13 12:00:00', '2025-02-13 13:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-02-12 14:32:02', 'Sample'),
+(52, 'Paint', 'z', '2025-01-22 23:11:00', '2025-01-22 12:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-02-12 18:11:11', 'Sample'),
+(53, 'Book Club', 'Book ', '2025-02-14 13:00:00', '2025-02-14 14:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-02-14 13:28:27', 'Sample'),
+(59, 'Test Event', 'This is a test event.', '2024-02-18 10:00:00', '2024-02-18 12:00:00', 1, NULL, '2025-02-18 15:16:30', NULL, '2025-02-18 14:34:01', 'Sample'),
+(61, 'x ', ' zx', '2025-02-18 12:22:00', '2025-02-18 12:54:00', 1, NULL, '2025-02-18 14:43:03', NULL, '2025-02-18 14:43:03', 'dcsd'),
+(62, 'New', 'New', '2025-02-15 00:00:00', '2025-02-15 13:00:00', 1, NULL, '2025-02-18 14:43:39', NULL, '2025-02-18 14:43:39', 'word'),
+(63, 'Test Short Name', 'dcks', '2025-02-19 12:00:00', '2025-02-19 13:00:00', 1, NULL, '2025-02-18 16:12:11', NULL, '2025-02-18 16:12:11', 'TestingPurpose'),
+(64, 'Basketboll For Mahfuj and Friends', 'Basketboll For Mahfuj and Friends', '2025-02-20 12:00:00', '2025-02-20 13:00:00', 1, NULL, '2025-02-18 18:25:09', NULL, '2025-02-18 18:25:09', 'Mahfuj'),
+(65, 'kdsmckmdcs', 'csd', '2025-02-21 12:00:00', '2025-02-20 13:00:00', 1, NULL, '2025-02-18 18:26:51', NULL, '2025-02-18 18:26:51', 'Basketball');
 
 -- --------------------------------------------------------
 
@@ -199,18 +205,11 @@ CREATE TABLE `registrations` (
 --
 
 INSERT INTO `registrations` (`id`, `event_id`, `user_id`, `registered_at`, `notes`, `name`, `phone_number`) VALUES
-(1, 7, 1, '2024-12-22 15:19:56', 'Sample notes', '', ''),
-(33, 18, 43, '2024-12-22 20:25:15', '', 'Seminar', '2045556644'),
-(34, 7, NULL, '2024-12-22 20:26:02', '', 'Busra', '2045525620'),
-(35, 18, NULL, '2024-12-22 20:26:55', '', 'ggggg', '1254'),
-(36, 18, NULL, '2024-12-22 20:31:00', '', 'Test', '122'),
-(37, 7, 43, '2024-12-22 20:32:09', '', 'Seminar', '2045556644'),
-(38, 18, NULL, '2024-12-22 20:33:08', '', 'Aleyna', '1234578'),
-(39, 7, NULL, '2024-12-22 20:33:43', '', 'Rakshita', '556'),
 (40, 20, NULL, '2025-01-08 10:40:12', '', 'Test', '2045525620'),
 (41, 19, NULL, '2025-01-08 10:40:53', '', 'Test', '2048074140'),
 (42, 25, NULL, '2025-01-08 10:42:04', '', 'Rakshita', '2045525620'),
-(43, 33, NULL, '2025-02-04 09:56:15', '', 'Busra', '151515151');
+(43, 33, NULL, '2025-02-04 09:56:15', '', 'Busra', '151515151'),
+(44, 27, NULL, '2025-02-12 14:29:36', '', 'Busra', '1235');
 
 -- --------------------------------------------------------
 
@@ -298,7 +297,7 @@ ALTER TABLE `admin_users`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `gallery`
@@ -310,7 +309,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT for table `registrations`
 --
 ALTER TABLE `registrations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `users`

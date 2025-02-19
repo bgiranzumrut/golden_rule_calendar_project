@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $event_id = $eventModel->createEvent(
                     $title,
                     $description,
+                    $short_name, // Ensure short_name is saved
                     $start_times[$i],
                     $end_times[$i],
                     $created_by,
@@ -83,7 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $end_time = $_POST['end_time'];
             $image = $_POST['current_image'] ?? null;
             $edited_by = $_SESSION['admin_id'];
-            $edit_date = date('Y-m-d H:i:s'); // Current timestamp for the edit date
+            $edit_date = date('Y-m-d H:i:s');
+            $short_name = $_POST['short_name'] ?? null; // Current timestamp for the edit date
 
             if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
                 $image_dir = '../uploads/event_images/';
@@ -105,12 +107,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             // Call the model's updateEvent method
-            if ($eventModel->updateEvent($id, $title, $description, $short_name,$start_time, $end_time, $image, $edited_by, $edit_date)) {
+            if ($eventModel->updateEvent($id, $title, $description, $short_name, $start_time, $end_time, $image, $edited_by, $edit_date)) {
                 header("Location: ../public/manage_events.php?message=Event+updated+successfully");
                 exit;
             } else {
                 throw new Exception('Failed to update the event.');
             }
+
 
         } elseif ($action === 'delete') {
             $id = $_POST['id'];

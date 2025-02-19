@@ -50,7 +50,8 @@
                 <input type="datetime-local" id="end_time_0" name="end_time[]" required>
             </div>
         </div>
-
+        <label for="short_name">Short Name (for mobile):</label>
+<input type="text" id="short_name" name="short_name" required>
         <button type="button" id="addMoreDates">+ Add Another Date</button><br><br>
 
         <label for="image">Event Image:</label>

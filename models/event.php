@@ -38,6 +38,8 @@ class Event {
                 edited_by = :edited_by
             WHERE id = :id
         ");
+
+
         return $stmt->execute([
             ':id' => $id,
             ':title' => $title,
