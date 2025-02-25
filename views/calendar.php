@@ -171,54 +171,10 @@ $filteredCalendar = array_filter($calendar, function ($week) {
         </div>
     </div>
 
-    <!-- Event Modal (Keep existing modal structure) -->
-    <div class="modal fade" id="eventModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="eventModalTitle"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="eventModalTime" class="fw-bold"></p>
-                    <p id="eventModalDescription"></p>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" id="eventRegistrationLink" class="btn btn-primary">Register</a>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('eventModal');
-    const modalTitle = document.getElementById('eventModalTitle');
-    const modalTime = document.getElementById('eventModalTime');
-    const registrationLink = document.getElementById('eventRegistrationLink');
 
-    // Ensure event-line elements open the modal with correct data
-    document.querySelectorAll('.event-line').forEach(line => {
-        line.addEventListener('click', function () {
-            const title = this.getAttribute('data-event-title') || "Event";
-            const time = this.getAttribute('data-event-time') || "Time not set";
-            const eventId = this.getAttribute('data-event-id');
-
-            modalTitle.textContent = title;
-            modalTime.textContent = `Time: ${time}`;
-
-            if (eventId) {
-                registrationLink.href = `./controllers/registrationController.php?action=showRegistrationForm&event_id=${eventId}`;
-            } else {
-                registrationLink.href = "#";
-            }
-        });
-    });
-});
-
-</script>
 </body>
 </html>
 
