@@ -102,7 +102,7 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY id ASC");
     </form>
 </div>
 
-<h2 style="text-align: center;">Existing Categories</h2>
+<h2 style="text-align: center;"> Existing Categories</h2>
 <table>
     <tr>
         <th>ID</th>

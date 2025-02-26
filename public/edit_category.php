@@ -83,7 +83,7 @@ $conn->close();
 <form method="POST">
     <label>Category Name:</label>
     <input type="text" name="category_name" value="<?= htmlspecialchars($category['name']) ?>" required>
-    <button type="submit" name="update_category">Update</button>
+    <button type="submit" name="update_category"> Update</button>
 </form>
 
 </body>

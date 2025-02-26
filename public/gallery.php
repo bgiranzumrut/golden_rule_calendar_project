@@ -186,6 +186,7 @@ $result = $conn->query("SELECT * FROM gallery LIMIT $images_per_page OFFSET $off
                 if (prevBtn) prevBtn.click();
             }
         });
+        
     </script>
 </body>
 </html>

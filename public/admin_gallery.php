@@ -167,7 +167,7 @@ $categories = $conn->query("SELECT * FROM categories");
     <tr>
         <th>ID</th>
         <th>Title</th>
-        <th>Description</th>
+        <th>Short Description</th>
         <th>Image</th>
         <th>Date</th>
         <th>Category</th>

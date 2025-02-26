@@ -60,9 +60,9 @@ if (empty($_SESSION['csrf_token'])) {
 <body>
     <nav class="nav-bar">
         <span>Welcome, Admin <?php echo htmlspecialchars($_SESSION['admin_name']); ?></span>
-        <a href="logout.php">Logout</a>
-        <a href="admin_gallery.php">Gallery</a>
-        <a href="users_list.php">View Users</a>
+        <a href=" logout.php">Logout</a>
+        <a href=" admin_gallery.php">Gallery</a>
+        <a href=" users_list.php">View Users</a>
     </nav>
 
     <div class="container">

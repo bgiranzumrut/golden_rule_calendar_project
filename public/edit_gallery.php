@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Image</title>
+    <title> Edit Image</title>
     <style>
         body { font-family: Arial, sans-serif; }
         form { max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; }
