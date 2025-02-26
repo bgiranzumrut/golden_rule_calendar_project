@@ -140,7 +140,7 @@ $usersData = getUsersData($conn);
 </head>
 <body>
   <div class="container">
-      <h1>Manage Users</h1>
+      <h1> Manage Users</h1>
 
       <div class="search-bar no-print">
           <a href="../views/create_user.php" class="btn btn-primary">Add New User</a>

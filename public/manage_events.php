@@ -45,7 +45,7 @@ $eventsData = getEventsData($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Events</title>
+    <title> Manage Events</title>
     <style>
         .table-container {
             max-height: 600px;

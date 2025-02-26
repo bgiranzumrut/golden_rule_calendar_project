@@ -41,7 +41,9 @@ session_start();
         <section>
             <h2>Location Map</h2>
             <div>
-            <img src="map/map.png" alt="Institute Map"> 
+                <a href="https://www.google.ca/maps/place/Golden+Rule+Seniors+Resource+Centre/@49.8633924,-97.1372011,17z/data=!3m1!4b1!4m6!3m5!1s0x52ea775ab4111a93:0x79eb9425a6dad325!8m2!3d49.863389!4d-97.1346262!16s%2Fg%2F11vpns4c4q?entry=ttu&g_ep=EgoyMDI1MDIyNC4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+                    <img src="map/map.png" alt="Institute Map">
+                </a>
             </div>
         </section>
 

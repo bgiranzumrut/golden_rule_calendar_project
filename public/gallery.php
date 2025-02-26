@@ -176,6 +176,7 @@ $stmt->execute();
                 if (prevBtn) prevBtn.click();
             }
         });
+        
     </script>
 </body>
 </html>
