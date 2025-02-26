@@ -1,20 +1,6 @@
 <?php
-// Database connection
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "golden_rules_calendar";
-
-
-// $host = 'sql301.byethost12.com';
-// $db = "b12_38253973_golden_rules_calendar"; // Database name
-// $user = 'b12_38253973'; // Database username
-// $pass = ''; // Database password
-
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the centralized database connection
+$conn = require_once __DIR__ . '/../config/db_connection.php';
 
 // Pagination setup
 $images_per_page = 12; // Adjust number of images per page
@@ -22,10 +8,14 @@ $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($current_page - 1) * $images_per_page;
 
 // Fetch images for the current page
-$total_images = $conn->query("SELECT COUNT(*) AS total FROM gallery")->fetch_assoc()['total'];
+$total_images_stmt = $conn->query("SELECT COUNT(*) AS total FROM gallery");
+$total_images = $total_images_stmt->fetch(PDO::FETCH_ASSOC)['total'];
 $total_pages = ceil($total_images / $images_per_page);
 
-$result = $conn->query("SELECT * FROM gallery LIMIT $images_per_page OFFSET $offset");
+$stmt = $conn->prepare("SELECT * FROM gallery LIMIT :limit OFFSET :offset");
+$stmt->bindValue(':limit', $images_per_page, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
 ?>
 
 <!DOCTYPE html>
@@ -143,7 +133,7 @@ $result = $conn->query("SELECT * FROM gallery LIMIT $images_per_page OFFSET $off
             <button class="nav-btn prev-btn" onclick="location.href='?page=<?= $current_page - 1 ?>'">&lt;</button>
         <?php endif; ?>
 
-        <?php while ($row = $result->fetch_assoc()): ?>
+        <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
             <div class="gallery-item"
                 data-title="<?= htmlspecialchars($row['title']) ?>"
                 data-category="<?= htmlspecialchars($row['category']) ?>"
@@ -189,4 +179,4 @@ $result = $conn->query("SELECT * FROM gallery LIMIT $images_per_page OFFSET $off
     </script>
 </body>
 </html>
-<?php $conn->close();?>
+<?php $conn = null; // Close the connection ?>

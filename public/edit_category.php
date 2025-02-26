@@ -1,22 +1,19 @@
 <?php
-// Database connection
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "golden_rules_calendar";
-
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the centralized database connection
+$conn = require_once __DIR__ . '/../config/db_connection.php';
 
 // Get category details
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $result = $conn->query("SELECT * FROM categories WHERE id = $id");
+    $stmt = $conn->prepare("SELECT * FROM categories WHERE id = :id");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
 
-    if ($result->num_rows > 0) {
-        $category = $result->fetch_assoc();
+    // Fetch the category details
+    $category = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($category) {
+        // Category found, proceed with the rest of the code
     } else {
         die("Category not found.");
     }
@@ -29,10 +26,10 @@ if (isset($_POST['update_category'])) {
     $new_name = trim($_POST['category_name']);
 
     if (!empty($new_name)) {
-        $stmt = $conn->prepare("UPDATE categories SET name = ? WHERE id = ?");
-        $stmt->bind_param("si", $new_name, $id);
+        $stmt = $conn->prepare("UPDATE categories SET name = :name WHERE id = :id");
+        $stmt->bindValue(':name', $new_name);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        $stmt->close();
 
         header("Location: manage_categories.php");
         exit();
@@ -41,7 +38,7 @@ if (isset($_POST['update_category'])) {
     }
 }
 
-$conn->close();
+$conn = null; // Close the connection
 ?>
 
 <!DOCTYPE html>
