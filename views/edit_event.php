@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 require_once '../config/db_connection.php';
 require_once '../models/event.php';
@@ -52,6 +52,10 @@ if (isset($_GET['id'])) {
 
         <label for="end_time">End Time:</label>
         <input type="datetime-local" id="end_time" name="end_time" value="<?php echo date('Y-m-d\TH:i', strtotime($event['end_time'])); ?>"><br><br>
+<label for="short_name">Short Name:</label>
+<input type="text" id="short_name" name="short_name"
+       value="<?php echo htmlspecialchars($event['short_name'] ?? ''); ?>" required>
+<br><br>
 
         <label for="image">Event Image:</label>
         <input type="file" id="image" name="image" accept="image/*"><br><br>

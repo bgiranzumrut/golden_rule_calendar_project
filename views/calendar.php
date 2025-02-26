@@ -125,24 +125,35 @@ $filteredCalendar = array_filter($calendar, function ($week) {
         <?php foreach ($eventsByDate[$week[$i]] as $index => $event): ?>
             <!-- Event Display -->
             <div class="event" tabindex="0">
-                <div class="event-time">
-                    <?php echo date('g:i A', strtotime($event['start_time'])); ?>
-                </div>
-                <a href="../controllers/registrationController.php?action=showRegistrationForm&event_id=<?php echo $event['id']; ?>">
-                    <div class="event-title">
-                        <?php echo htmlspecialchars($event['title']); ?>
-                    </div>
-                </a>
-            </div>
+    <div class="event-time">
+        <?php echo date('g:i A', strtotime($event['start_time'])); // Display correct start time ?>
+    </div>
+    <div class="event-title" onclick="openRegistrationModal(<?php echo $event['id']; ?>)">
+        <?php echo htmlspecialchars($event['title']); ?>
+    </div>
+</div>
+
+<!-- Mobile-friendly short name display -->
+<div class="event-line d-block d-md-none"
+    data-bs-toggle="modal"
+    data-bs-target="#eventModal"
+    data-event-id="<?php echo $event['id']; ?>"
+    data-event-title="<?php echo htmlspecialchars($event['title']); ?>"
+    data-event-time="<?php echo date('g:i A', strtotime($event['start_time'])); ?>">
+
+    <span class="event-short-name">
+        <?php echo htmlspecialchars($event['short_name'] ?? $event['title']); ?>
+    </span>
+</div>
+
 
             <!-- Responsive Event Line (Corrected Placement) -->
-            <div class="event-line"
-                style="background-color: hsl(<?php echo ($index * 45) % 360; ?>, 70%, 60%);"
-                data-bs-toggle="modal"
-                data-bs-target="#eventModal"
-                data-event-title="<?php echo htmlspecialchars($event['title']); ?>"
-                data-event-time="<?php echo date('g:i A', strtotime($event['start_time'])); ?>">
-            </div>
+            <?php error_log("Event ID: " . $event['id'] . " Short Name: " . ($event['short_name'] ?? 'NULL')); ?>
+
+
+
+
+
 
         <?php endforeach; ?>
     <?php else: ?>
@@ -160,40 +171,10 @@ $filteredCalendar = array_filter($calendar, function ($week) {
         </div>
     </div>
 
-    <!-- Event Modal (Keep existing modal structure) -->
-    <div class="modal fade" id="eventModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="eventModalTitle"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <p id="eventModalTime" class="fw-bold"></p>
-                    <p id="eventModalDescription"></p>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" id="eventRegistrationLink" class="btn btn-primary">Register</a>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll('.event-line').forEach(line => {
-        line.addEventListener('click', function () {
-            const title = this.getAttribute('data-event-title');
-            const time = this.getAttribute('data-event-time');
 
-            document.getElementById('eventModalTitle').innerText = title;
-            document.getElementById('eventModalTime').innerText = time;
-        });
-    });
-});
-</script>
 </body>
 </html>
 

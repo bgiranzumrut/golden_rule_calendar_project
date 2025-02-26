@@ -1,14 +1,6 @@
 <?php
-// Database connection
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "golden_rules_calendar";
-
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the centralized database connection
+$conn = require_once __DIR__ . '/../config/db_connection.php';
 
 // Get image ID
 if (!isset($_GET['id'])) {
@@ -16,8 +8,18 @@ if (!isset($_GET['id'])) {
 }
 
 $id = intval($_GET['id']);
-$image_result = $conn->query("SELECT * FROM gallery WHERE id = $id");
-$image = $image_result->fetch_assoc();
+$stmt = $conn->prepare("SELECT * FROM gallery WHERE id = :id");
+$stmt->bindValue(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+
+// Fetch the gallery item details
+$galleryItem = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($galleryItem) {
+    // Gallery item found, proceed with the rest of the code
+} else {
+    die("Gallery item not found.");
+}
 
 // Fetch categories
 $categories = $conn->query("SELECT * FROM categories");
@@ -33,14 +35,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die("All fields are required!");
     }
 
-    $stmt = $conn->prepare("UPDATE gallery SET title=?, description=?, upload_time=?, category=? WHERE id=?");
-    $stmt->bind_param("ssssi", $title, $description, $date, $category, $id);
+    // Update the gallery item using PDO
+    $stmt = $conn->prepare("UPDATE gallery SET title = :title, description = :description, upload_time = :upload_time, category = :category WHERE id = :id");
+    $stmt->bindValue(':title', $title);
+    $stmt->bindValue(':description', $description);
+    $stmt->bindValue(':upload_time', $date);
+    $stmt->bindValue(':category', $category);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
     $stmt->execute();
-    $stmt->close();
 
     header("Location: admin_gallery.php");
     exit();
 }
+
+$conn = null; // Close the connection
 ?>
 
 <!DOCTYPE html>
@@ -63,19 +71,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <form method="POST">
     <label>Title:</label>
-    <input type="text" name="title" value="<?= htmlspecialchars($image['title']) ?>" required>
+    <input type="text" name="title" value="<?= htmlspecialchars($galleryItem['title']) ?>" required>
 
     <label>Description:</label>
-    <textarea name="description" required><?= htmlspecialchars($image['description']) ?></textarea>
+    <textarea name="description" required><?= htmlspecialchars($galleryItem['description']) ?></textarea>
 
     <label>Date:</label>
-    <input type="date" name="date" value="<?= htmlspecialchars($image['upload_time']) ?>" required>
+    <input type="date" name="date" value="<?= htmlspecialchars($galleryItem['upload_time']) ?>" required>
 
     <label>Category:</label>
     <select name="category" required>
-        <?php while ($row = $categories->fetch_assoc()): ?>
+        <?php while ($row = $categories->fetch(PDO::FETCH_ASSOC)): ?>
             <option value="<?= htmlspecialchars($row['name']) ?>" 
-                <?= ($row['name'] === $image['category']) ? 'selected' : '' ?>>
+                <?= ($row['name'] === $galleryItem['category']) ? 'selected' : '' ?>>
                 <?= htmlspecialchars($row['name']) ?>
             </option>
         <?php endwhile; ?>
@@ -86,5 +94,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 </body>
 </html>
-
-<?php $conn->close(); ?>

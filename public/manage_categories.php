@@ -1,47 +1,27 @@
 <?php
-// Database connection
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "golden_rules_calendar";
+// Include the centralized database connection
+$conn = require_once __DIR__ . '/../config/db_connection.php';
 
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Fetch categories
+$stmt = $conn->query("SELECT * FROM categories");
 
-// Handle Category Addition
-if (isset($_POST['add_category'])) {
+// Handle category addition
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $category_name = trim($_POST['category_name']);
 
     if (!empty($category_name)) {
-        $stmt = $conn->prepare("INSERT INTO categories (name) VALUES (?)");
-        $stmt->bind_param("s", $category_name);
+        $stmt = $conn->prepare("INSERT INTO categories (name) VALUES (:name)");
+        $stmt->bindValue(':name', $category_name);
         $stmt->execute();
-        $stmt->close();
+
+        header("Location: manage_categories.php");
+        exit();
+    } else {
+        echo "Category name cannot be empty.";
     }
-
-    header("Location: manage_categories.php");
-    exit();
 }
 
-// Handle Category Deletion
-if (isset($_GET['delete'])) {
-    $id = intval($_GET['delete']);
-    
-    $conn->query("DELETE FROM categories WHERE id = $id");
-
-    // **Reorder IDs after deletion**
-    $conn->query("SET @count = 0;");
-    $conn->query("UPDATE categories SET id = @count:= @count + 1;");
-    $conn->query("ALTER TABLE categories AUTO_INCREMENT = 1;");
-
-    header("Location: manage_categories.php");
-    exit();
-}
-
-// Fetch all categories
-$categories = $conn->query("SELECT * FROM categories ORDER BY id ASC");
+$conn = null; // Close the connection
 ?>
 
 <!DOCTYPE html>
@@ -51,36 +31,13 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY id ASC");
     <title>Manage Categories</title>
     <style>
         body { font-family: Arial, sans-serif; }
-        table { width: 60%; border-collapse: collapse; margin: 20px auto; }
-        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        form, table { margin: 20px auto; width: 80%; }
+        input[type="text"] { width: 100%; padding: 8px; }
+        button { padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .delete-btn { color: red; text-decoration: none; margin-left: 10px; }
-        .edit-btn { color: blue; text-decoration: none; margin-left: 10px; }
-
-        /* 🔹 Centered form */
-        .form-container {
-            width: 50%;
-            margin: 0 auto;
-            background: #f4f4f4;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        input {
-            width: 70%;
-            padding: 8px;
-            margin-top: 5px;
-        }
-        button {
-            padding: 8px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
     </style>
 </head>
 <body>
@@ -91,7 +48,14 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY id ASC");
     <a href="gallery.php">Gallery</a>
 </nav>
 
-<h1 style="text-align: center;">Manage Categories</h1>
+<h1>Manage Categories</h1>
+
+
+<form method="POST">
+    <input type="text" name="category_name" placeholder="New Category Name" required>
+    <button type="submit">Add Category</button>
+</form>
+
 
 <!-- 🔹 Centered Add Category Form -->
 <div class="form-container">
@@ -103,19 +67,20 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY id ASC");
 </div>
 
 <h2 style="text-align: center;"> Existing Categories</h2>
+
 <table>
     <tr>
         <th>ID</th>
-        <th>Category Name</th>
+        <th>Name</th>
         <th>Actions</th>
     </tr>
-    <?php while ($row = $categories->fetch_assoc()): ?>
+    <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
     <tr>
-        <td><?= $row['id'] ?></td>
-        <td><input type="text" value="<?= htmlspecialchars($row['name']) ?>" readonly></td>
+        <td><?= htmlspecialchars($row['id']) ?></td>
+        <td><?= htmlspecialchars($row['name']) ?></td>
         <td>
-            <a href="edit_category.php?id=<?= $row['id'] ?>" class="edit-btn">Edit</a>
-            <a href="?delete=<?= $row['id'] ?>" class="delete-btn">Delete</a>
+            <a href="edit_category.php?id=<?= $row['id'] ?>">Edit</a>
+            <a href="delete_category.php?id=<?= $row['id'] ?>">Delete</a>
         </td>
     </tr>
     <?php endwhile; ?>
@@ -123,5 +88,3 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY id ASC");
 
 </body>
 </html>
-
-<?php $conn->close(); ?>

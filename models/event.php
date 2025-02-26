@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Models;
 
 class Event {
@@ -9,12 +9,13 @@ class Event {
     }
 
     // Create a new event
-    public function createEvent($title, $description, $start_time, $end_time, $created_by, $image = null) {
-        $stmt = $this->conn->prepare("INSERT INTO events (title, description, start_time, end_time, created_by, image) 
-                                      VALUES (:title, :description, :start_time, :end_time, :created_by, :image)");
+    public function createEvent($title, $description, $short_name, $start_time, $end_time, $created_by, $image = null) {
+        $stmt = $this->conn->prepare("INSERT INTO events (title, description, short_name, start_time, end_time, created_by, image)
+                                      VALUES (:title, :description, :short_name, :start_time, :end_time, :created_by, :image)");
         return $stmt->execute([
             ':title' => $title,
             ':description' => $description,
+            ':short_name' => $short_name,
             ':start_time' => $start_time,
             ':end_time' => $end_time,
             ':created_by' => $created_by,
@@ -22,31 +23,37 @@ class Event {
         ]);
     }
 
+
     // Update an existing event
     // Update an existing event with editor details
-    public function updateEvent($id, $title, $description, $start_time, $end_time, $image = null, $edited_by = null) {
+    public function updateEvent($id, $title, $description, $short_name, $start_time, $end_time, $image = null, $edited_by = null) {
         $stmt = $this->conn->prepare("
-            UPDATE events 
-            SET title = :title, 
-                description = :description, 
-                start_time = :start_time, 
-                end_time = :end_time, 
-                image = :image, 
+            UPDATE events
+            SET title = :title,
+                description = :description,
+                short_name = :short_name,
+                start_time = :start_time,
+                end_time = :end_time,
+                image = :image,
                 edited_by = :edited_by
             WHERE id = :id
         ");
+
+
         return $stmt->execute([
             ':id' => $id,
             ':title' => $title,
             ':description' => $description,
+            ':short_name' => $short_name,
             ':start_time' => $start_time,
             ':end_time' => $end_time,
             ':image' => $image,
             ':edited_by' => $edited_by
         ]);
     }
-    
-    
+
+
+
 
 
     // Delete an event
@@ -67,12 +74,13 @@ class Event {
         $stmt = $this->conn->prepare("SELECT * FROM events WHERE id = :id");
         $stmt->execute([':id' => $id]);
         return $stmt->fetch(\PDO::FETCH_ASSOC);
+
     }
 
     // Fetch events within a date range
     public function fetchEventsByDateRange($startDate, $endDate) {
-        $stmt = $this->conn->prepare("SELECT * FROM events 
-                                      WHERE DATE(start_time) BETWEEN :start_date AND :end_date 
+        $stmt = $this->conn->prepare("SELECT * FROM events
+                                      WHERE DATE(start_time) BETWEEN :start_date AND :end_date
                                       ORDER BY start_time ASC");
         $stmt->execute([
             ':start_date' => $startDate,
@@ -86,7 +94,7 @@ class Event {
         $startDate = sprintf("%04d-%02d-01", $year, $month);
         $endDate = date("Y-m-t", strtotime($startDate));
 
-        $stmt = $this->conn->prepare("DELETE FROM events 
+        $stmt = $this->conn->prepare("DELETE FROM events
                                       WHERE DATE(start_time) BETWEEN :start_date AND :end_date");
         return $stmt->execute([
             ':start_date' => $startDate,
@@ -94,7 +102,7 @@ class Event {
         ]);
     }
     public function registerParticipant($eventId, $name, $phone, $notes = null) {
-        $stmt = $this->conn->prepare("INSERT INTO registrations (event_id, name, phone_number, registered_at, notes) 
+        $stmt = $this->conn->prepare("INSERT INTO registrations (event_id, name, phone_number, registered_at, notes)
                                       VALUES (:event_id, :name, :phone, NOW(), :notes)");
         return $stmt->execute([
             ':event_id' => $eventId,
@@ -103,9 +111,9 @@ class Event {
             ':notes' => $notes
         ]);
     }
-    
+
     public function registerParticipantWithOptionalUserId($eventId, $name, $phone, $userId = null, $notes = null) {
-        $stmt = $this->conn->prepare("INSERT INTO registrations (event_id, user_id, name, phone_number, notes, registered_at) 
+        $stmt = $this->conn->prepare("INSERT INTO registrations (event_id, user_id, name, phone_number, notes, registered_at)
                                       VALUES (:event_id, :user_id, :name, :phone, :notes, NOW())");
         return $stmt->execute([
             ':event_id' => $eventId,
@@ -115,24 +123,24 @@ class Event {
             ':notes' => $notes
         ]);
     }
-    
+
     public function fetchRegistrationsByEvent($eventId) {
-        $stmt = $this->conn->prepare("SELECT 
-                                            r.name AS participant_name, 
-                                            r.phone_number AS participant_phone, 
-                                            u.name AS registered_user_name, 
-                                            u.phone_number AS registered_user_phone 
-                                       FROM registrations r 
-                                       LEFT JOIN users u ON r.user_id = u.id 
-                                       WHERE r.event_id = :event_id 
+        $stmt = $this->conn->prepare("SELECT
+                                            r.name AS participant_name,
+                                            r.phone_number AS participant_phone,
+                                            u.name AS registered_user_name,
+                                            u.phone_number AS registered_user_phone
+                                       FROM registrations r
+                                       LEFT JOIN users u ON r.user_id = u.id
+                                       WHERE r.event_id = :event_id
                                        ORDER BY r.registered_at ASC");
         $stmt->execute([':event_id' => $eventId]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-    
-    
+
+
     public function fetchRegistrationByUserAndEvent($eventId, $userId) {
-        $stmt = $this->conn->prepare("SELECT * FROM registrations 
+        $stmt = $this->conn->prepare("SELECT * FROM registrations
                                       WHERE event_id = :event_id AND user_id = :user_id");
         $stmt->execute([
             ':event_id' => $eventId,
@@ -140,7 +148,7 @@ class Event {
         ]);
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
-    
+
     // Delete all registrations for a specific event
     public function deleteRegistrationsByEvent($eventId) {
         $stmt = $this->conn->prepare("DELETE FROM registrations WHERE event_id = :event_id");
