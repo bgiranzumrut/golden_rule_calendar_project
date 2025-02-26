@@ -86,7 +86,7 @@ $categories = $conn->query("SELECT * FROM categories ORDER BY id ASC");
 <body>
 
 <nav>
-    <a href="logout.php">Logout</a>
+    <a href="logout.php"> Logout</a>
     <a href="home.php">Home</a>
     <a href="gallery.php">Gallery</a>
 </nav>
