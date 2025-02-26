@@ -1,14 +1,6 @@
 <?php
-// Database connection
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "golden_rules_calendar";
-
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the centralized database connection
+$conn = require_once __DIR__ . '/../config/db_connection.php';
 
 // Handle Image Upload
 if (isset($_POST['submit'])) {
@@ -26,11 +18,14 @@ if (isset($_POST['submit'])) {
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
 
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-        // Insert into database
-        $stmt = $conn->prepare("INSERT INTO gallery (title, description, image_path, upload_time, category) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $title, $description, $target_file, $date, $category);
+        // Insert into database using PDO
+        $stmt = $conn->prepare("INSERT INTO gallery (title, description, image_path, upload_time, category) VALUES (:title, :description, :image_path, :upload_time, :category)");
+        $stmt->bindValue(':title', $title);
+        $stmt->bindValue(':description', $description);
+        $stmt->bindValue(':image_path', $target_file);
+        $stmt->bindValue(':upload_time', $date);
+        $stmt->bindValue(':category', $category);
         $stmt->execute();
-        $stmt->close();
     } else {
         die("Error uploading image.");
     }
@@ -44,8 +39,10 @@ if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
 
     // Get image path before deletion
-    $result = $conn->query("SELECT image_path FROM gallery WHERE id = $id");
-    if ($row = $result->fetch_assoc()) {
+    $stmt = $conn->prepare("SELECT image_path FROM gallery WHERE id = :id");
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $image_path = $row['image_path'];
 
         // Delete image file from server
@@ -54,12 +51,14 @@ if (isset($_GET['delete'])) {
         }
 
         // Delete from database
-        $conn->query("DELETE FROM gallery WHERE id = $id");
+        $stmt = $conn->prepare("DELETE FROM gallery WHERE id = :id");
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
 
         // Reorder IDs after deletion
-        $conn->query("SET @count = 0;");
-        $conn->query("UPDATE gallery SET id = @count:= @count + 1;");
-        $conn->query("ALTER TABLE gallery AUTO_INCREMENT = 1;");
+        $conn->exec("SET @count = 0;");
+        $conn->exec("UPDATE gallery SET id = @count:= @count + 1;");
+        $conn->exec("ALTER TABLE gallery AUTO_INCREMENT = 1;");
 
         header("Location: admin_gallery.php");
         exit();

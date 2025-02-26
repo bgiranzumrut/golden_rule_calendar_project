@@ -2,17 +2,17 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 // 数据库配置
 
-// $host = 'sql301.byethost12.com';
-// $dbname = "b12_38253973_golden_rules_calendar"; // Database name
-// $username = 'b12_38253973'; // Database username
-// $password = ''; // Database password
-
-
-
-$host = 'localhost'; // Database host
-$dbname = 'golden_rules_calendar'; // Database name
-$username = 'root'; // Database username
+$host = 'sql301.byethost12.com';
+$dbname = "b12_38253973_golden_rules_calendar"; // Database name
+$username = 'b12_38253973'; // Database username
 $password = ''; // Database password
+
+
+
+// $host = 'localhost'; // Database host
+// $dbname = 'golden_rules_calendar'; // Database name
+// $username = 'root'; // Database username
+// $password = ''; // Database password
 
 try {
     // Create a new PDO instance
@@ -28,11 +28,6 @@ try {
 // Example of updating a reference
 // require 'index.php'; // Change this line to point to the correct location
 
-return [
-    'host' => $host,
-    'dbname' => $dbname,
-    'username' => $username,
-    'password' => $password,
-    'charset' => 'utf8mb4'
-];
+// Return the connection object
+return $conn;
 ?>
