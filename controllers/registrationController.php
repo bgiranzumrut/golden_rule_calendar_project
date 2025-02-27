@@ -23,7 +23,9 @@ class RegistrationController {
     // get event details
     public function getEventDetails() {
         header('Content-Type: application/json');
+        // console.log("testing........");
         try {
+            
             $eventId = $_GET['event_id'] ?? null;
             
             if (empty($eventId)) {

@@ -4,7 +4,7 @@
         <span class="close">&times;</span>
         <!-- Add event title section -->
         <div id="eventTitleSection" class="event-title-section">
-            <h2 id="eventTitle">Loading event...</h2>
+            <h2 id="eventTitle">Loading event...。。。</h2>
             <div id="eventTime" class="event-time"></div>
         </div>
 

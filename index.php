@@ -192,4 +192,4 @@ $filteredCalendar = array_filter($calendar, function ($week) {
 </body>
 
 </html>
-<?php include './public/footer.php'; ?>
+<?php include './public/footer.php';?>
