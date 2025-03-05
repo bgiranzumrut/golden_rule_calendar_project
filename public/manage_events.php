@@ -46,42 +46,7 @@ $eventsData = getEventsData($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Manage Events</title>
-    <style>
-        .table-container {
-            max-height: 600px;
-            overflow-y: auto;
-            margin: 20px 0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th {
-            position: sticky;
-            top: 0;
-            background-color: #f8f9fa;
-            z-index: 1;
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        .search-form {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-        }
-        .search-form input, .search-form select {
-            margin-right: 10px;
-            padding: 5px;
-        }
-        .actions button {
-            margin: 2px;
-            padding: 5px 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="../styles/admin.css">
 </head>
 <body>
     <div class="container">
@@ -126,16 +91,16 @@ $eventsData = getEventsData($conn);
                         <td><?php echo htmlspecialchars($event['end_time']); ?></td>
                         <td class="actions">
                             <a href="../views/edit_event.php?id=<?php echo htmlspecialchars($event['id']); ?>">
-                                <button>Edit</button>
+                                <button class="btn btn-primary">Edit</button>
                             </a>
                             <a href="../views/event_details.php?id=<?php echo htmlspecialchars($event['id']); ?>">
-                                <button>Details</button>
+                                <button class="btn btn-secondary">Details</button>
                             </a>
                             <form method="POST" action="../controllers/event_controller.php" style="display:inline;">
                                 <input type="hidden" name="action" value="delete">
                                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($event['id']); ?>">
                                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-                                <button type="submit" onclick="return confirm('Are you sure you want to delete this event?');">
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this event?');">
                                     Delete
                                 </button>
                             </form>

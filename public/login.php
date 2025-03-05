@@ -39,37 +39,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Admin Login</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-        form {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        form input {
-            margin: 10px 0;
-            padding: 10px;
-            width: 100%;
-        }
-        form button {
-            padding: 10px;
-            width: 100%;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        .error {
-            color: red;
-        }
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f5f0; /* Match your website’s background */
+}
+
+form {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px; /* Adjust width */
+    text-align: center; /* Center everything */
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #c04b3e; /* Match header colors */
+}
+
+form input {
+    margin: 10px 0;
+    padding: 12px;
+    width: 90%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+form button {
+    padding: 12px;
+    width: 100%;
+    background-color: #c04b3e; /* Match your button style */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+form button:hover {
+    background-color: #a03e34; /* Darker on hover */
+}
+
+.error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+/* Forgot Password Link */
+.forgot-password {
+    display: block;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #c04b3e;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
     </style>
 </head>
 <body>
@@ -79,11 +117,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <input type="password" name="password" placeholder="Password" required>
     <button type="submit">Login</button>
     <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
-    <!-- Forgot Password Button -->
-    <div style="text-align: center; margin-top: 10px;">
-        <a href="../views/password_recovery.php" style="text-decoration: none; color: #4CAF50; font-size: 0.9rem;">Forgot Password?</a>
-    </div>
+    <a href="../views/password_recovery.php" class="forgot-password">Forgot Password?</a>
 </form>
+
 
 </body>
 </html>
