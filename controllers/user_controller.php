@@ -36,29 +36,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'role' => $_POST['role'], // Ensure role is included
                 'password' => $_POST['password'] ?? null // For admin users only
             ];
-        
+
             // Image upload logic
             if (!empty($_FILES['image']['name'])) {
                 $targetDir = "../uploads/";
                 $targetFile = $targetDir . basename($_FILES['image']['name']);
                 move_uploaded_file($_FILES['image']['tmp_name'], $targetFile);
             }
-        
+
             if ($userModel->createUser($data)) {
-                header("Location: ../public/admin_dashboard.php");
+                header("Location: ../public/manage_users.php");
                 exit;
             } else {
                 echo "Error: Failed to create user.";
             }
         }
-        
+
 
         // Edit User
         elseif ($action === 'edit') {
             $id = $_POST['id'];
             $role = $_POST['role'];
             $editedBy = $_SESSION['admin_id']; // Get the logged-in admin's ID
-        
+
             $data = [
                 'name' => $_POST['name'],
                 'phone_number' => $_POST['phone_number'] ?? null,
@@ -76,19 +76,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'signature_date' => $_POST['signature_date'] ?? null,
                 'extra_notes' => $_POST['extra_notes'] ?? null, // Include extra_notes
             ];
-            
-        
+
+
             if ($userModel->updateUser($data, $id, $role, $editedBy)) {
-                header("Location: ../public/admin_dashboard.php");
+                header("Location: ../public/manage_users.php"); // Redirect to admin_dashboard
                 exit;
             } else {
                 echo "Error: Failed to update user.";
             }
         }
-        
-        
-        
-        
+
+
+
+
 
         // Delete User
         elseif ($action === 'delete') {
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $role = $_POST['role']; // Ensure role is explicitly provided
 
             if ($userModel->deleteUser($id, $role)) {
-                header("Location: ../public/admin_dashboard.php"); // Redirect to admin_dashboard
+                header("Location: ../public/manage_users.php"); // Redirect to admin_dashboard
                 exit;
             } else {
                 echo "Error: Failed to delete user.";

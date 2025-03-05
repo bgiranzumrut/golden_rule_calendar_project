@@ -184,11 +184,11 @@ $usersData = getUsersData($conn);
                       <td><?php echo htmlspecialchars($user['phone_number']); ?></td>
                       <td class="no-print">
                           <div class="action-buttons">
-                              <a href="views/edit_user.php?id=<?php echo htmlspecialchars($user['id']); ?>&role=user"
+                              <a href="../views/edit_user.php?id=<?php echo htmlspecialchars($user['id']); ?>&role=user"
                                  class="btn btn-primary">Edit</a>
-                              <a href="views/user_details.php?id=<?php echo htmlspecialchars($user['id']); ?>&role=user"
+                              <a href="../views/user_details.php?id=<?php echo htmlspecialchars($user['id']); ?>&role=user"
                                  class="btn btn-secondary">Details</a>
-                              <form method="POST" action="controllers/user_controller.php" style="display:inline;">
+                              <form method="POST" action="../controllers/user_controller.php" style="display:inline;">
                                   <input type="hidden" name="action" value="delete">
                                   <input type="hidden" name="id" value="<?php echo htmlspecialchars($user['id']); ?>">
                                   <input type="hidden" name="role" value="user">
