@@ -118,4 +118,61 @@ include_once __DIR__ . '/../config/config.php'; // Include the config file to us
   font-size: 1.5rem;
 }
 
+/* Add these new styles to ensure nav items stay in one line */
+@media (min-width: 992px) {
+  .navbar-nav {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+  
+  .nav-item {
+    display: inline-block;
+  }
+}
+
+/* Ensure the navbar collapses at an appropriate breakpoint */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    background-color: var(--primary-cream);
+    z-index: 1000;
+    padding: 10px;
+    border-bottom: 3px solid var(--primary-red);
+  }
+}
 </style>
+
+<!-- Add Bootstrap JavaScript to ensure hamburger menu works on all pages -->
+<script>
+  // Wait for the document to be fully loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the navbar toggler button
+    var navbarToggler = document.querySelector('.navbar-toggler');
+    // Get the navbar collapse element
+    var navbarCollapse = document.querySelector('.navbar-collapse');
+    
+    // Add click event listener to the toggler button
+    if (navbarToggler) {
+      navbarToggler.addEventListener('click', function() {
+        // Toggle the 'show' class on the navbar collapse element
+        if (navbarCollapse) {
+          navbarCollapse.classList.toggle('show');
+        }
+      });
+    }
+    
+    // Close the menu when a nav link is clicked (optional, for better UX)
+    var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+          navbarCollapse.classList.remove('show');
+        }
+      });
+    });
+  });
+</script>
