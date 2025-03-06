@@ -14,6 +14,9 @@
             <li class="nav-item"><a class="nav-link" href="/golden_rule_calendar_project/index.php">Home</a></li>
 <li class="nav-item"><a class="nav-link" href="/golden_rule_calendar_project/public/about.php">About</a></li>
 <li class="nav-item"><a class="nav-link" href="/golden_rule_calendar_project/public/gallery.php">Gallery</a></li>
+<li class="nav-item">
+    <a class="nav-link" href="/golden_rule_calendar_project/public/archive.php">Event Archive</a>
+</li>
 <li class="nav-item"><a class="nav-link btn btn-danger text-white px-3" href="/golden_rule_calendar_project//public/login.php">Admin Login</a></li>
 
             </ul>
