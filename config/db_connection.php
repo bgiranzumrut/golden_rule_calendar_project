@@ -9,6 +9,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 
 
+
+
 $host = 'localhost'; // Database host
 $dbname = 'golden_rules_calendar'; // Database name
 $username = 'root'; // Database username

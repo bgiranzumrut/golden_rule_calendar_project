@@ -65,7 +65,7 @@
     </select>
 
     <label for="password">Password (for Admins only):</label>
-    <input type="password" id="password" name="password" required>
+    <input type="password" id="password" name="password">
 
     <button type="submit">Register</button>
 </form>

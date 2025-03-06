@@ -41,85 +41,8 @@ $adminsData = getAdminUsersData($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Admin Users</title>
-    <style>
-        .container {
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .table-container {
-            max-height: 600px;
-            overflow-y: auto;
-            margin: 20px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th {
-            position: sticky;
-            top: 0;
-            background-color: #f8f9fa;
-            z-index: 1;
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        .search-form {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .search-form input,
-        .search-form select {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .actions {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-        button {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            background-color: #007bff;
-            color: white;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .delete-btn {
-            background-color: #dc3545;
-        }
-        .delete-btn:hover {
-            background-color: #c82333;
-        }
-        @media print {
-            .no-print {
-                display: none;
-            }
-            .table-container {
-                max-height: none;
-                overflow: visible;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../styles/admin.css">
+
 </head>
 <body>
     <div class="container">
@@ -162,10 +85,10 @@ $adminsData = getAdminUsersData($conn);
                         <td><?php echo htmlspecialchars($admin['phone_number']); ?></td>
                         <td class="actions no-print">
                             <a href="../views/edit_user.php?id=<?php echo htmlspecialchars($admin['id']); ?>&role=admin">
-                                <button>Edit</button>
+                                <button class="btn btn-primary">Edit</button>
                             </a>
                             <a href="../views/user_details.php?id=<?php echo htmlspecialchars($admin['id']); ?>&role=admin">
-                                <button>Details</button>
+                                <button class="btn btn-secondary">Details</button>
                             </a>
                             <form method="POST" action="../controllers/user_controller.php" style="display:inline;">
                                 <input type="hidden" name="action" value="delete">
@@ -173,7 +96,7 @@ $adminsData = getAdminUsersData($conn);
                                 <input type="hidden" name="role" value="admin">
                                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
                                 <button type="submit"
-                                        class="delete-btn"
+                                        class="btn btn-danger"
                                         onclick="return confirm('Are you sure you want to delete this admin user?');">
                                     Delete
                                 </button>

@@ -42,12 +42,31 @@ $conn = null; // Close the connection
 </head>
 <body>
 
+<nav>
+    <a href="logout.php"> Logout</a>
+    <a href="home.php">Home</a>
+    <a href="gallery.php">Gallery</a>
+</nav>
+
 <h1>Manage Categories</h1>
+
 
 <form method="POST">
     <input type="text" name="category_name" placeholder="New Category Name" required>
     <button type="submit">Add Category</button>
 </form>
+
+
+<!-- 🔹 Centered Add Category Form -->
+<div class="form-container">
+    <form method="POST">
+        <label>Category Name:</label>
+        <input type="text" name="category_name" required>
+        <button type="submit" name="add_category">Add Category</button>
+    </form>
+</div>
+
+<h2 style="text-align: center;"> Existing Categories</h2>
 
 <table>
     <tr>

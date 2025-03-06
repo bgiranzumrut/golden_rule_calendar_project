@@ -32,21 +32,12 @@ body {
 .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex-wrap: wrap; /* Ensures text doesn't overlap */
-}
-#current-month {
-  font-size: 2rem; /* Increase size */
-  font-weight: 700; /* Extra bold */
-  color: var(--primary-red);
-  text-transform: uppercase; /* Make it stand out */
 }
 
 .brand-title {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--primary-blue);
-  white-space: nowrap; /* Prevents text from wrapping unexpectedly */
 }
 
 .highlight {
@@ -60,9 +51,10 @@ body {
   border-radius: 50%;
 }
 
-.navbar-nav .nav-item {
-  margin-right: 10px;
-  margin-bottom: 5px; /* Reduce excessive spacing */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .navbar-nav .nav-link:hover,
@@ -86,7 +78,11 @@ body {
 }
 
 .nav-link {
-  width: 150px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 15px 15px;
+  transition: all 0.3s ease-in-out;
+  width: 130px;
 }
 
 .navbar-nav .nav-link.active {
@@ -116,6 +112,13 @@ body {
 .navbar-toggler {
   border: none;
   font-size: 1.5rem;
+}
+
+#current-month {
+  font-size: 2rem; /* Increase size */
+  font-weight: 700; /* Extra bold */
+  color: var(--primary-red);
+  text-transform: uppercase; /* Make it stand out */
 }
 
 /* Responsive Navbar for Small Screens */
