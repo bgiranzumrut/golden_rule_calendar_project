@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeBtn = document.getElementsByClassName('close')[0];
     const form = document.getElementById('registrationForm');
     
+    
     function loadParticipants(eventId) {
         fetch(`controllers/registrationController.php?action=getParticipants&event_id=${eventId}`)
             .then(response => response.json())

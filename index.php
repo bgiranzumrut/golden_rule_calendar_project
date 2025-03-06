@@ -1,4 +1,5 @@
 <?php
+
 error_reporting(E_ALL); // Report all PHP errors
 ini_set('display_errors', 1); // Display errors on the page
 require_once 'config/db_connection.php';
