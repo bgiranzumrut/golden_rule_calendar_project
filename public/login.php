@@ -1,6 +1,8 @@
 <?php
+
 session_start();
 include_once '../config/db_connection.php';
+include("header.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
@@ -37,18 +39,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
+    <link rel="stylesheet" href="../styles/styles.css">
     <style>
         body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+
     background-color: #f8f5f0; /* Match your website’s background */
 }
 
+.container {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 form {
     background: white;
     padding: 25px;
@@ -56,6 +62,8 @@ form {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 350px; /* Adjust width */
     text-align: center; /* Center everything */
+    height: 350px; /* Adjust height */
+    margin: 30px;
 }
 
 h2 {
@@ -108,18 +116,29 @@ form button:hover {
     text-decoration: underline;
 }
 
+.nav-link {
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 15px 15px;
+  transition: all 0.3s ease-in-out;
+  width: 130px;
+}
+
     </style>
 </head>
 <body>
-<form method="POST" action="">
-    <h2>Admin Login</h2>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit">Login</button>
-    <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
-    <a href="../views/password_recovery.php" class="forgot-password">Forgot Password?</a>
-</form>
+<div class="container">
+    <form method="POST" action="">
+        <h2>Admin Login</h2>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+        <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
+        <a href="../views/password_recovery.php" class="forgot-password">Forgot Password?</a>
+    </form>
+</div>
 
 
 </body>
 </html>
+<?php include("footer.php");

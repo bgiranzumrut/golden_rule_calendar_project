@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
     <div class="container">
-        <a class="navbar-brand d-flex" href="./index.php">
+        <a class="navbar-brand d-flex" href="/golden_rule_calendar_project/index.php">
             <img src="/golden_rule_calendar_project/uploads/logo.png" alt="Golden Rule Calendar Logo" class="navbar-logo me-2">
             <span class="brand-title">
                 <span class="highlight">Golden Rule Seniors</span> Resource Centre
@@ -15,112 +15,106 @@
 <li class="nav-item"><a class="nav-link" href="/golden_rule_calendar_project/public/about.php">About</a></li>
 <li class="nav-item"><a class="nav-link" href="/golden_rule_calendar_project/public/gallery.php">Gallery</a></li>
 <li class="nav-item">
-    <a class="nav-link" href="/golden_rule_calendar_project/public/archive.php">Event Archive</a>
+    <a class="nav-link" href="/golden_rule_calendar_project/public/archive.php">Archive</a>
 </li>
-<li class="nav-item"><a class="nav-link btn btn-danger text-white px-3" href="/golden_rule_calendar_project//public/login.php">Admin Login</a></li>
+<li class="nav-item"><a class="nav-link btn btn-danger text-white px-3" href="/golden_rule_calendar_project/public/login.php">Admin</a></li>
 
             </ul>
         </div>
     </div>
 </nav>
 
-<style>
-/* ABOUT PAGE STYLES */
-.about-container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px;
+ <style>
+.custom-navbar {
+  background-color: var(--primary-cream);
+  border-bottom: 3px solid var(--primary-red);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  padding: 12px 0;
 }
 
-/* Info Section */
-.info {
-    text-align: center;
-    background-color: var(--primary-cream);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.navbar-brand {
+  display: flex;
+  align-items: center;
 }
 
-.info-text p {
-    font-size: 1.2rem;
-    line-height: 1.5;
-    color: var(--text-dark);
+.brand-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary-blue);
 }
 
-/* Contact Section */
-.contact {
-    text-align: center;
-    margin-top: 20px;
+.highlight {
+  color: var(--primary-red);
+  font-weight: 00; /* Make it even bolder */
 }
 
-.contact h2 {
-    color: var(--primary-blue);
-    font-size: 1.5rem;
+.navbar-logo {
+  width: 100px; /* Adjust for smaller screens */
+  height: 100px;
+  border-radius: 50%;
 }
 
-.contact p {
-    font-size: 1rem;
-    margin: 5px 0;
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.contact a {
-    color: var(--primary-red);
-    font-weight: bold;
-    text-decoration: none;
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  background-color: var(--hover-blue);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
+  color: var(--white);
 }
 
-.contact a:hover {
-    text-decoration: underline;
-    color: var(--primary-blue);
+/* Admin Login Link Styling */
+
+.navbar-nav .nav-link {
+  background-color: var(--primary-red);
+  color: var(--white);
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background 0.3s ease, box-shadow 0.2s ease;
 }
 
-/* Location Map */
-section div img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.nav-link {
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 15px 15px;
+  transition: all 0.3s ease-in-out;
+  width: 130px;
 }
 
-/* Team Section */
-.team {
-    margin-top: 20px;
-    background-color: var(--bg-light);
-    padding: 15px;
-    border-radius: 8px;
+.navbar-nav .nav-link.active {
+  background-color: var(--primary-blue);
+}
+.navbar-nav .nav-link:hover {
+  background-color: var(--hover-blue);
+  transform: scale(1.05);
+  background-color: var(--hover-blue);
+}
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap; /* Ensures items wrap properly on small screens */
 }
 
-.team h2 {
-    text-align: center;
-    color: var(--primary-blue);
+.navbar-nav a {
+  text-align: center;
 }
 
-.team ul {
-    list-style: none;
-    padding: 0;
+.navbar-toggler:focus {
+  outline: none;
+  box-shadow: none;
 }
 
-.team li {
-    background: var(--white);
-    padding: 10px;
-    margin: 10px 0;
-    border-left: 5px solid var(--primary-red);
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.navbar-toggler {
+  border: none;
+  font-size: 1.5rem;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .info-text p {
-        font-size: 1rem;
-    }
-
-    .contact h2 {
-        font-size: 1.3rem;
-    }
-
-    .team h2 {
-        font-size: 1.3rem;
-    }
-}
 </style>
