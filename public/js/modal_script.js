@@ -3,8 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeBtn = document.getElementsByClassName('close')[0];
     const form = document.getElementById('registrationForm');
     
+    
     function loadParticipants(eventId) {
-        fetch(`/golden_rule_calendar_project/controllers/registrationController.php?action=getParticipants&event_id=${eventId}`)
+        fetch(`controllers/registrationController.php?action=getParticipants&event_id=${eventId}`)
             .then(response => response.json())
             .then(data => {
                 const participantsList = document.getElementById('participantsList');
@@ -35,9 +36,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function loadEventDetails(eventId) {
-        fetch(`/golden_rule_calendar_project/controllers/registrationController.php?action=getEventDetails&event_id=${eventId}`)
+        fetch(`controllers/registrationController.php?action=getEventDetails&event_id=${eventId}`)
             .then(response => response.json())
             .then(data => {
+                console.log("data....",data);
                 if (data.success && data.event) {
                     document.getElementById('eventTitle').textContent = data.event.title;
                     // Format and display event time if available
@@ -88,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(this);
         const eventId = document.getElementById('eventId').value;
         
-        fetch('/golden_rule_calendar_project/controllers/registrationController.php', {
+        fetch('controllers/registrationController.php', {
             method: 'POST',
             body: formData
         })

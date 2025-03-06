@@ -1,8 +1,10 @@
 <?php
+
 error_reporting(E_ALL); // Report all PHP errors
 ini_set('display_errors', 1); // Display errors on the page
 require_once 'config/db_connection.php';
 require_once 'models/event.php';
+require_once 'config/config.php'; // Include the config file to use getBasePath function
 
 use Models\Event;
 
@@ -87,13 +89,13 @@ $filteredCalendar = array_filter($calendar, function ($week) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Golden Rule Calendar</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./styles/styles.css" rel="stylesheet">
-    <link rel="stylesheet" href="./styles/modal_styles.css">
+    <link href="<?php echo getBasePath(); ?>styles/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo getBasePath(); ?>styles/modal_styles.css">
 
 </head>
 
 <body>
-    <?php include './public/header.php'; ?>
+    <?php include __DIR__ . '/public/header.php'; ?>
 
     <div class="calendar-wrapper">
         <!-- Calendar Navigation -->
@@ -138,7 +140,7 @@ $filteredCalendar = array_filter($calendar, function ($week) {
                                                                 <div class="event-time">
                                                                     <?php echo date('g:i A', strtotime($event['start_time'])); ?></div>
                                                                 <a
-                                                                    href="./controllers/registrationController.php?action=showRegistrationForm&event_id=<?php echo $event['id']; ?>">
+                                                                    href="<?php echo getBasePath(); ?>controllers/registrationController.php?action=showRegistrationForm&event_id=<?php echo $event['id']; ?>">
                                                                     <div class="event-title">
                                                                         <?php echo htmlspecialchars($event['title']); ?></div>
                                                                 </a>
@@ -185,11 +187,11 @@ $filteredCalendar = array_filter($calendar, function ($week) {
     <!-- Bootstrap JS -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <?php include './views/modal_form.php'; ?>
-    <script src="./public/js/modal_script.js"></script>
+    <?php include __DIR__ . '/views/modal_form.php'; ?>
+    <script src="<?php echo getBasePath(); ?>public/js/modal_script.js"></script>
 
 
 </body>
 
 </html>
-<?php include './public/footer.php'; ?>
+<?php include __DIR__ . '/public/footer.php';?>
