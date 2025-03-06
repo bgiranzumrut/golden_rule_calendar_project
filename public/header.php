@@ -25,12 +25,22 @@ include_once __DIR__ . '/../config/config.php'; // Include the config file to us
     </div>
 </nav>
 
- <style>
+<style>
+/* Global styles to ensure consistent behavior across all pages */
+:root {
+  --primary-cream: #F9F5EB;
+  --primary-red: #E74C3C;
+  --primary-blue: #3498DB;
+  --hover-blue: #2980B9;
+  --white: #FFFFFF;
+}
+
 .custom-navbar {
   background-color: var(--primary-cream);
   border-bottom: 3px solid var(--primary-red);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   padding: 12px 0;
+  width: 100%;
 }
 
 .navbar-brand {
@@ -46,19 +56,22 @@ include_once __DIR__ . '/../config/config.php'; // Include the config file to us
 
 .highlight {
   color: var(--primary-red);
-  font-weight: 00; /* Make it even bolder */
+  font-weight: 900;
 }
 
 .navbar-logo {
-  width: 100px; /* Adjust for smaller screens */
+  width: 100px;
   height: 100px;
   border-radius: 50%;
 }
 
+/* Navigation styling - ensure items stay in one line */
 .navbar-nav {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
+  flex-wrap: nowrap !important; /* Force no wrapping */
+  white-space: nowrap !important; /* Prevent text wrapping */
 }
 
 .navbar-nav .nav-link:hover,
@@ -69,8 +82,7 @@ include_once __DIR__ . '/../config/config.php'; // Include the config file to us
   color: var(--white);
 }
 
-/* Admin Login Link Styling */
-
+/* Nav link styling */
 .navbar-nav .nav-link {
   background-color: var(--primary-red);
   color: var(--white);
@@ -79,6 +91,7 @@ include_once __DIR__ . '/../config/config.php'; // Include the config file to us
   padding: 8px 16px;
   border-radius: 8px;
   transition: background 0.3s ease, box-shadow 0.2s ease;
+  text-align: center;
 }
 
 .nav-link {
@@ -92,20 +105,10 @@ include_once __DIR__ . '/../config/config.php'; // Include the config file to us
 .navbar-nav .nav-link.active {
   background-color: var(--primary-blue);
 }
+
 .navbar-nav .nav-link:hover {
   background-color: var(--hover-blue);
   transform: scale(1.05);
-  background-color: var(--hover-blue);
-}
-.navbar-nav {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap; /* Ensures items wrap properly on small screens */
-}
-
-.navbar-nav a {
-  text-align: center;
 }
 
 .navbar-toggler:focus {
@@ -118,21 +121,46 @@ include_once __DIR__ . '/../config/config.php'; // Include the config file to us
   font-size: 1.5rem;
 }
 
-/* Add these new styles to ensure nav items stay in one line */
+/* Desktop view - keep items in one line */
 @media (min-width: 992px) {
   .navbar-nav {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    white-space: nowrap;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+    overflow-x: visible !important;
   }
   
   .nav-item {
-    display: inline-block;
+    display: inline-block !important;
+    float: none !important;
+  }
+  
+  /* Ensure the navbar doesn't wrap to multiple lines */
+  .navbar-expand-lg .navbar-nav {
+    flex-wrap: nowrap !important;
   }
 }
 
-/* Ensure the navbar collapses at an appropriate breakpoint */
+/* Mobile view - hamburger menu */
 @media (max-width: 991px) {
+  /* Force navbar to collapse at this breakpoint */
+  .navbar-collapse:not(.show) {
+    display: none !important;
+  }
+  
+  /* When collapsed, ensure proper stacking of items */
+  .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .nav-item {
+    margin-bottom: 8px;
+    width: 80%;
+    max-width: 250px;
+  }
+  
   .navbar-collapse {
     position: absolute;
     top: 100%;
@@ -140,8 +168,15 @@ include_once __DIR__ . '/../config/config.php'; // Include the config file to us
     left: 0;
     background-color: var(--primary-cream);
     z-index: 1000;
-    padding: 10px;
+    padding: 15px 0;
     border-bottom: 3px solid var(--primary-red);
+    text-align: center;
+  }
+  
+  .navbar-nav .nav-link {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
   }
 }
 </style>
